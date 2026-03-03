@@ -1,3 +1,9 @@
+//
+//  HomeHeaderCell.swift
+//  EchoShelf
+//
+//  Created by Ibrahim Kolchi on 21.02.26.
+//
 import UIKit
 
 final class HomeHeaderCell: UICollectionViewCell {
@@ -6,7 +12,6 @@ final class HomeHeaderCell: UICollectionViewCell {
 
     private let greetingLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "Good Morning,"
         lbl.textColor = UIColor.white.withAlphaComponent(0.6)
         lbl.font = .systemFont(ofSize: 13, weight: .medium)
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -15,21 +20,10 @@ final class HomeHeaderCell: UICollectionViewCell {
 
     private let nameLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "Alex."
         lbl.textColor = .white
         lbl.font = .systemFont(ofSize: 28, weight: .bold)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
-    }()
-
-    private let searchButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        btn.tintColor = .black
-        btn.backgroundColor = .white
-        btn.layer.cornerRadius = 22
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
     }()
 
     private let avatarView: UIView = {
@@ -54,16 +48,15 @@ final class HomeHeaderCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    private func setupUI() {
+    // MARK: - Setup
 
+    private func setupUI() {
         contentView.addSubview(avatarView)
         avatarView.addSubview(avatarIcon)
         contentView.addSubview(greetingLabel)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(searchButton)
 
         NSLayoutConstraint.activate([
-
             avatarView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             avatarView.topAnchor.constraint(equalTo: contentView.topAnchor),
             avatarView.widthAnchor.constraint(equalToConstant: 48),
@@ -76,12 +69,33 @@ final class HomeHeaderCell: UICollectionViewCell {
             greetingLabel.topAnchor.constraint(equalTo: avatarView.topAnchor),
 
             nameLabel.leadingAnchor.constraint(equalTo: greetingLabel.leadingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 2),
-
-            searchButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            searchButton.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor),
-            searchButton.widthAnchor.constraint(equalToConstant: 44),
-            searchButton.heightAnchor.constraint(equalToConstant: 44)
+            nameLabel.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 2)
         ])
+    }
+
+    // MARK: - Configure
+
+    func configure() {
+        greetingLabel.text = Self.timeBasedGreeting()
+        nameLabel.text = Self.userName()
+    }
+
+    // MARK: - Helpers
+
+    static func timeBasedGreeting() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 5..<12:  return "Good Morning,"
+        case 12..<17: return "Good Afternoon,"
+        case 17..<21: return "Good Evening,"
+        default:      return "Good Night,"
+        }
+    }
+
+    static func userName() -> String {
+        let name = UserDefaults.standard.string(forKey: "user_name") ?? "Alex"
+        // "Ibrahim Kolchi" → "Ibrahim" — yalnız first name göstər
+        let firstName = name.components(separatedBy: " ").first ?? name
+        return "\(firstName)."
     }
 }

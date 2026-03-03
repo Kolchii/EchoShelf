@@ -2,8 +2,6 @@
 //  CreateAccountViewModel.swift
 //  EchoShelf
 //
-//  Created by Ibrahim Kolchi on 26.02.26.
-//
 import Foundation
 
 final class CreateAccountViewModel {
@@ -20,28 +18,19 @@ final class CreateAccountViewModel {
 
     func createAccount(name: String?, email: String?, password: String?) {
         guard let name = name, !name.isEmpty else {
-            onError?("Full name is required.")
-            return
+            onError?("Full name is required."); return
         }
-
         guard let email = email, !email.isEmpty else {
-            onError?("Email is required.")
-            return
+            onError?("Email is required."); return
         }
-
         guard isValidEmail(email) else {
-            onError?("Please enter a valid email address.")
-            return
+            onError?("Please enter a valid email address."); return
         }
-
         guard let password = password, !password.isEmpty else {
-            onError?("Password is required.")
-            return
+            onError?("Password is required."); return
         }
-
         guard password.count >= 6 else {
-            onError?("Password must be at least 6 characters.")
-            return
+            onError?("Password must be at least 6 characters."); return
         }
 
         onLoadingChanged?(true)
@@ -49,6 +38,7 @@ final class CreateAccountViewModel {
             self?.onLoadingChanged?(false)
             switch result {
             case .success:
+                UserDefaults.standard.set(name, forKey: "user_name")
                 self?.onCreateSuccess?()
             case .failure(let error):
                 self?.onError?(error.localizedDescription)

@@ -101,6 +101,12 @@ final class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+
+        // Greeting-i yenilə (saat dəyişmiş ola bilər)
+        let headerIndex = IndexPath(item: 0, section: HomeSection.header.rawValue)
+        if let cell = collectionView.cellForItem(at: headerIndex) as? HomeHeaderCell {
+            cell.configure()
+        }
     }
 }
 
@@ -250,8 +256,11 @@ extension HomeViewController: UICollectionViewDataSource {
         switch HomeSection(rawValue: indexPath.section)! {
 
         case .header:
-            return collectionView.dequeueReusableCell(
-                withReuseIdentifier: HomeHeaderCell.identifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: HomeHeaderCell.identifier, for: indexPath
+            ) as! HomeHeaderCell
+            cell.configure()
+            return cell
 
         case .continueListening:
             let cell = collectionView.dequeueReusableCell(
