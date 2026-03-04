@@ -68,6 +68,11 @@ final class EbookReaderViewModel {
 
     func updateCurrentPage(_ page: Int) {
         currentPage = page
+        LibraryManager.shared.updateProgress(
+            id: String(ebook.id),
+            page: page,
+            total: totalPages
+        )
         onProgressChanged?(currentPage, totalPages)
     }
 
@@ -113,6 +118,10 @@ final class EbookReaderViewModel {
                 }
 
                 self.totalPages = document.pageCount
+
+                // Library-ə avtomatik saxla
+                try? LibraryManager.shared.saveBook(from: self.ebook, pdfData: data)
+
                 self.setState(.loaded(document))
                 self.onProgressChanged?(0, document.pageCount)
             }
