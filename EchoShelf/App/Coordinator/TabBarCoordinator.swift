@@ -16,7 +16,7 @@ final class TabBarCoordinator: Coordinator {
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        self.tabBarController = MainTabBarController(favoritesViewModel: favoritesViewModel)
+        self.tabBarController = MainTabBarController()
     }
 
     func start() {

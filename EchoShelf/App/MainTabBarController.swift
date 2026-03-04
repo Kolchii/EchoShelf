@@ -10,6 +10,7 @@ final class MainTabBarController: UITabBarController {
 
     private var homeCoordinator: HomeCoordinator?
     private var libraryCoordinator: LibraryCoordinator?
+    private let favoritesViewModel = FavoritesViewModel()
 
     private let miniPlayerContainer: UIView = {
         let v = UIView()
@@ -34,7 +35,10 @@ final class MainTabBarController: UITabBarController {
     private func setupTabs() {
         let homeNav = UINavigationController()
         homeNav.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
-        homeCoordinator = HomeCoordinator(navigationController: homeNav)
+        homeCoordinator = HomeCoordinator(
+            navigationController: homeNav,
+            favoritesViewModel: favoritesViewModel
+        )
         homeCoordinator?.start()
 
         let search = UINavigationController(rootViewController: SearchViewController())
@@ -46,10 +50,14 @@ final class MainTabBarController: UITabBarController {
         libraryCoordinator?.start()
 
         
-        let profile = UINavigationController(rootViewController: ProfileViewController())
-        profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), tag: 3)
+        let favoritesVC = FavoritesViewController(viewModel: favoritesViewModel)
+        let favorites = UINavigationController(rootViewController: favoritesVC)
+        favorites.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), tag: 3)
 
-        viewControllers = [homeNav, search, libraryNav, profile]
+        let profile = UINavigationController(rootViewController: ProfileViewController())
+        profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), tag: 4)
+
+        viewControllers = [homeNav, search, libraryNav, favorites, profile]
     }
 
     private func setupMiniPlayerContainer() {

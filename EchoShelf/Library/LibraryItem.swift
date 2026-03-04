@@ -4,6 +4,7 @@
 //
 //  Created by Ibrahim Kolchi on 05.03.26.
 //
+
 import Foundation
 
 struct LibraryItem: Codable, Identifiable {
@@ -60,7 +61,7 @@ struct LibraryItem: Codable, Identifiable {
 
 extension LibraryItem {
     init(from ebook: Ebook, localPDFPath: String) {
-        self.id             = String(ebook.id)
+        self.id             = ebook.id
         self.title          = ebook.title
         self.author         = ebook.authorName
         self.coverURLString = ebook.coverURL?.absoluteString

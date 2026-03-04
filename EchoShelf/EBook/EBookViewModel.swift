@@ -69,7 +69,7 @@ final class EbookReaderViewModel {
     func updateCurrentPage(_ page: Int) {
         currentPage = page
         LibraryManager.shared.updateProgress(
-            id: String(ebook.id),
+            id: ebook.id,
             page: page,
             total: totalPages
         )

@@ -14,6 +14,8 @@ final class LibraryManager {
 
     private let storageKey = "library_items_v1"
 
+    // MARK: - Save
+
     @discardableResult
     func saveBook(from ebook: Ebook, pdfData: Data) throws -> LibraryItem {
         let fileName = buildFileName(id: ebook.id, title: ebook.title)
@@ -86,7 +88,7 @@ final class LibraryManager {
         UserDefaults.standard.set(data, forKey: storageKey)
     }
 
-    private func buildFileName(id: Int, title: String) -> String {
+    private func buildFileName(id: String, title: String) -> String {
         let safe = title
             .components(separatedBy: .init(charactersIn: "/:*?\"<>|\\"))
             .joined(separator: "_")
