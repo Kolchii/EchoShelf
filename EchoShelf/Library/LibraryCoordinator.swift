@@ -27,7 +27,6 @@ final class LibraryCoordinator: Coordinator {
     func openBook(_ item: LibraryItem) {
         guard let url = item.localURL else { return }
 
-        // EbookReaderViewController-i local URL ilə aç
         let vc = LibraryReaderViewController(item: item, localURL: url)
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)
