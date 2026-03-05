@@ -5,7 +5,6 @@
 //  Created by Ibrahim Kolchi on 21.02.26.
 //
 
-
 import UIKit
 
 final class LibraryViewController: UIViewController {
@@ -332,6 +331,10 @@ extension LibraryViewController: UICollectionViewDelegate {
 
         let item = items[indexPath.item]
 
+        if item.type == .audiobook {
+            coordinator?.openAudiobook(item)
+            return
+        }
         if let cell = collectionView.cellForItem(at: indexPath) as? BookSpineCell {
             cell.animatePullOut { [weak self] in
                 self?.coordinator?.openBook(item)

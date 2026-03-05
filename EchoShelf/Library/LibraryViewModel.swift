@@ -11,8 +11,9 @@ final class LibraryViewModel {
 
     // MARK: - Data
 
-    private(set) var ebooks:    [LibraryItem] = []
-    private(set) var kidsBooks: [LibraryItem] = []
+    private(set) var ebooks:      [LibraryItem] = []
+    private(set) var audiobooks:  [LibraryItem] = []
+    private(set) var kidsBooks:   [LibraryItem] = []
 
     // MARK: - Callbacks
 
@@ -37,8 +38,9 @@ final class LibraryViewModel {
 
     func loadLibrary() {
         let all  = LibraryManager.shared.loadAll()
-        ebooks    = all.filter { $0.type == .ebook }
-        kidsBooks = all.filter { $0.type == .kids  }
+        ebooks     = all.filter { $0.type == .ebook }
+        audiobooks = all.filter { $0.type == .audiobook }
+        kidsBooks  = all.filter { $0.type == .kids }
         onDataUpdated?()
     }
 
@@ -51,13 +53,14 @@ final class LibraryViewModel {
 
     // MARK: - Computed
 
-    var totalCount: Int { ebooks.count + kidsBooks.count }
+    var totalCount: Int { ebooks.count + audiobooks.count + kidsBooks.count }
     var isEmpty: Bool   { totalCount == 0 }
 
     func items(for section: LibrarySection) -> [LibraryItem] {
         switch section {
-        case .ebooks:    return ebooks
-        case .kidsBooks: return kidsBooks
+        case .ebooks:     return ebooks
+        case .audiobooks: return audiobooks
+        case .kidsBooks:  return kidsBooks
         }
     }
 
@@ -78,19 +81,22 @@ final class LibraryViewModel {
 
 enum LibrarySection: Int, CaseIterable {
     case ebooks    = 0
-    case kidsBooks = 1
+    case audiobooks = 1
+    case kidsBooks = 2
 
     var title: String {
         switch self {
-        case .ebooks:    return "My Books"
-        case .kidsBooks: return "Kids Books"
+        case .ebooks:     return "My Books"
+        case .audiobooks: return "Audiobooks"
+        case .kidsBooks:  return "Kids Books"
         }
     }
 
     var icon: String {
         switch self {
-        case .ebooks:    return "book.fill"
-        case .kidsBooks: return "star.fill"
+        case .ebooks:     return "book.fill"
+        case .audiobooks: return "headphones"
+        case .kidsBooks:  return "star.fill"
         }
     }
 }

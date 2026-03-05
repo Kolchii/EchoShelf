@@ -16,6 +16,8 @@ final class LibraryManager {
 
     // MARK: - Save
 
+    /// PDF data-nı cihaza yazır, metadata-nı saxlayır.
+    /// EbookReaderViewModel tərəfindən çağrılır.
     @discardableResult
     func saveBook(from ebook: Ebook, pdfData: Data) throws -> LibraryItem {
         let fileName = buildFileName(id: ebook.id, title: ebook.title)
@@ -26,6 +28,11 @@ final class LibraryManager {
         let item = LibraryItem(from: ebook, localPDFPath: fileName)
         upsert(item)
         return item
+    }
+
+    func saveAudiobook(_ book: Audiobook) {
+        let item = LibraryItem(from: book)
+        upsert(item)
     }
 
     // MARK: - Delete

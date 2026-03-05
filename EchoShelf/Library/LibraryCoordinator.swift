@@ -33,6 +33,12 @@ final class LibraryCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func openAudiobook(_ item: LibraryItem) {
+        let playerVC = PlayerViewController()
+        playerVC.modalPresentationStyle = .fullScreen
+        navigationController.present(playerVC, animated: true)
+    }
+
     func confirmDelete(_ item: LibraryItem,
                        from vc: UIViewController,
                        onConfirm: @escaping () -> Void) {

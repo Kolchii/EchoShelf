@@ -84,6 +84,13 @@ struct Ebook: Codable {
 
     var isReadable: Bool { pdfURL != nil }
 
+    var isKids: Bool {
+        let keywords = ["children", "juvenile", "kids", "picture books", "fairy tales"]
+        return subjects.map { $0.lowercased() }.contains(where: { sub in
+            keywords.contains(where: { sub.contains($0) })
+        })
+    }
+
     init(from book: GutendexBook) {
         self.id           = String(book.id)
         self.title        = book.title

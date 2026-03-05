@@ -5,7 +5,6 @@
 //  Created by Ibrahim Kolchi on 05.03.26.
 //
 
-
 import Foundation
 
 struct LibraryItem: Codable, Identifiable {
@@ -22,6 +21,7 @@ struct LibraryItem: Codable, Identifiable {
 
     enum LibraryItemType: String, Codable {
         case ebook
+        case audiobook
         case kids
     }
 
@@ -40,6 +40,7 @@ struct LibraryItem: Codable, Identifiable {
     }
 
     var isFileExists: Bool {
+        if type == .audiobook { return true }
         guard let url = localURL else { return false }
         return FileManager.default.fileExists(atPath: url.path)
     }
@@ -55,6 +56,22 @@ struct LibraryItem: Codable, Identifiable {
         if lastReadPage >= totalPages - 1 { return "Finished" }
         let percent = Int(readingProgress * 100)
         return "\(percent)% read"
+    }
+}
+
+// MARK: - Audiobook -> LibraryItem
+
+extension LibraryItem {
+    init(from book: Audiobook) {
+        self.id             = book.id.value
+        self.title          = book.title
+        self.author         = book.authorName
+        self.coverURLString = book.coverURL?.absoluteString
+        self.localPDFPath   = ""
+        self.downloadedAt   = Date()
+        self.lastReadPage   = 0
+        self.totalPages     = 0
+        self.type           = .audiobook
     }
 }
 
