@@ -11,9 +11,6 @@ import Kingfisher
 final class BookSpineCell: UICollectionViewCell {
 
     static let identifier = "BookSpineCell"
-
-    // MARK: - UI
-
     private let spineView = UIView()
     private let gradientLayer = CAGradientLayer()
     private let innerShadowLayer = CAGradientLayer()
@@ -46,7 +43,6 @@ final class BookSpineCell: UICollectionViewCell {
 
     private var progressFillHeight: NSLayoutConstraint!
 
-    // MARK: - Book color palettes (warm library tones)
     private static let spineColors: [[(UIColor, UIColor)]] = [
         [(.init(hex: "#7B3F00"), .init(hex: "#5C2D00"))],   // dark brown
         [(.init(hex: "#1B3A5C"), .init(hex: "#0F2540"))],   // navy
@@ -62,8 +58,6 @@ final class BookSpineCell: UICollectionViewCell {
         [(.init(hex: "#2A3A1C"), .init(hex: "#182210"))],   // olive
     ]
 
-    // MARK: - Init
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -71,7 +65,6 @@ final class BookSpineCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    // MARK: - Layout
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -81,10 +74,7 @@ final class BookSpineCell: UICollectionViewCell {
         rightEdgeLayer.frame   = CGRect(x: spineView.bounds.width - 2, y: 0, width: 2, height: spineView.bounds.height)
     }
 
-    // MARK: - Setup
-
     private func setupUI() {
-        // Outer shadow — kitabın kölgəsi sağa düşür
         contentView.layer.shadowColor   = UIColor.black.cgColor
         contentView.layer.shadowOpacity = 0.55
         contentView.layer.shadowRadius  = 5
@@ -96,13 +86,9 @@ final class BookSpineCell: UICollectionViewCell {
         spineView.layer.maskedCorners  = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         spineView.clipsToBounds        = true
         spineView.translatesAutoresizingMaskIntoConstraints = false
-
-        // Main gradient — sol → sağ (spine derinlik hissi)
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayer.endPoint   = CGPoint(x: 1, y: 0.5)
         spineView.layer.insertSublayer(gradientLayer, at: 0)
-
-        // Inner shadow sol tərəf — dərinlik
         innerShadowLayer.startPoint = CGPoint(x: 0, y: 0.5)
         innerShadowLayer.endPoint   = CGPoint(x: 1, y: 0.5)
         innerShadowLayer.colors = [
@@ -110,12 +96,8 @@ final class BookSpineCell: UICollectionViewCell {
             UIColor.clear.cgColor
         ]
         spineView.layer.addSublayer(innerShadowLayer)
-
-        // Üst parlaq xətt — işıq effekti
         topEdgeLayer.backgroundColor = UIColor.white.withAlphaComponent(0.2).cgColor
         spineView.layer.addSublayer(topEdgeLayer)
-
-        // Sağ tünd xətt — kitabın sağ kənarı
         rightEdgeLayer.backgroundColor = UIColor.black.withAlphaComponent(0.25).cgColor
         spineView.layer.addSublayer(rightEdgeLayer)
 
@@ -123,8 +105,6 @@ final class BookSpineCell: UICollectionViewCell {
         spineView.addSubview(titleLabel)
         spineView.addSubview(progressBar)
         progressBar.addSubview(progressFill)
-
-        // Title — rotate edilib dik görünür
         titleLabel.transform = CGAffineTransform(rotationAngle: -.pi / 2)
 
         progressFillHeight = progressFill.heightAnchor.constraint(equalToConstant: 0)
@@ -151,8 +131,6 @@ final class BookSpineCell: UICollectionViewCell {
         ])
     }
 
-    // MARK: - Configure
-
     func configure(with item: LibraryItem, index: Int) {
         titleLabel.text = item.title
 
@@ -162,7 +140,6 @@ final class BookSpineCell: UICollectionViewCell {
             palette.1.cgColor
         ]
 
-        // Progress bar
         let progress = item.readingProgress
         progressFillHeight.constant = progress > 0 ? 4 : 0
         progressFill.alpha = progress > 0 ? 1 : 0
@@ -173,8 +150,6 @@ final class BookSpineCell: UICollectionViewCell {
             progressFill.backgroundColor = UIColor(red: 0.95, green: 0.75, blue: 0.3, alpha: 0.9)
         }
     }
-
-    // MARK: - Pull-out Animation
 
     func animatePullOut(completion: @escaping () -> Void) {
         UIView.animate(

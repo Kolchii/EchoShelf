@@ -8,19 +8,10 @@
 import Foundation
 
 final class LibraryViewModel {
-
-    // MARK: - Data
-
     private(set) var ebooks:      [LibraryItem] = []
     private(set) var audiobooks:  [LibraryItem] = []
     private(set) var kidsBooks:   [LibraryItem] = []
-
-    // MARK: - Callbacks
-
     var onDataUpdated: (() -> Void)?
-
-    // MARK: - Init
-
     init() {
         NotificationCenter.default.addObserver(
             self,
@@ -34,8 +25,6 @@ final class LibraryViewModel {
         NotificationCenter.default.removeObserver(self)
     }
 
-    // MARK: - Load
-
     func loadLibrary() {
         let all  = LibraryManager.shared.loadAll()
         ebooks     = all.filter { $0.type == .ebook }
@@ -44,15 +33,9 @@ final class LibraryViewModel {
         onDataUpdated?()
     }
 
-    // MARK: - Delete
-
     func delete(_ item: LibraryItem) {
         LibraryManager.shared.delete(id: item.id)
-        // loadLibrary notification ile tetiklenir
     }
-
-    // MARK: - Computed
-
     var totalCount: Int { ebooks.count + audiobooks.count + kidsBooks.count }
     var isEmpty: Bool   { totalCount == 0 }
 
@@ -68,16 +51,12 @@ final class LibraryViewModel {
         items(for: section).isEmpty
     }
 
-    // MARK: - Private
-
     @objc private func handleLibraryUpdate() {
         DispatchQueue.main.async { [weak self] in
             self?.loadLibrary()
         }
     }
 }
-
-// MARK: - Section Enum
 
 enum LibrarySection: Int, CaseIterable {
     case ebooks    = 0

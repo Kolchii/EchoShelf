@@ -7,8 +7,6 @@
 
 import UIKit
 
-// MARK: - ShelfSectionHeader
-
 final class LibraryShelfHeader: UICollectionReusableView {
 
     static let identifier = "LibraryShelfHeader"
@@ -83,8 +81,6 @@ final class LibraryShelfHeader: UICollectionReusableView {
     }
 }
 
-// MARK: - ShelfWoodFooter (rəfin alt taxtası)
-
 final class ShelfWoodView: UICollectionReusableView {
 
     static let identifier = "ShelfWoodView"
@@ -108,7 +104,6 @@ final class ShelfWoodView: UICollectionReusableView {
     }
 
     private func setupLayers() {
-        // Taxta rəng — walnut tonu
         woodLayer.colors = [
             UIColor(hex: "#7B5B2A").cgColor,
             UIColor(hex: "#6B4E22").cgColor,
@@ -120,11 +115,8 @@ final class ShelfWoodView: UICollectionReusableView {
         woodLayer.endPoint   = CGPoint(x: 0, y: 1)
         layer.insertSublayer(woodLayer, at: 0)
 
-        // Üst parlaq xətt — işıq yuxarıdan düşür
         topGlow.backgroundColor = UIColor.white.withAlphaComponent(0.18).cgColor
         layer.addSublayer(topGlow)
-
-        // Alt kölgə — taxta derinlik hissi
         bottomShadow.colors = [
             UIColor.clear.cgColor,
             UIColor.black.withAlphaComponent(0.45).cgColor
@@ -134,8 +126,6 @@ final class ShelfWoodView: UICollectionReusableView {
         layer.addSublayer(bottomShadow)
     }
 }
-
-// MARK: - LibraryEmptyShelfCell (boş rəf)
 
 final class LibraryEmptyCell: UICollectionViewCell {
 

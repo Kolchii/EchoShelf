@@ -59,8 +59,6 @@ private extension BookDetailViewModel {
     }
 }
 
-// MARK: - EbookDetailViewModel
-
 final class EbookDetailViewModel {
 
     let ebook: Ebook
@@ -123,3 +121,4 @@ final class EbookDetailViewModel {
         }
     }
 }
+

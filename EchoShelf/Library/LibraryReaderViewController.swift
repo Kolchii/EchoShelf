@@ -9,14 +9,8 @@ import UIKit
 import PDFKit
 
 final class LibraryReaderViewController: UIViewController {
-
-    // MARK: - Properties
-
     weak var coordinator: LibraryCoordinator?
     private let viewModel: LibraryReaderViewModel
-
-    // MARK: - UI
-
     private var pdfView: PDFView!
 
     private let errorContainer: UIView = {
@@ -61,16 +55,12 @@ final class LibraryReaderViewController: UIViewController {
         return ai
     }()
 
-    // MARK: - Init
-
     init(item: LibraryItem) {
         self.viewModel = LibraryReaderViewModel(item: item)
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) { fatalError() }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,8 +83,6 @@ final class LibraryReaderViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
 }
-
-// MARK: - Bind
 
 private extension LibraryReaderViewController {
 
@@ -141,8 +129,6 @@ private extension LibraryReaderViewController {
         }
     }
 }
-
-// MARK: - Setup
 
 private extension LibraryReaderViewController {
 
@@ -254,8 +240,6 @@ private extension LibraryReaderViewController {
         loadingIndicator.startAnimating()
     }
 }
-
-// MARK: - Actions
 
 private extension LibraryReaderViewController {
 

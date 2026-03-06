@@ -7,8 +7,6 @@
 import Foundation
 import AVFoundation
 
-
-
 final class PlayerManager {
 
     static let shared = PlayerManager()

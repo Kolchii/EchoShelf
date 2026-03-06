@@ -19,8 +19,6 @@ final class EbookService: EbookServiceProtocol {
 
     private let baseURL = "https://gutendex.com/books"
 
-    // MARK: - Search
-
     func searchEbooks(query: String, completion: @escaping (Result<[Ebook], APIError>) -> Void) {
         let params: [String: Any] = [
             "search": query,
@@ -47,13 +45,12 @@ final class EbookService: EbookServiceProtocol {
             }
     }
 
-    // MARK: - Fetch by Subject (pagination)
 
     func fetchEbooksBySubject(subject: String, page: Int, completion: @escaping (Result<[Ebook], APIError>) -> Void) {
         let params: [String: Any] = [
             "topic": subject,
             "mime_type": "application/pdf",
-            "page": page + 1     // Gutendex 1-based
+            "page": page + 1
         ]
 
         AF.request(baseURL, parameters: params)

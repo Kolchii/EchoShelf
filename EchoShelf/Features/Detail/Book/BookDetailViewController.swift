@@ -1,8 +1,6 @@
 import UIKit
 import Kingfisher
 
-// MARK: - Book Type
-
 enum BookDetailType {
     case audiobook(Audiobook)
     case ebook(Ebook)
@@ -24,7 +22,6 @@ final class BookDetailViewController: UIViewController {
 
     init(ebook: Ebook, favoritesViewModel: FavoritesViewModel) {
         self.bookType = .ebook(ebook)
-        // Ebook üçün placeholder Audiobook yaradırıq
         self.viewModel = BookDetailViewModel(book: Audiobook(
             id: FlexibleInt(from: 0),
             title: ebook.title,
@@ -42,12 +39,9 @@ final class BookDetailViewController: UIViewController {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    // MARK: - UI
-
     private let scrollView = UIScrollView()
     private let contentView = UIView()
 
-    // Header
     private let backButton   = DetailButton(systemName: "chevron.left")
     private let moreButton   = DetailButton(systemName: "ellipsis")
     private let headerLabel: UILabel = {
@@ -60,7 +54,6 @@ final class BookDetailViewController: UIViewController {
         return lbl
     }()
 
-    // Cover
     private let coverContainerView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +73,6 @@ final class BookDetailViewController: UIViewController {
         return iv
     }()
 
-    // Info
     private let titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 26, weight: .bold)
@@ -99,7 +91,6 @@ final class BookDetailViewController: UIViewController {
         return lbl
     }()
 
-    // Stats - duration label ayrıca saxlanır ki, update edə bilək
     private let durationValueLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "—"
@@ -115,7 +106,6 @@ final class BookDetailViewController: UIViewController {
         return v
     }()
 
-    // Buttons
     private let downloadButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "arrow.down.circle"), for: .normal)
@@ -169,7 +159,6 @@ final class BookDetailViewController: UIViewController {
         return btn
     }()
 
-    // AI Summary
     private let aiSummaryContainer: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white.withAlphaComponent(0.05)
@@ -196,7 +185,6 @@ final class BookDetailViewController: UIViewController {
         return sv
     }()
 
-    // Description
     private let descriptionTitleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Description"
@@ -224,8 +212,6 @@ final class BookDetailViewController: UIViewController {
 
     private var isDescriptionExpanded = false
 
-    // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "AppBackground")
@@ -251,8 +237,6 @@ final class BookDetailViewController: UIViewController {
     }
 }
 
-// MARK: - Binding
-
 extension BookDetailViewController {
 
     func bindViewModel() {
@@ -264,8 +248,6 @@ extension BookDetailViewController {
         }
     }
 }
-
-// MARK: - Layout
 
 extension BookDetailViewController {
 
@@ -469,8 +451,6 @@ extension BookDetailViewController {
     }
 }
 
-// MARK: - Configure Data
-
 extension BookDetailViewController {
 
     func configureData() {
@@ -484,7 +464,6 @@ extension BookDetailViewController {
             coverImageView.kf.setImage(with: url)
         }
 
-        // Duration - numSections ortalama 30 dəq hesabı ilə
         if let sections = book.numSections?.value, sections > 0 {
             let totalMinutes = sections * 30
             let hours = totalMinutes / 60
@@ -498,7 +477,6 @@ extension BookDetailViewController {
             durationValueLabel.text = "—"
         }
 
-        // AI Summary
         buildAISummary(viewModel.aiSummary)
     }
 
@@ -532,8 +510,6 @@ extension BookDetailViewController {
         stack.alignment = .top
         return stack
     }
-
-    // MARK: - Helpers
 
     func makeDurationStatItem() -> UIStackView {
         let iconImage = UIImageView(image: UIImage(systemName: "clock"))
@@ -590,8 +566,6 @@ extension BookDetailViewController {
     }
 }
 
-// MARK: - Book Type Configuration
-
 extension BookDetailViewController {
 
     func configureByBookType() {
@@ -624,7 +598,6 @@ extension BookDetailViewController {
                 durationValueLabel.text = "\(ebook.downloadCount)↓"
             }
 
-            // EbookDetailViewModel ilə description + AI summary
             let vm = EbookDetailViewModel(ebook: ebook)
             ebookDetailVM = vm
             descriptionLabel.text = vm.description
@@ -632,8 +605,6 @@ extension BookDetailViewController {
         }
     }
 }
-
-// MARK: - Actions
 
 extension BookDetailViewController {
 
@@ -696,8 +667,6 @@ extension BookDetailViewController {
         downloadButton.tintColor = tint
         downloadButton.isUserInteractionEnabled = !isSaved
 
-
-
         UIView.animate(withDuration: 0.2, animations: {
             self.downloadButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }) { _ in
@@ -747,8 +716,6 @@ extension BookDetailViewController {
     }
 }
 
-// MARK: - String Extension
-
 private extension String {
     var htmlStripped: String {
         guard let data = data(using: .utf8),
@@ -761,3 +728,4 @@ private extension String {
         return attributed.string
     }
 }
+

@@ -10,8 +10,8 @@ struct TrendingCategory {
     let title: String
     let icon: String
     let colors: [UIColor]
-    let query: String       // search bar-da axtarış üçün
-    let subject: String     // LibriVox subject parametri üçün
+    let query: String       
+    let subject: String
 }
 
 final class TrendingCategoryCell: UICollectionViewCell {

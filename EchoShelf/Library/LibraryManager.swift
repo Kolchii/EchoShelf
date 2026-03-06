@@ -14,10 +14,6 @@ final class LibraryManager {
 
     private let storageKey = "library_items_v1"
 
-    // MARK: - Save
-
-    /// PDF data-nı cihaza yazır, metadata-nı saxlayır.
-    /// EbookReaderViewModel tərəfindən çağrılır.
     @discardableResult
     func saveBook(from ebook: Ebook, pdfData: Data) throws -> LibraryItem {
         let fileName = buildFileName(id: ebook.id, title: ebook.title)
@@ -35,8 +31,6 @@ final class LibraryManager {
         upsert(item)
     }
 
-    // MARK: - Delete
-
     func delete(id: String) {
         var items = loadAll(includeDeleted: true)
         if let item = items.first(where: { $0.id == id }),
@@ -48,8 +42,6 @@ final class LibraryManager {
         NotificationCenter.default.post(name: .libraryDidUpdate, object: nil)
     }
 
-    // MARK: - Update Progress
-
     func updateProgress(id: String, page: Int, total: Int) {
         var items = loadAll(includeDeleted: true)
         guard let idx = items.firstIndex(where: { $0.id == id }) else { return }
@@ -58,13 +50,10 @@ final class LibraryManager {
         persist(items)
     }
 
-    // MARK: - Query
-
     func isDownloaded(id: String) -> Bool {
         loadAll().contains { $0.id == id }
     }
 
-    /// Cihazda var olan kitabları qaytarır (silinmiş faylları çıxarır).
     func loadAll(includeDeleted: Bool = false) -> [LibraryItem] {
         guard let data  = UserDefaults.standard.data(forKey: storageKey),
               let items = try? JSONDecoder().decode([LibraryItem].self, from: data)
@@ -75,8 +64,6 @@ final class LibraryManager {
     func item(id: String) -> LibraryItem? {
         loadAll().first { $0.id == id }
     }
-
-    // MARK: - Private
 
     private var documentsURL: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -103,8 +90,6 @@ final class LibraryManager {
         return "\(id)_\(short).pdf"
     }
 }
-
-// MARK: - Notification
 
 extension Notification.Name {
     static let libraryDidUpdate = Notification.Name("libraryDidUpdate")

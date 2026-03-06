@@ -16,29 +16,19 @@ enum LibraryReaderState {
 
 final class LibraryReaderViewModel {
 
-    // MARK: - Properties
-
     let item: LibraryItem
 
     private(set) var state: LibraryReaderState = .loading
     private(set) var currentPage: Int
     private(set) var totalPages:  Int
     private(set) var scaleFactor: CGFloat = 1.0
-
-    // MARK: - Callbacks
-
     var onStateChanged:    ((LibraryReaderState) -> Void)?
     var onProgressChanged: ((Int, Int) -> Void)?
-
-    // MARK: - Init
-
     init(item: LibraryItem) {
         self.item        = item
         self.currentPage = item.lastReadPage
         self.totalPages  = item.totalPages
     }
-
-    // MARK: - Load
 
     func loadDocument() {
         guard let url = item.localURL else {
@@ -75,9 +65,6 @@ final class LibraryReaderViewModel {
             }
         }
     }
-
-    // MARK: - Page tracking
-
     func updateCurrentPage(_ page: Int) {
         currentPage = page
         LibraryManager.shared.updateProgress(
@@ -88,13 +75,9 @@ final class LibraryReaderViewModel {
         onProgressChanged?(currentPage, totalPages)
     }
 
-    // MARK: - Scale
-
     func increaseScale() { scaleFactor = min(scaleFactor + 0.25, 3.0) }
     func decreaseScale() { scaleFactor = max(scaleFactor - 0.25, 0.5) }
     func resetScale()    { scaleFactor = 1.0 }
-
-    // MARK: - Computed
 
     var progressText: String { item.progressText }
 
@@ -103,7 +86,6 @@ final class LibraryReaderViewModel {
         return "\(currentPage + 1) / \(totalPages)"
     }
 
-    // MARK: - Private
 
     private func setState(_ newState: LibraryReaderState) {
         state = newState

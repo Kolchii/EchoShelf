@@ -48,7 +48,7 @@ final class HomeHeaderCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    // MARK: - Setup
+    
 
     private func setupUI() {
         contentView.addSubview(avatarView)
@@ -73,14 +73,14 @@ final class HomeHeaderCell: UICollectionViewCell {
         ])
     }
 
-    // MARK: - Configure
+    
 
     func configure() {
         greetingLabel.text = Self.timeBasedGreeting()
         nameLabel.text = Self.userName()
     }
 
-    // MARK: - Helpers
+    
 
     static func timeBasedGreeting() -> String {
         let hour = Calendar.current.component(.hour, from: Date())

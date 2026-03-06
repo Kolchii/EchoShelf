@@ -8,7 +8,6 @@ import UIKit
 
 final class FavoritesViewController: UIViewController {
 
-    // MARK: - ViewModel
 
     private let viewModel: FavoritesViewModel
 
@@ -18,8 +17,6 @@ final class FavoritesViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) { fatalError() }
-
-    // MARK: - UI
 
     private var collectionView: UICollectionView!
 
@@ -53,7 +50,6 @@ final class FavoritesViewController: UIViewController {
         }
     }
 
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +63,6 @@ final class FavoritesViewController: UIViewController {
     }
 }
 
-// MARK: - Setup
 
 private extension FavoritesViewController {
 
@@ -138,7 +133,6 @@ private extension FavoritesViewController {
     }
 }
 
-// MARK: - Layout
 
 private extension FavoritesViewController {
 
@@ -195,8 +189,6 @@ private extension FavoritesViewController {
     }
 }
 
-// MARK: - DataSource
-
 extension FavoritesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
@@ -246,8 +238,6 @@ extension FavoritesViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Delegate
-
 extension FavoritesViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView,
@@ -273,8 +263,6 @@ extension FavoritesViewController: UICollectionViewDelegate {
         }
     }
 }
-
-// MARK: - Empty View
 
 final class FavoritesEmptyView: UIView {
 

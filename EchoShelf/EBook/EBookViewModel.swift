@@ -9,14 +9,11 @@ import PDFKit
 
 enum EbookReaderState {
     case idle
-    case downloading(Float)   // 0.0 - 1.0 progress
+    case downloading(Float)
     case loaded(PDFDocument)
     case error(String)
 }
-
 final class EbookReaderViewModel {
-
-    // MARK: - Properties
 
     let ebook: Ebook
 
@@ -27,18 +24,12 @@ final class EbookReaderViewModel {
 
     private var downloadTask: URLSessionDataTask?
 
-    // MARK: - Callbacks
-
     var onStateChanged: ((EbookReaderState) -> Void)?
     var onProgressChanged: ((Int, Int) -> Void)?
-
-    // MARK: - Init
 
     init(ebook: Ebook) {
         self.ebook = ebook
     }
-
-    // MARK: - Load
 
     func loadDocument() {
         guard case .idle = state else { return }
@@ -48,7 +39,6 @@ final class EbookReaderViewModel {
             return
         }
 
-        // http → https (ATS policy)
         let urlStr = rawURL.absoluteString.replacingOccurrences(of: "http://", with: "https://")
         guard let pdfURL = URL(string: urlStr) else {
             setState(.error("Invalid PDF URL."))
@@ -64,8 +54,6 @@ final class EbookReaderViewModel {
         setState(.idle)
     }
 
-    // MARK: - Page
-
     func updateCurrentPage(_ page: Int) {
         currentPage = page
         LibraryManager.shared.updateProgress(
@@ -76,19 +64,14 @@ final class EbookReaderViewModel {
         onProgressChanged?(currentPage, totalPages)
     }
 
-    // MARK: - Scale
-
     func increaseScale() { scaleFactor = min(scaleFactor + 0.25, 3.0) }
     func decreaseScale() { scaleFactor = max(scaleFactor - 0.25, 0.5) }
     func resetScale()    { scaleFactor = 1.0 }
-
-    // MARK: - Private
 
     private func downloadPDF(from url: URL) {
         var request = URLRequest(url: url)
         request.timeoutInterval = 60
 
-        // Progress tracking üçün delegate-li session
         let session = URLSession(
             configuration: .default,
             delegate: DownloadDelegate { [weak self] progress in
@@ -119,7 +102,6 @@ final class EbookReaderViewModel {
 
                 self.totalPages = document.pageCount
 
-                // Library-ə avtomatik saxla
                 try? LibraryManager.shared.saveBook(from: self.ebook, pdfData: data)
 
                 self.setState(.loaded(document))
@@ -134,8 +116,6 @@ final class EbookReaderViewModel {
         onStateChanged?(newState)
     }
 }
-
-// MARK: - Download Progress Delegate
 
 private final class DownloadDelegate: NSObject, URLSessionDataDelegate {
 

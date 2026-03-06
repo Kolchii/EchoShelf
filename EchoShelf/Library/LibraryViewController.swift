@@ -9,13 +9,9 @@ import UIKit
 
 final class LibraryViewController: UIViewController {
 
-    // MARK: - Properties
-
     weak var coordinator: LibraryCoordinator?
     private let viewModel: LibraryViewModel
     private var collectionView: UICollectionView!
-
-    // MARK: - UI — Room Background
 
     private let wallView: UIView = {
         let v = UIView()
@@ -25,7 +21,6 @@ final class LibraryViewController: UIViewController {
 
     private let wallGradient = CAGradientLayer()
 
-    // Ambient lamp glow — sağ yuxarı
     private let lampGlow: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor(hex: "#F5A623").withAlphaComponent(0.07)
@@ -44,16 +39,12 @@ final class LibraryViewController: UIViewController {
         return iv
     }()
 
-    // MARK: - Init
-
     init(viewModel: LibraryViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) { fatalError() }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,14 +68,11 @@ final class LibraryViewController: UIViewController {
     }
 }
 
-// MARK: - Setup
-
 private extension LibraryViewController {
 
     func setupBackground() {
         view.backgroundColor = UIColor(named: "AppBackground")
 
-        // Warm wall gradient — tünd kahvərengi
         wallGradient.colors = [
             UIColor(hex: "#1A0E06").cgColor,
             UIColor(hex: "#241508").cgColor,
@@ -109,7 +97,6 @@ private extension LibraryViewController {
     }
 
     func setupDecorations() {
-        // Lamp glow
         view.addSubview(lampGlow)
         view.addSubview(lampIcon)
 
@@ -138,12 +125,10 @@ private extension LibraryViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.contentInset            = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
 
-        // Cells
         collectionView.register(BookSpineCell.self,        forCellWithReuseIdentifier: BookSpineCell.identifier)
         collectionView.register(LibraryEmptyCell.self,     forCellWithReuseIdentifier: LibraryEmptyCell.identifier)
         collectionView.register(AudioDiskCell.self,        forCellWithReuseIdentifier: AudioDiskCell.identifier)
 
-        // Supplementary
         collectionView.register(
             LibraryShelfHeader.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -157,7 +142,6 @@ private extension LibraryViewController {
 
         view.addSubview(collectionView)
 
-        // Page title
         let titleLabel = UILabel()
         titleLabel.text      = "My Library"
         titleLabel.font      = .systemFont(ofSize: 28, weight: .bold)
@@ -182,8 +166,6 @@ private extension LibraryViewController {
         }
     }
 }
-
-// MARK: - Layout
 
 private extension LibraryViewController {
 
@@ -233,7 +215,6 @@ private extension LibraryViewController {
         layout.boundarySupplementaryItems = [header, woodFooter]
         return layout
     }
-
     func shelfLayout(for section: LibrarySection) -> NSCollectionLayoutSection {
         if section == .audiobooks {
             return audioshelfLayout()
@@ -263,7 +244,6 @@ private extension LibraryViewController {
             layout.orthogonalScrollingBehavior = .continuous
         }
 
-        // Section header
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(52)
@@ -274,7 +254,6 @@ private extension LibraryViewController {
             alignment: .top
         )
 
-        // Taxta rəf — kitabların altında
         let woodSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(18)
@@ -289,8 +268,6 @@ private extension LibraryViewController {
         return layout
     }
 }
-
-// MARK: - DataSource
 
 extension LibraryViewController: UICollectionViewDataSource {
 
@@ -360,7 +337,6 @@ extension LibraryViewController: UICollectionViewDataSource {
             return header
         }
 
-        // shelf-wood footer
         let wood = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: ShelfWoodView.identifier,
@@ -369,8 +345,6 @@ extension LibraryViewController: UICollectionViewDataSource {
         return wood
     }
 }
-
-// MARK: - Delegate
 
 extension LibraryViewController: UICollectionViewDelegate {
 
@@ -398,7 +372,6 @@ extension LibraryViewController: UICollectionViewDelegate {
         }
     }
 
-    // Long press → silmə seçimi
     func collectionView(_ collectionView: UICollectionView,
                         contextMenuConfigurationForItemAt indexPath: IndexPath,
                         point: CGPoint) -> UIContextMenuConfiguration? {
@@ -423,3 +396,4 @@ extension LibraryViewController: UICollectionViewDelegate {
         }
     }
 }
+

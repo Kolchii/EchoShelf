@@ -7,8 +7,6 @@
 import UIKit
 import Kingfisher
 
-// MARK: - EbookTopResultCell
-
 final class EbookTopResultCell: UICollectionViewCell {
 
     static let identifier = "EbookTopResultCell"
@@ -154,8 +152,6 @@ final class EbookTopResultCell: UICollectionViewCell {
     @objc private func readTapped() { onRead?() }
 }
 
-// MARK: - EbookOtherResultCell
-
 final class EbookOtherResultCell: UICollectionViewCell {
 
     static let identifier = "EbookOtherResultCell"
@@ -238,8 +234,6 @@ final class EbookOtherResultCell: UICollectionViewCell {
         }
     }
 }
-
-// MARK: - EbookYouMightLikeCell (TrendingBookCell ilə eyni layout, mavi tema)
 
 final class EbookYouMightLikeCell: UICollectionViewCell {
 

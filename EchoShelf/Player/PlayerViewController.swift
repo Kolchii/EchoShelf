@@ -9,18 +9,14 @@ import UIKit
 final class PlayerViewController: UIViewController {
 
     private let book = PlayerManager.shared.currentBook
-
     private let gradientLayer = CAGradientLayer()
-
     private let coverView = UIView()
     private let coverIcon = UIImageView()
-
     private let titleLabel = UILabel()
     private let authorLabel = UILabel()
     private let progressSlider = UISlider()
     private let currentTimeLabel = UILabel()
     private let durationLabel = UILabel()
-
     private let playButton = UIButton(type: .system)
     private let closeButton = UIButton(type: .system)
 

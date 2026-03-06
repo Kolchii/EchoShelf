@@ -18,7 +18,7 @@ final class SearchViewController: UIViewController {
         }
     }
 
-    // MARK: - State
+    
 
     private var selectedTab: SearchTab = .audiobooks {
         didSet {
@@ -29,7 +29,7 @@ final class SearchViewController: UIViewController {
     }
     private var isSearching = false
 
-    // MARK: - Data
+    
 
     private let viewModel = SearchViewModel()
 
@@ -43,13 +43,8 @@ final class SearchViewController: UIViewController {
     ]
 
     private var recentSearches: [String] { viewModel.recentSearches }
-
-    // MARK: - UI
-
     private var collectionView: UICollectionView!
     private let searchBarView = SearchBarView()
-
-    // Tab bar (Home ekranındakı ilə eyni dizayn)
     private let tabContainer: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white.withAlphaComponent(0.06)
@@ -109,15 +104,11 @@ final class SearchViewController: UIViewController {
         return label
     }()
 
-    // MARK: - Sections
-
     private enum HomeSection: Int, CaseIterable {
         case recents      = 0
         case trending     = 1
         case youMightLike = 2
     }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,8 +130,6 @@ final class SearchViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 }
-
-// MARK: - Setup
 
 private extension SearchViewController {
 
@@ -272,8 +261,6 @@ private extension SearchViewController {
         ])
     }
 
-    // MARK: - Helpers
-
     func updateTabIndicator() {
         let tabW = tabContainer.bounds.width / 3
         let offset: CGFloat
@@ -352,8 +339,6 @@ private extension SearchViewController {
         selectedTab = newTab
     }
 }
-
-// MARK: - DataSource
 
 extension SearchViewController: UICollectionViewDataSource {
 
@@ -504,8 +489,6 @@ extension SearchViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Delegate
-
 extension SearchViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView,
@@ -553,8 +536,6 @@ extension SearchViewController: UICollectionViewDelegate {
         }
     }
 }
-
-// MARK: - Layout
 
 private extension SearchViewController {
 

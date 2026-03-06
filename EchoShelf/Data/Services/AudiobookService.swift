@@ -84,8 +84,6 @@ final class AudiobookService: AudiobookServiceProtocol {
     }
 }
 
-// MARK: - Private
-
 private extension AudiobookService {
 
     func attachCovers(

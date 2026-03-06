@@ -72,13 +72,12 @@ final class SearchBarView: UIView {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    // MARK: - Public
+    
 
     func setText(_ text: String) {
         textField.text = text
         clearButton.alpha = text.isEmpty ? 0 : 1
         micButton.alpha = text.isEmpty ? 1 : 0
-        // Animasiyasız dərhal göstər
         cancelButton.alpha = text.isEmpty ? 0 : 1
         textFieldTrailing?.constant = text.isEmpty ? -20 : -80
         layoutIfNeeded()
@@ -94,7 +93,7 @@ final class SearchBarView: UIView {
     }
 }
 
-// MARK: - Setup
+
 
 private extension SearchBarView {
 
@@ -178,8 +177,6 @@ private extension SearchBarView {
     }
 }
 
-// MARK: - UITextFieldDelegate
-
 extension SearchBarView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         debounceTimer?.invalidate()
@@ -188,8 +185,6 @@ extension SearchBarView: UITextFieldDelegate {
         return true
     }
 }
-
-// MARK: - UITextField Padding
 
 extension UITextField {
     func setLeftPaddingPoints(_ amount: CGFloat) {

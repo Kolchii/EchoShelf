@@ -8,7 +8,7 @@ import UIKit
 
 final class GenreViewController: UIViewController {
 
-    // MARK: - Properties
+    
 
     weak var coordinator: HomeCoordinator?
     private let viewModel: GenreViewModel
@@ -19,9 +19,6 @@ final class GenreViewController: UIViewController {
             collectionView.reloadData()
         }
     }
-
-    // MARK: - UI
-
     private var collectionView: UICollectionView!
 
     private let headerView: UIView = {
@@ -90,7 +87,7 @@ final class GenreViewController: UIViewController {
 
     private var indicatorLeading: NSLayoutConstraint!
 
-    // MARK: - Init
+    
 
     init(viewModel: GenreViewModel) {
         self.viewModel = viewModel
@@ -99,7 +96,7 @@ final class GenreViewController: UIViewController {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    // MARK: - Lifecycle
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,8 +118,6 @@ final class GenreViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }
-
-// MARK: - Setup
 
 private extension GenreViewController {
 
@@ -231,8 +226,6 @@ private extension GenreViewController {
     }
 }
 
-// MARK: - Layout
-
 private extension GenreViewController {
 
     func createLayout() -> UICollectionViewLayout {
@@ -253,14 +246,11 @@ private extension GenreViewController {
     }
 }
 
-// MARK: - DataSource
-
 extension GenreViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         let count = viewModel.items(for: selectedTab)
-        // Son item loading spinner üçün
         let showLoader = viewModel.isLoading(for: selectedTab) && count > 0
         return showLoader ? count + 1 : count
     }
@@ -268,8 +258,6 @@ extension GenreViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let count = viewModel.items(for: selectedTab)
-
-        // Son item — loading spinner
         if indexPath.item == count {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: GenreLoadingCell.identifier, for: indexPath
@@ -293,8 +281,6 @@ extension GenreViewController: UICollectionViewDataSource {
         }
     }
 }
-
-// MARK: - Delegate
 
 extension GenreViewController: UICollectionViewDelegate {
 
@@ -322,8 +308,6 @@ extension GenreViewController: UICollectionViewDelegate {
         }
     }
 }
-
-// MARK: - Actions
 
 private extension GenreViewController {
 

@@ -7,8 +7,6 @@
 import UIKit
 import Kingfisher
 
-// MARK: - EbookTrendingCell (TrendingBookCell ilə eyni görünüş)
-
 final class EbookTrendingCell: UICollectionViewCell {
 
     static let identifier = "EbookTrendingCell"
@@ -108,8 +106,6 @@ final class EbookTrendingCell: UICollectionViewCell {
         }
     }
 }
-
-// MARK: - EbookRecommendedCell (RecommendedBookCell ilə eyni görünüş)
 
 final class EbookRecommendedCell: UICollectionViewCell {
 

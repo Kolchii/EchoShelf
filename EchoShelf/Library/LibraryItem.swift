@@ -25,8 +25,6 @@ struct LibraryItem: Codable, Identifiable {
         case kids
     }
 
-    // MARK: - Computed
-
     var coverURL: URL? {
         guard let str = coverURLString else { return nil }
         return URL(string: str)
@@ -59,8 +57,6 @@ struct LibraryItem: Codable, Identifiable {
     }
 }
 
-// MARK: - Audiobook -> LibraryItem
-
 extension LibraryItem {
     init(from book: Audiobook) {
         self.id             = String(book.id.value)
@@ -75,8 +71,6 @@ extension LibraryItem {
     }
 }
 
-// MARK: - Ebook -> LibraryItem
-
 extension LibraryItem {
     init(from ebook: Ebook, localPDFPath: String) {
         self.id             = ebook.id
@@ -87,8 +81,6 @@ extension LibraryItem {
         self.downloadedAt   = Date()
         self.lastReadPage   = 0
         self.totalPages     = 0
-
-        // Bütün subjects-ə bax — kids detection
         let kidsKeywords = ["children", "juvenile", "kids", "picture books", "fairy tales"]
         let allSubjects  = ebook.subjects.map { $0.lowercased() }
         let isKids = allSubjects.contains(where: { sub in

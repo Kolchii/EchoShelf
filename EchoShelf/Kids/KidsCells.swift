@@ -5,8 +5,6 @@
 import UIKit
 import Kingfisher
 
-// MARK: - KidsTrendingCell (horizontal scroll kartı)
-
 final class KidsTrendingCell: UICollectionViewCell {
 
     static let identifier = "KidsTrendingCell"
@@ -21,7 +19,6 @@ final class KidsTrendingCell: UICollectionViewCell {
         return iv
     }()
 
-    // Üstdəki rəngli badge
     private let badgeLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "⭐ KIDS"
@@ -98,9 +95,6 @@ final class KidsTrendingCell: UICollectionViewCell {
         }
     }
 }
-
-// MARK: - KidsRecommendedCell (grid kartı)
-
 final class KidsRecommendedCell: UICollectionViewCell {
 
     static let identifier = "KidsRecommendedCell"

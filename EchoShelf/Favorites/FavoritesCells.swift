@@ -7,7 +7,6 @@
 import UIKit
 import Kingfisher
 
-// MARK: - FavoriteBookCell
 
 final class FavoriteBookCell: UICollectionViewCell {
 
@@ -92,16 +91,14 @@ final class FavoriteBookCell: UICollectionViewCell {
     func configureKids(with ebook: Ebook) {
         titleLabel.text = ebook.title
         authorLabel.text = ebook.authorName
-        // Kids badge - köşədə ulduz
+        
         if let url = ebook.coverURL {
             coverImageView.kf.setImage(with: url)
         }
-        // Açıq sarı/yaşıl tint - uşaq hissi
         authorLabel.textColor = UIColor.systemYellow.withAlphaComponent(0.8)
     }
 }
 
-// MARK: - FavoriteAuthorCell
 
 final class FavoriteAuthorCell: UICollectionViewCell {
 
@@ -185,7 +182,7 @@ final class FavoriteAuthorCell: UICollectionViewCell {
     }
 }
 
-// MARK: - FavoriteGenreCell
+
 
 final class FavoriteGenreCell: UICollectionViewCell {
 

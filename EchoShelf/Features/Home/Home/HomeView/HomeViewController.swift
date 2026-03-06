@@ -21,7 +21,7 @@ final class HomeViewController: UIViewController {
 
     private var collectionView: UICollectionView!
 
-    // MARK: - Top Tab
+    
 
     private var selectedTab: HomeTab = .audiobooks {
         didSet {
@@ -85,7 +85,7 @@ final class HomeViewController: UIViewController {
         "Sci-Fi", "History", "Adventure", "Kids"
     ]
 
-    // Computed shortcuts
+    
     private var trendingItems: Int {
         switch selectedTab {
         case .audiobooks: return viewModel.trendingAudiobooks.count
@@ -102,7 +102,7 @@ final class HomeViewController: UIViewController {
         }
     }
 
-    // MARK: - Lifecycle
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +122,7 @@ final class HomeViewController: UIViewController {
     }
 }
 
-// MARK: - Greeting Setup
+
 
 private extension HomeViewController {
     func setupGreeting() {
@@ -138,7 +138,7 @@ private extension HomeViewController {
     }
 }
 
-// MARK: - Top Tab Setup
+
 
 private extension HomeViewController {
 
@@ -146,7 +146,7 @@ private extension HomeViewController {
 
         view.addSubview(tabContainer)
 
-        // BÜTÜN subview-lər əvvəl əlavə olunur
+        
         tabContainer.addSubview(tabIndicator)
         tabContainer.addSubview(audiobooksTabButton)
         tabContainer.addSubview(booksTabButton)
@@ -221,7 +221,7 @@ private extension HomeViewController {
     }
 }
 
-// MARK: - Collection Setup
+
 
 private extension HomeViewController {
 
@@ -286,7 +286,7 @@ private extension HomeViewController {
     }
 }
 
-// MARK: - DataSource
+
 
 extension HomeViewController: UICollectionViewDataSource {
 
@@ -302,7 +302,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case .genres:            return genres.count
         case .trending:          return trendingItems
         case .recommended:       return recommendedItems
-        // continueListening kids üçün gizlənir
+        
         }
     }
 
@@ -408,9 +408,6 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Delegate
-
-// DIDSELECT HISSƏSİ TAM DÜZƏLDİLİB
 
 extension HomeViewController: UICollectionViewDelegate {
 
@@ -461,7 +458,7 @@ extension HomeViewController: UICollectionViewDelegate {
         }
     }
 }
-// MARK: - Layout
+
 
 private extension HomeViewController {
 

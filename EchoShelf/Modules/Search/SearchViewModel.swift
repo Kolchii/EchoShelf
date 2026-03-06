@@ -10,17 +10,12 @@ final class SearchViewModel {
 
     private let audiobookService: AudiobookServiceProtocol
     private let ebookService: EbookServiceProtocol
-
-    // Audiobooks
     private(set) var books: [Audiobook] = []
     private(set) var youMightLike: [Audiobook] = []
-
-    // Ebooks
     private(set) var ebooks: [Ebook] = []
     private(set) var youMightLikeEbooks: [Ebook] = []
     private(set) var kidsBooks: [Ebook] = []
     private(set) var youMightLikeKids: [Ebook] = []
-
     private(set) var recentSearches: [String] = []
     private(set) var isLoading = false
 
@@ -36,8 +31,6 @@ final class SearchViewModel {
         loadRecents()
         fetchSuggestions()
     }
-
-    // MARK: - Search
 
     func search(query: String, tab: SearchTab) {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -95,8 +88,6 @@ final class SearchViewModel {
         }
     }
 
-    // MARK: - Recents
-
     func deleteRecent(at index: Int) {
         guard index < recentSearches.count else { return }
         recentSearches.remove(at: index)
@@ -107,8 +98,6 @@ final class SearchViewModel {
         recentSearches.removeAll()
         saveRecents(); onDataUpdated?()
     }
-
-    // MARK: - Computed (Audiobooks)
 
     var topResult: Audiobook? { books.first }
 
@@ -126,8 +115,6 @@ final class SearchViewModel {
         return Array(unique.prefix(6))
     }
 
-    // MARK: - Computed (Ebooks)
-
     var topEbookResult: Ebook? { ebooks.first }
 
     var otherEbooks: [Ebook] {
@@ -141,8 +128,6 @@ final class SearchViewModel {
         return Array(kidsBooks.dropFirst().prefix(5))
     }
 }
-
-// MARK: - Private
 
 private extension SearchViewModel {
 

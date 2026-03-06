@@ -17,19 +17,15 @@ final class HomeViewModel {
     private let audiobookService: AudiobookServiceProtocol
     private let ebookService: EbookServiceProtocol
 
-    // Audiobooks
     private(set) var audiobooks: [Audiobook] = []
 
-    // Ebooks
     private(set) var ebooks: [Ebook] = []
 
-    // Kids
     private(set) var kidsEbooks: [Ebook] = []
 
     var onDataUpdated: (() -> Void)?
     var onError: ((String) -> Void)?
 
-    // Legacy — bəzi yerlər hələ books istifadə edir
     var books: [Audiobook] { audiobooks }
 
     init(
@@ -40,7 +36,7 @@ final class HomeViewModel {
         self.ebookService = ebookService
     }
 
-    // MARK: - Fetch
+    
 
     func fetchBooks() {
         fetchAudiobooks()
@@ -99,7 +95,7 @@ final class HomeViewModel {
         }
     }
 
-    // MARK: - Computed
+    
 
     var trendingAudiobooks: [Audiobook] { Array(audiobooks.prefix(10)) }
     var recommendedAudiobooks: [Audiobook] { Array(audiobooks.dropFirst(10).prefix(10)) }

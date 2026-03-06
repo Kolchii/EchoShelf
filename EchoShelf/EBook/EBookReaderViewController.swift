@@ -9,15 +9,10 @@ import PDFKit
 import Kingfisher
 final class EbookReaderViewController: UIViewController {
 
-    // MARK: - ViewModel
-
     private let viewModel: EbookReaderViewModel
-
-    // MARK: - UI
 
     private var pdfView: PDFView!
 
-    // Loading
     private let loadingContainer: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor(named: "AppBackground")
@@ -77,7 +72,6 @@ final class EbookReaderViewController: UIViewController {
         return lbl
     }()
 
-    // Error
     private let errorContainer: UIView = {
         let v = UIView()
         v.isHidden = true
@@ -113,7 +107,6 @@ final class EbookReaderViewController: UIViewController {
         return btn
     }()
 
-    // Page counter (PDF açılanda görünür)
     private let pageLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 12, weight: .medium)
@@ -124,16 +117,12 @@ final class EbookReaderViewController: UIViewController {
         return lbl
     }()
 
-    // MARK: - Init
-
     init(ebook: Ebook) {
         self.viewModel = EbookReaderViewModel(ebook: ebook)
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) { fatalError() }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,8 +146,6 @@ final class EbookReaderViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }
-
-// MARK: - Binding
 
 private extension EbookReaderViewController {
 
@@ -212,8 +199,6 @@ private extension EbookReaderViewController {
         }
     }
 }
-
-// MARK: - Setup
 
 private extension EbookReaderViewController {
 
@@ -327,7 +312,6 @@ private extension EbookReaderViewController {
             progressLabel.centerXAnchor.constraint(equalTo: loadingContainer.centerXAnchor)
         ])
     }
-
     func setupErrorView() {
         errorContainer.addSubview(errorIcon)
         errorContainer.addSubview(errorLabel)
@@ -365,8 +349,6 @@ private extension EbookReaderViewController {
         ])
     }
 }
-
-// MARK: - Actions
 
 private extension EbookReaderViewController {
 
