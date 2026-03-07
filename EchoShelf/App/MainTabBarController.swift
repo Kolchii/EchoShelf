@@ -8,6 +8,8 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
 
+    var onLogout: (() -> Void)?
+
     private var homeCoordinator: HomeCoordinator?
     private var libraryCoordinator: LibraryCoordinator?
     private let favoritesViewModel = FavoritesViewModel()
@@ -23,38 +25,43 @@ final class MainTabBarController: UITabBarController {
         v.isHidden = true
         return v
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupTabs()
         setupMiniPlayerContainer()
         observePlayerEvents()
     }
 
     private func setupTabs() {
+        // Home
         let homeNav = UINavigationController()
         homeNav.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
-        homeCoordinator = HomeCoordinator(
-            navigationController: homeNav,
-            favoritesViewModel: favoritesViewModel
-        )
+        homeCoordinator = HomeCoordinator(navigationController: homeNav, favoritesViewModel: favoritesViewModel)
         homeCoordinator?.start()
 
+        // Search
         let search = UINavigationController(rootViewController: SearchViewController())
         search.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 1)
 
+        // Library
         let libraryNav = UINavigationController()
         libraryNav.tabBarItem = UITabBarItem(title: "Library", image: UIImage(systemName: "books.vertical.fill"), tag: 2)
         libraryCoordinator = LibraryCoordinator(navigationController: libraryNav)
         libraryCoordinator?.start()
 
-        
+        // Favorites
         let favoritesVC = FavoritesViewController(viewModel: favoritesViewModel)
         let favorites = UINavigationController(rootViewController: favoritesVC)
         favorites.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), tag: 3)
 
-        let profile = UINavigationController(rootViewController: ProfileViewController())
+        // Profile
+        let profileVM = ProfileViewModel()
+        let profileVC = ProfileViewController(viewModel: profileVM)
+        profileVC.onLogout = { [weak self] in
+            self?.onLogout?()
+        }
+        let profile = UINavigationController(rootViewController: profileVC)
         profile.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), tag: 4)
 
         viewControllers = [homeNav, search, libraryNav, favorites, profile]
@@ -62,7 +69,6 @@ final class MainTabBarController: UITabBarController {
 
     private func setupMiniPlayerContainer() {
         view.addSubview(miniPlayerContainer)
-
         NSLayoutConstraint.activate([
             miniPlayerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             miniPlayerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -70,15 +76,10 @@ final class MainTabBarController: UITabBarController {
             miniPlayerContainer.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
+
     private func observePlayerEvents() {
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(showMiniPlayer),
-            name: .playerStarted, object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(openFullPlayer),
-            name: .openFullPlayer, object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(showMiniPlayer), name: .playerStarted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(openFullPlayer), name: .openFullPlayer, object: nil)
     }
 
     @objc private func showMiniPlayer() {
