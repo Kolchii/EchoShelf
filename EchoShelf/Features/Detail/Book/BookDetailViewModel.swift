@@ -20,8 +20,6 @@ final class BookDetailViewModel {
 
     var onStateChanged: ((ViewState<Void>) -> Void)?
 
-    var isFavorited: Bool { favoritesViewModel.isBookFavorited(book) }
-
     init(book: Audiobook, service: AudiobookServiceProtocol = AudiobookService()) {
         self.book = book
         self.service = service
@@ -44,8 +42,28 @@ final class BookDetailViewModel {
         }
     }
 
-    func toggleFavorite() {
-        favoritesViewModel.toggleBook(book)
+    func toggleFavorite(bookType: BookDetailType) {
+        switch bookType {
+        case .audiobook:
+            favoritesViewModel.toggleBook(book)
+        case .ebook(let ebook):
+            if ebook.isKids {
+                favoritesViewModel.toggleKidsBook(ebook)
+            } else {
+                favoritesViewModel.toggleEbook(ebook)
+            }
+        }
+    }
+
+    func isFavorited(bookType: BookDetailType) -> Bool {
+        switch bookType {
+        case .audiobook:
+            return favoritesViewModel.isBookFavorited(book)
+        case .ebook(let ebook):
+            return ebook.isKids
+                ? favoritesViewModel.isKidsBookFavorited(ebook)
+                : favoritesViewModel.isEbookFavorited(ebook)
+        }
     }
 
     var durationText: String {
@@ -53,10 +71,8 @@ final class BookDetailViewModel {
         return "\(sections) ch."
     }
 
-    var languageText: String {"English"
-    }
-    var ratingText: String {"4.8"
-    }
+    var languageText: String { "English" }
+    var ratingText: String { "4.8" }
 }
 
 private extension BookDetailViewModel {
@@ -74,22 +90,14 @@ private extension BookDetailViewModel {
 final class EbookDetailViewModel {
 
     let ebook: Ebook
-    private let favoritesViewModel = FavoritesViewModel()
-
     private(set) var aiSummary: [String] = []
     private(set) var description: String = ""
 
     var onDataUpdated: (() -> Void)?
 
-    var isFavorited: Bool { favoritesViewModel.isEbookFavorited(ebook) }
-
     init(ebook: Ebook) {
         self.ebook = ebook
         buildContent()
-    }
-
-    func toggleFavorite() {
-        favoritesViewModel.toggleEbook(ebook)
     }
 
     private func buildContent() {

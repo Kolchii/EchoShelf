@@ -9,18 +9,16 @@ enum BookDetailType {
 final class BookDetailViewController: UIViewController {
 
     private let viewModel: BookDetailViewModel
-    private let favoritesViewModel: FavoritesViewModel
     private let bookType: BookDetailType
     private var ebookDetailVM: EbookDetailViewModel?
 
-    init(book: Audiobook, favoritesViewModel: FavoritesViewModel) {
+    init(book: Audiobook) {
         self.bookType = .audiobook(book)
         self.viewModel = BookDetailViewModel(book: book)
-        self.favoritesViewModel = favoritesViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
-    init(ebook: Ebook, favoritesViewModel: FavoritesViewModel) {
+    init(ebook: Ebook) {
         self.bookType = .ebook(ebook)
         self.viewModel = BookDetailViewModel(book: Audiobook(
             id: FlexibleInt(from: 0),
@@ -33,7 +31,6 @@ final class BookDetailViewController: UIViewController {
             authors: [Author(firstName: ebook.authorName, lastName: nil)],
             coverURL: ebook.coverURL
         ))
-        self.favoritesViewModel = favoritesViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -240,11 +237,16 @@ final class BookDetailViewController: UIViewController {
 extension BookDetailViewController {
 
     func bindViewModel() {
-        viewModel.onDataUpdated = { [weak self] in
-            self?.configureData()
-        }
-        viewModel.onError = { error in
-            print("Detail error:", error)
+        viewModel.onStateChanged = { [weak self] state in
+            guard let self else { return }
+            switch state {
+            case .success:
+                self.configureData()
+            case .failure(let error):
+                print("Detail error:", error)
+            default:
+                break
+            }
         }
     }
 }
@@ -482,10 +484,8 @@ extension BookDetailViewController {
 
     func buildAISummary(_ points: [String]) {
         aiStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
         for (index, point) in points.enumerated() {
-            let row = makeAISummaryRow(number: index + 1, text: point)
-            aiStackView.addArrangedSubview(row)
+            aiStackView.addArrangedSubview(makeAISummaryRow(number: index + 1, text: point))
         }
     }
 
@@ -617,8 +617,7 @@ extension BookDetailViewController {
             present(playerVC, animated: true)
 
         case .ebook(let ebook):
-            let readerVC = EbookReaderViewController(ebook: ebook)
-            navigationController?.pushViewController(readerVC, animated: true)
+            navigationController?.pushViewController(EbookReaderViewController(ebook: ebook), animated: true)
         }
     }
 
@@ -655,16 +654,13 @@ extension BookDetailViewController {
         case .audiobook:
             LibraryManager.shared.saveAudiobook(viewModel.book)
         case .ebook(let ebook):
-            let readerVC = EbookReaderViewController(ebook: ebook)
-            navigationController?.pushViewController(readerVC, animated: true)
+            navigationController?.pushViewController(EbookReaderViewController(ebook: ebook), animated: true)
             return
         }
 
         let isSaved = LibraryManager.shared.isDownloaded(id: String(viewModel.book.id.value))
-        let iconName = isSaved ? "checkmark.circle.fill" : "arrow.down.circle"
-        let tint: UIColor = isSaved ? UIColor(hex: "#4CAF50") : .white
-        downloadButton.setImage(UIImage(systemName: iconName), for: .normal)
-        downloadButton.tintColor = tint
+        downloadButton.setImage(UIImage(systemName: isSaved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
+        downloadButton.tintColor = isSaved ? UIColor(hex: "#4CAF50") : .white
         downloadButton.isUserInteractionEnabled = !isSaved
 
         UIView.animate(withDuration: 0.2, animations: {
@@ -677,33 +673,14 @@ extension BookDetailViewController {
     }
 
     @objc func favTapped() {
-        switch bookType {
-        case .audiobook:
-            favoritesViewModel.toggleBook(viewModel.book)
-        case .ebook(let ebook):
-            if ebook.isKids {
-                favoritesViewModel.toggleKidsBook(ebook)
-            } else {
-                favoritesViewModel.toggleEbook(ebook)
-            }
-        }
+        viewModel.toggleFavorite(bookType: bookType)
         updateFavoriteButton()
     }
 
     func updateFavoriteButton() {
-        let isFav: Bool
-        switch bookType {
-        case .audiobook:
-            isFav = favoritesViewModel.isBookFavorited(viewModel.book)
-        case .ebook(let ebook):
-            isFav = ebook.isKids
-                ? favoritesViewModel.isKidsBookFavorited(ebook)
-                : favoritesViewModel.isEbookFavorited(ebook)
-        }
+        let isFav = viewModel.isFavorited(bookType: bookType)
         favoriteButton.tintColor = isFav ? .systemPink : .white
-        favoriteButton.setImage(
-            UIImage(systemName: isFav ? "heart.fill" : "heart"), for: .normal
-        )
+        favoriteButton.setImage(UIImage(systemName: isFav ? "heart.fill" : "heart"), for: .normal)
     }
 
     @objc func readMoreTapped() {
@@ -728,4 +705,3 @@ private extension String {
         return attributed.string
     }
 }
-
