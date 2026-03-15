@@ -15,7 +15,7 @@ final class StorageCacheViewController: UIViewController {
     private let usedGB: Double = 85.5
     private let appGB: Double = 32
     private var books: [(title: String, size: String, quality: String)] = [
-        ("Project Hail Mary", "842 MB", "Yüksək"),
+        ("Project Hail Mary", "842 MB", "High"),
         ("Dune: Part One", "1.2 GB", "Lossless"),
         ("The 7 Habits of Highly Effective People", "310 MB", "Standart"),
         ("The Great Gatsby", "125 MB", "Standart")
