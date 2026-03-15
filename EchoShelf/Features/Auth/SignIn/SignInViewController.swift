@@ -416,6 +416,7 @@ final class SignInViewController: UIViewController {
         let termsTap = UITapGestureRecognizer(target: self, action: #selector(termsLabelTapped(_:)))
         termsLabel.addGestureRecognizer(termsTap)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
 
