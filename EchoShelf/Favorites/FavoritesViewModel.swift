@@ -25,15 +25,12 @@ final class FavoritesViewModel {
     private let genresKey  = "favorite_genres"
 
     private let db = Firestore.firestore()
-
     private var uid: String? { Auth.auth().currentUser?.uid }
 
     init() {
         loadFromLocal()
         syncFromFirebase()
     }
-
-    // MARK: - Public
 
     func items(for section: FavoriteSection) -> Int {
         switch section {
@@ -46,6 +43,10 @@ final class FavoritesViewModel {
     }
 
     func isEmpty(for section: FavoriteSection) -> Bool { items(for: section) == 0 }
+
+    func reloadFromLocal() {
+        loadFromLocal()
+    }
 
     func toggleBook(_ book: Audiobook) {
         if let idx = favoriteBooks.firstIndex(where: { $0.id.value == book.id.value }) {
@@ -125,8 +126,6 @@ final class FavoritesViewModel {
     func isGenreFavorited(_ genre: String) -> Bool { favoriteGenres.contains(genre) }
 }
 
-// MARK: - Local Storage
-
 private extension FavoritesViewModel {
 
     func saveToLocal() {
@@ -150,8 +149,6 @@ private extension FavoritesViewModel {
     }
 }
 
-// MARK: - Firebase Sync
-
 extension FavoritesViewModel {
 
     func syncToFirebase() {
@@ -171,7 +168,6 @@ extension FavoritesViewModel {
             "favoriteGenres":    favoriteGenres,
             "updatedAt":         FieldValue.serverTimestamp()
         ]
-
         db.collection("users").document(uid).setData(payload, merge: true)
     }
 
@@ -179,38 +175,24 @@ extension FavoritesViewModel {
         guard let uid else { return }
         db.collection("users").document(uid).getDocument { [weak self] snapshot, error in
             guard let self, let data = snapshot?.data(), error == nil else { return }
-
             if let str = data["favoriteBooks"] as? String,
                let d = Data(base64Encoded: str),
-               let v = try? JSONDecoder().decode([Audiobook].self, from: d) {
-                self.favoriteBooks = v
-            }
+               let v = try? JSONDecoder().decode([Audiobook].self, from: d) { self.favoriteBooks = v }
             if let str = data["favoriteEbooks"] as? String,
                let d = Data(base64Encoded: str),
-               let v = try? JSONDecoder().decode([Ebook].self, from: d) {
-                self.favoriteEbooks = v
-            }
+               let v = try? JSONDecoder().decode([Ebook].self, from: d) { self.favoriteEbooks = v }
             if let str = data["favoriteKidsBooks"] as? String,
                let d = Data(base64Encoded: str),
-               let v = try? JSONDecoder().decode([Ebook].self, from: d) {
-                self.favoriteKidsBooks = v
-            }
+               let v = try? JSONDecoder().decode([Ebook].self, from: d) { self.favoriteKidsBooks = v }
             if let str = data["favoriteAuthors"] as? String,
                let d = Data(base64Encoded: str),
-               let v = try? JSONDecoder().decode([Author].self, from: d) {
-                self.favoriteAuthors = v
-            }
-            if let genres = data["favoriteGenres"] as? [String] {
-                self.favoriteGenres = genres
-            }
-
+               let v = try? JSONDecoder().decode([Author].self, from: d) { self.favoriteAuthors = v }
+            if let genres = data["favoriteGenres"] as? [String] { self.favoriteGenres = genres }
             self.saveToLocal()
             DispatchQueue.main.async { self.onDataUpdated?() }
         }
     }
 }
-
-// MARK: - FavoriteSection
 
 enum FavoriteSection: Int, CaseIterable {
     case books      = 0

@@ -11,7 +11,7 @@ final class FavoritesViewController: UIViewController {
     private let viewModel = FavoritesViewModel()
     private var collectionView: UICollectionView!
 
-    private let headerLabel: UILabel = {
+    private lazy var headerLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Favorites"
         lbl.font = .systemFont(ofSize: 28, weight: .bold)
@@ -20,7 +20,7 @@ final class FavoritesViewController: UIViewController {
         return lbl
     }()
 
-    private let segmentControl: UISegmentedControl = {
+    private lazy var segmentControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: FavoriteSection.allCases.map { $0.title })
         sc.selectedSegmentIndex = 0
         sc.selectedSegmentTintColor = .systemPurple
@@ -31,7 +31,7 @@ final class FavoritesViewController: UIViewController {
         return sc
     }()
 
-    private let emptyView = FavoritesEmptyView()
+    private lazy var emptyView = FavoritesEmptyView()
 
     private var selectedSection: FavoriteSection = .books {
         didSet {
@@ -40,8 +40,6 @@ final class FavoritesViewController: UIViewController {
             updateEmptyState()
         }
     }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +67,6 @@ private extension FavoritesViewController {
                 self.updateEmptyState()
             }
         }
-
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(favoritesChanged),
@@ -79,7 +76,11 @@ private extension FavoritesViewController {
     }
 
     @objc func favoritesChanged() {
-        viewModel.syncFromFirebase()
+        viewModel.reloadFromLocal()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            self.updateEmptyState()
+        }
     }
 
     func setupHeader() {
@@ -107,11 +108,9 @@ private extension FavoritesViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-
         collectionView.register(FavoriteBookCell.self,   forCellWithReuseIdentifier: FavoriteBookCell.identifier)
         collectionView.register(FavoriteAuthorCell.self, forCellWithReuseIdentifier: FavoriteAuthorCell.identifier)
         collectionView.register(FavoriteGenreCell.self,  forCellWithReuseIdentifier: FavoriteGenreCell.identifier)
-
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 16),
@@ -198,46 +197,30 @@ private extension FavoritesViewController {
 
 extension FavoritesViewController: UICollectionViewDataSource {
 
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.items(for: selectedSection)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch selectedSection {
         case .books:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath
-            ) as! FavoriteBookCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as! FavoriteBookCell
             cell.configureEbook(with: viewModel.favoriteEbooks[indexPath.item])
             return cell
-
         case .audiobooks:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath
-            ) as! FavoriteBookCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as! FavoriteBookCell
             cell.configure(with: viewModel.favoriteBooks[indexPath.item])
             return cell
-
         case .kids:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath
-            ) as! FavoriteBookCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as! FavoriteBookCell
             cell.configureKids(with: viewModel.favoriteKidsBooks[indexPath.item])
             return cell
-
         case .authors:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: FavoriteAuthorCell.identifier, for: indexPath
-            ) as! FavoriteAuthorCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteAuthorCell.identifier, for: indexPath) as! FavoriteAuthorCell
             cell.configure(with: viewModel.favoriteAuthors[indexPath.item])
             return cell
-
         case .genres:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: FavoriteGenreCell.identifier, for: indexPath
-            ) as! FavoriteGenreCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteGenreCell.identifier, for: indexPath) as! FavoriteGenreCell
             cell.configure(with: viewModel.favoriteGenres[indexPath.item])
             return cell
         }
@@ -246,24 +229,14 @@ extension FavoritesViewController: UICollectionViewDataSource {
 
 extension FavoritesViewController: UICollectionViewDelegate {
 
-    func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch selectedSection {
         case .books:
-            let ebook = viewModel.favoriteEbooks[indexPath.item]
-            navigationController?.pushViewController(
-                BookDetailViewController(ebook: ebook), animated: true
-            )
+            navigationController?.pushViewController(BookDetailViewController(ebook: viewModel.favoriteEbooks[indexPath.item]), animated: true)
         case .audiobooks:
-            let book = viewModel.favoriteBooks[indexPath.item]
-            navigationController?.pushViewController(
-                BookDetailViewController(book: book), animated: true
-            )
+            navigationController?.pushViewController(BookDetailViewController(book: viewModel.favoriteBooks[indexPath.item]), animated: true)
         case .kids:
-            let ebook = viewModel.favoriteKidsBooks[indexPath.item]
-            navigationController?.pushViewController(
-                BookDetailViewController(ebook: ebook), animated: true
-            )
+            navigationController?.pushViewController(BookDetailViewController(ebook: viewModel.favoriteKidsBooks[indexPath.item]), animated: true)
         default:
             break
         }
