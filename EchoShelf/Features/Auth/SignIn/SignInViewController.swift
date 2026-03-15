@@ -22,30 +22,28 @@ final class SignInViewController: UIViewController {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    // MARK: - UI Elements
-
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.showsVerticalScrollIndicator = false
         sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
 
-    private let contentView: UIView = {
+    private lazy var contentView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
 
-    private let logoContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "PrimaryGradientStart")
-        view.layer.cornerRadius = 20
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var logoContainerView: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor(named: "PrimaryGradientStart")
+        v.layer.cornerRadius = 20
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
     }()
 
-    private let logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named: "EchoLogo")
         iv.tintColor = .white
@@ -54,7 +52,7 @@ final class SignInViewController: UIViewController {
         return iv
     }()
 
-    private let appNameLabel: UILabel = {
+    private lazy var appNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "EchoShelf"
         lbl.font = .systemFont(ofSize: 22, weight: .bold)
@@ -63,7 +61,7 @@ final class SignInViewController: UIViewController {
         return lbl
     }()
 
-    private let welcomeLabel: UILabel = {
+    private lazy var welcomeLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Welcome Back"
         lbl.font = .systemFont(ofSize: 34, weight: .bold)
@@ -72,17 +70,17 @@ final class SignInViewController: UIViewController {
         return lbl
     }()
 
-    private let subtitleLabel: UILabel = {
+    private lazy var subtitleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Sign in to continue your listening journey."
-        lbl.font = .systemFont(ofSize: 16, weight: .regular)
+        lbl.font = .systemFont(ofSize: 16)
         lbl.textColor = UIColor.white.withAlphaComponent(0.6)
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
 
-    private let emailTextField: UITextField = {
+    private lazy var emailTextField: UITextField = {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Email Address",
@@ -105,7 +103,7 @@ final class SignInViewController: UIViewController {
         return tf
     }()
 
-    private let passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Password",
@@ -129,34 +127,30 @@ final class SignInViewController: UIViewController {
         eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
         eyeButton.tintColor = UIColor.white.withAlphaComponent(0.5)
         eyeButton.frame = CGRect(x: 0, y: 0, width: 48, height: 24)
-        eyeButton.addTarget(nil, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        eyeButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         tf.rightView = eyeButton
         return tf
     }()
 
-    private let forgotPasswordButton: UIButton = {
+    private lazy var forgotPasswordButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.title = "Forgot Password?"
         config.baseForegroundColor = UIColor.white.withAlphaComponent(0.7)
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
-            var a = attrs
-            a.font = UIFont.systemFont(ofSize: 14)
-            return a
+            var a = attrs; a.font = UIFont.systemFont(ofSize: 14); return a
         }
         let btn = UIButton(configuration: config)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
 
-    private let signInButton: UIButton = {
+    private lazy var signInButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.title = "Sign In →"
         config.baseForegroundColor = .white
         config.baseBackgroundColor = UIColor(named: "PrimaryGradientStart")
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
-            var a = attrs
-            a.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-            return a
+            var a = attrs; a.font = UIFont.systemFont(ofSize: 18, weight: .semibold); return a
         }
         config.cornerStyle = .capsule
         let btn = UIButton(configuration: config)
@@ -164,7 +158,7 @@ final class SignInViewController: UIViewController {
         return btn
     }()
 
-    private let activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let ai = UIActivityIndicatorView(style: .medium)
         ai.color = .white
         ai.hidesWhenStopped = true
@@ -172,7 +166,7 @@ final class SignInViewController: UIViewController {
         return ai
     }()
 
-    private let orLabel: UILabel = {
+    private lazy var orLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "OR"
         lbl.font = .systemFont(ofSize: 13, weight: .medium)
@@ -182,21 +176,21 @@ final class SignInViewController: UIViewController {
         return lbl
     }()
 
-    private let leftDivider: UIView = {
+    private lazy var leftDivider: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white.withAlphaComponent(0.15)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
 
-    private let rightDivider: UIView = {
+    private lazy var rightDivider: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white.withAlphaComponent(0.15)
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
 
-    private let appleButton: UIButton = {
+    private lazy var appleButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.title = "Continue with Apple"
         config.image = UIImage(systemName: "apple.logo")
@@ -204,9 +198,7 @@ final class SignInViewController: UIViewController {
         config.baseForegroundColor = .white
         config.baseBackgroundColor = .black
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
-            var a = attrs
-            a.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-            return a
+            var a = attrs; a.font = UIFont.systemFont(ofSize: 17, weight: .semibold); return a
         }
         config.cornerStyle = .capsule
         let btn = UIButton(configuration: config)
@@ -214,15 +206,13 @@ final class SignInViewController: UIViewController {
         return btn
     }()
 
-    private let googleButton: UIButton = {
+    private lazy var googleButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.title = "Continue with Google"
         config.baseForegroundColor = .black
         config.baseBackgroundColor = .white
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
-            var a = attrs
-            a.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-            return a
+            var a = attrs; a.font = UIFont.systemFont(ofSize: 17, weight: .semibold); return a
         }
         config.cornerStyle = .capsule
         let btn = UIButton(configuration: config)
@@ -240,29 +230,28 @@ final class SignInViewController: UIViewController {
         return btn
     }()
 
-    private let createAccountButton: UIButton = {
+    private lazy var createAccountButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.title = "Create Account"
         config.baseForegroundColor = .white
         config.baseBackgroundColor = UIColor.white.withAlphaComponent(0.05)
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
-            var a = attrs
-            a.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-            return a
+            var a = attrs; a.font = UIFont.systemFont(ofSize: 17, weight: .semibold); return a
         }
         config.cornerStyle = .capsule
         let btn = UIButton(configuration: config)
-        btn.layer.cornerRadius = 28
         btn.layer.borderWidth = 1
         btn.layer.borderColor = UIColor.white.withAlphaComponent(0.25).cgColor
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
 
-    private let termsLabel: UILabel = {
+    private lazy var termsLabel: UILabel = {
         let lbl = UILabel()
         lbl.numberOfLines = 0
         lbl.textAlignment = .center
+        lbl.isUserInteractionEnabled = true
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         let fullText = "By signing in, you agree to our Terms of Service and Privacy Policy."
         let attributed = NSMutableAttributedString(
             string: fullText,
@@ -272,19 +261,15 @@ final class SignInViewController: UIViewController {
             ]
         )
         let purple = UIColor(named: "PrimaryGradientStart") ?? .systemPurple
-        if let tosRange = fullText.range(of: "Terms of Service") {
-            attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(tosRange, in: fullText))
+        if let r = fullText.range(of: "Terms of Service") {
+            attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(r, in: fullText))
         }
-        if let ppRange = fullText.range(of: "Privacy Policy") {
-            attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(ppRange, in: fullText))
+        if let r = fullText.range(of: "Privacy Policy") {
+            attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(r, in: fullText))
         }
         lbl.attributedText = attributed
-        lbl.isUserInteractionEnabled = true
-        lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -293,14 +278,10 @@ final class SignInViewController: UIViewController {
         bindViewModel()
     }
 
-    // MARK: - Setup
-
     private func setupUI() {
         view.backgroundColor = UIColor(named: "AppBackground")
-
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-
         contentView.addSubview(logoContainerView)
         logoContainerView.addSubview(logoImageView)
         contentView.addSubview(appNameLabel)
@@ -440,8 +421,6 @@ final class SignInViewController: UIViewController {
         }
     }
 
-    // MARK: - Actions
-
     @objc private func signInTapped() {
         viewModel.login(email: emailTextField.text, password: passwordTextField.text)
     }
@@ -454,8 +433,7 @@ final class SignInViewController: UIViewController {
         AuthService.shared.signInWithApple(presentingVC: self) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success:
-                    self?.onLoginSuccess?()
+                case .success: self?.onLoginSuccess?()
                 case .failure(let error):
                     let alert = UIAlertController(title: "Xəta", message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -469,8 +447,7 @@ final class SignInViewController: UIViewController {
         AuthManager.shared.signInWithGoogle(presentingVC: self) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success:
-                    self?.onLoginSuccess?()
+                case .success: self?.onLoginSuccess?()
                 case .failure(let error):
                     let alert = UIAlertController(title: "Xəta", message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -488,13 +465,22 @@ final class SignInViewController: UIViewController {
         guard let label = gesture.view as? UILabel,
               let text = label.attributedText?.string else { return }
         let point = gesture.location(in: label)
-        let tosRange = (text as NSString).range(of: "Terms of Service")
-        let ppRange = (text as NSString).range(of: "Privacy Policy")
-        if isTapped(in: label, at: point, range: tosRange) {
+        if isTapped(in: label, at: point, range: (text as NSString).range(of: "Terms of Service")) {
             openURL("https://kolchiibrahim-sys.github.io/EchoShelf/terms")
-        } else if isTapped(in: label, at: point, range: ppRange) {
+        } else if isTapped(in: label, at: point, range: (text as NSString).range(of: "Privacy Policy")) {
             openURL("https://kolchiibrahim-sys.github.io/EchoShelf/privacy")
         }
+    }
+
+    @objc private func togglePasswordVisibility() {
+        passwordTextField.isSecureTextEntry.toggle()
+        if let eyeButton = passwordTextField.rightView as? UIButton {
+            eyeButton.setImage(UIImage(systemName: passwordTextField.isSecureTextEntry ? "eye" : "eye.slash"), for: .normal)
+        }
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     private func isTapped(in label: UILabel, at point: CGPoint, range: NSRange) -> Bool {
@@ -515,24 +501,10 @@ final class SignInViewController: UIViewController {
         guard let url = URL(string: urlString) else { return }
         UIApplication.shared.open(url)
     }
-
-    @objc private func togglePasswordVisibility() {
-        passwordTextField.isSecureTextEntry.toggle()
-        if let eyeButton = passwordTextField.rightView as? UIButton {
-            let iconName = passwordTextField.isSecureTextEntry ? "eye" : "eye.slash"
-            eyeButton.setImage(UIImage(systemName: iconName), for: .normal)
-        }
-    }
-
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
 }
-
-// MARK: - ASAuthorizationControllerPresentationContextProviding
 
 extension SignInViewController: @retroactive ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return view.window ?? UIWindow()
+        view.window ?? UIWindow()
     }
 }

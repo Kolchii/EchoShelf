@@ -19,24 +19,24 @@ final class ForgotPasswordViewController: UIViewController {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    private let logoContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 1.0)
-        view.layer.cornerRadius = 20
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var logoContainerView: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor(named: "PrimaryGradientStart")
+        v.layer.cornerRadius = 20
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
     }()
 
-    private let logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(systemName: "book.fill")
+        iv.image = UIImage(named: "EchoLogo")
         iv.tintColor = .white
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
 
-    private let appNameLabel: UILabel = {
+    private lazy var appNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "EchoShelf"
         lbl.font = .systemFont(ofSize: 22, weight: .bold)
@@ -45,24 +45,24 @@ final class ForgotPasswordViewController: UIViewController {
         return lbl
     }()
 
-    private let iconContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 0.2)
-        view.layer.cornerRadius = 36
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var iconContainerView: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor(named: "PrimaryGradientStart")?.withAlphaComponent(0.2)
+        v.layer.cornerRadius = 36
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
     }()
 
-    private let lockIconImageView: UIImageView = {
+    private lazy var lockIconImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "lock.rotation")
-        iv.tintColor = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 1.0)
+        iv.tintColor = UIColor(named: "PrimaryGradientStart")
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
 
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Forgot Password?"
         lbl.font = .systemFont(ofSize: 34, weight: .bold)
@@ -71,49 +71,54 @@ final class ForgotPasswordViewController: UIViewController {
         return lbl
     }()
 
-    private let subtitleLabel: UILabel = {
+    private lazy var subtitleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Enter your email and we'll send you a reset link."
-        lbl.font = .systemFont(ofSize: 16, weight: .regular)
+        lbl.font = .systemFont(ofSize: 16)
         lbl.textColor = UIColor.white.withAlphaComponent(0.6)
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
 
-    private let emailTextField: UITextField = {
+    private lazy var emailTextField: UITextField = {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Email Address",
             attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
         )
         tf.textColor = .white
-        tf.backgroundColor = UIColor(red: 0.16, green: 0.17, blue: 0.24, alpha: 1.0)
+        tf.backgroundColor = UIColor(named: "TextFieldBackground")
         tf.layer.cornerRadius = 16
         tf.keyboardType = .emailAddress
         tf.autocapitalizationType = .none
         tf.leftViewMode = .always
         tf.translatesAutoresizingMaskIntoConstraints = false
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 24))
         let icon = UIImageView(image: UIImage(systemName: "envelope"))
         icon.tintColor = UIColor.white.withAlphaComponent(0.5)
-        icon.frame = CGRect(x: 0, y: 0, width: 44, height: 24)
-        icon.contentMode = .center
-        tf.leftView = icon
+        icon.frame = CGRect(x: 16, y: 0, width: 22, height: 24)
+        icon.contentMode = .scaleAspectFit
+        container.addSubview(icon)
+        tf.leftView = container
         return tf
     }()
 
-    private let sendButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setTitle("Send Reset Link →", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        btn.backgroundColor = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 1.0)
-        btn.layer.cornerRadius = 28
+    private lazy var sendButton: UIButton = {
+        var config = UIButton.Configuration.filled()
+        config.title = "Send Reset Link →"
+        config.baseForegroundColor = .white
+        config.baseBackgroundColor = UIColor(named: "PrimaryGradientStart")
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
+            var a = attrs; a.font = UIFont.systemFont(ofSize: 18, weight: .semibold); return a
+        }
+        config.cornerStyle = .capsule
+        let btn = UIButton(configuration: config)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
 
-    private let activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let ai = UIActivityIndicatorView(style: .medium)
         ai.color = .white
         ai.hidesWhenStopped = true
@@ -121,7 +126,7 @@ final class ForgotPasswordViewController: UIViewController {
         return ai
     }()
 
-    private let backToSignInLabel: UILabel = {
+    private lazy var backToSignInLabel: UILabel = {
         let lbl = UILabel()
         let fullText = "Remember your password? Sign In"
         let attributed = NSMutableAttributedString(
@@ -131,9 +136,9 @@ final class ForgotPasswordViewController: UIViewController {
                 .foregroundColor: UIColor.white.withAlphaComponent(0.5)
             ]
         )
-        let purple = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 1.0)
-        if let range = fullText.range(of: "Sign In") {
-            attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(range, in: fullText))
+        let purple = UIColor(named: "PrimaryGradientStart") ?? .systemPurple
+        if let r = fullText.range(of: "Sign In") {
+            attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(r, in: fullText))
         }
         lbl.attributedText = attributed
         lbl.textAlignment = .center
@@ -142,32 +147,32 @@ final class ForgotPasswordViewController: UIViewController {
         return lbl
     }()
 
-    private let successView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0.09, green: 0.10, blue: 0.16, alpha: 1.0)
-        view.alpha = 0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var successView: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor(named: "AppBackground")
+        v.alpha = 0
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
     }()
 
-    private let successIconContainer: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 0.2)
-        view.layer.cornerRadius = 44
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var successIconContainer: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor(named: "PrimaryGradientStart")?.withAlphaComponent(0.2)
+        v.layer.cornerRadius = 44
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
     }()
 
-    private let successIconImageView: UIImageView = {
+    private lazy var successIconImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(systemName: "paperplane.fill")
-        iv.tintColor = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 1.0)
+        iv.tintColor = UIColor(named: "PrimaryGradientStart")
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
 
-    private let successTitleLabel: UILabel = {
+    private lazy var successTitleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Check Your Email"
         lbl.font = .systemFont(ofSize: 28, weight: .bold)
@@ -177,7 +182,7 @@ final class ForgotPasswordViewController: UIViewController {
         return lbl
     }()
 
-    private let successSubtitleLabel: UILabel = {
+    private lazy var successSubtitleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "We've sent a password reset link to your email address."
         lbl.font = .systemFont(ofSize: 16)
@@ -188,13 +193,16 @@ final class ForgotPasswordViewController: UIViewController {
         return lbl
     }()
 
-    private let backToLoginButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setTitle("Back to Sign In", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        btn.backgroundColor = UIColor(red: 0.42, green: 0.38, blue: 0.93, alpha: 1.0)
-        btn.layer.cornerRadius = 28
+    private lazy var backToLoginButton: UIButton = {
+        var config = UIButton.Configuration.filled()
+        config.title = "Back to Sign In"
+        config.baseForegroundColor = .white
+        config.baseBackgroundColor = UIColor(named: "PrimaryGradientStart")
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
+            var a = attrs; a.font = UIFont.systemFont(ofSize: 18, weight: .semibold); return a
+        }
+        config.cornerStyle = .capsule
+        let btn = UIButton(configuration: config)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -206,30 +214,8 @@ final class ForgotPasswordViewController: UIViewController {
         bindViewModel()
     }
 
-    private func bindViewModel() {
-        viewModel.onLoadingChanged = { [weak self] isLoading in
-            DispatchQueue.main.async {
-                isLoading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
-                self?.sendButton.isEnabled = !isLoading
-                self?.sendButton.alpha = isLoading ? 0.6 : 1.0
-            }
-        }
-
-        viewModel.onResetSuccess = { [weak self] in
-            DispatchQueue.main.async { self?.showSuccessState() }
-        }
-
-        viewModel.onError = { [weak self] message in
-            DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self?.present(alert, animated: true)
-            }
-        }
-    }
-
     private func setupUI() {
-        view.backgroundColor = UIColor(red: 0.09, green: 0.10, blue: 0.16, alpha: 1.0)
+        view.backgroundColor = UIColor(named: "AppBackground")
 
         view.addSubview(logoContainerView)
         logoContainerView.addSubview(logoImageView)
@@ -250,92 +236,75 @@ final class ForgotPasswordViewController: UIViewController {
         successView.addSubview(backToLoginButton)
 
         NSLayoutConstraint.activate([
-            // Logo container
             logoContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4),
-            logoContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -50),
+            logoContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -55),
             logoContainerView.widthAnchor.constraint(equalToConstant: 40),
             logoContainerView.heightAnchor.constraint(equalToConstant: 40),
 
-            // Logo image
             logoImageView.centerXAnchor.constraint(equalTo: logoContainerView.centerXAnchor),
             logoImageView.centerYAnchor.constraint(equalTo: logoContainerView.centerYAnchor),
             logoImageView.widthAnchor.constraint(equalToConstant: 22),
             logoImageView.heightAnchor.constraint(equalToConstant: 22),
 
-            // App name
             appNameLabel.centerYAnchor.constraint(equalTo: logoContainerView.centerYAnchor),
             appNameLabel.leadingAnchor.constraint(equalTo: logoContainerView.trailingAnchor, constant: 8),
 
-            // Lock icon container
             iconContainerView.topAnchor.constraint(equalTo: logoContainerView.bottomAnchor, constant: 32),
             iconContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             iconContainerView.widthAnchor.constraint(equalToConstant: 72),
             iconContainerView.heightAnchor.constraint(equalToConstant: 72),
 
-            // Lock icon image
             lockIconImageView.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
             lockIconImageView.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
             lockIconImageView.widthAnchor.constraint(equalToConstant: 36),
             lockIconImageView.heightAnchor.constraint(equalToConstant: 36),
 
-            // Title
             titleLabel.topAnchor.constraint(equalTo: iconContainerView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
 
-            // Subtitle
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             subtitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             subtitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
 
-            // Email field
             emailTextField.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 32),
             emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             emailTextField.heightAnchor.constraint(equalToConstant: 58),
 
-            // Send button
             sendButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
             sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             sendButton.heightAnchor.constraint(equalToConstant: 58),
 
-            // Activity indicator
             activityIndicator.centerXAnchor.constraint(equalTo: sendButton.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
 
-            // Back to sign in label
             backToSignInLabel.topAnchor.constraint(equalTo: sendButton.bottomAnchor, constant: 28),
             backToSignInLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            // Success view
             successView.topAnchor.constraint(equalTo: view.topAnchor),
             successView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             successView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             successView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            // Success icon container
             successIconContainer.centerXAnchor.constraint(equalTo: successView.centerXAnchor),
             successIconContainer.centerYAnchor.constraint(equalTo: successView.centerYAnchor, constant: -80),
             successIconContainer.widthAnchor.constraint(equalToConstant: 88),
             successIconContainer.heightAnchor.constraint(equalToConstant: 88),
 
-            // Success icon image
             successIconImageView.centerXAnchor.constraint(equalTo: successIconContainer.centerXAnchor),
             successIconImageView.centerYAnchor.constraint(equalTo: successIconContainer.centerYAnchor),
             successIconImageView.widthAnchor.constraint(equalToConstant: 44),
             successIconImageView.heightAnchor.constraint(equalToConstant: 44),
 
-            // Success title
             successTitleLabel.topAnchor.constraint(equalTo: successIconContainer.bottomAnchor, constant: 24),
             successTitleLabel.leadingAnchor.constraint(equalTo: successView.leadingAnchor, constant: 24),
             successTitleLabel.trailingAnchor.constraint(equalTo: successView.trailingAnchor, constant: -24),
 
-            // Success subtitle
             successSubtitleLabel.topAnchor.constraint(equalTo: successTitleLabel.bottomAnchor, constant: 12),
             successSubtitleLabel.leadingAnchor.constraint(equalTo: successView.leadingAnchor, constant: 32),
             successSubtitleLabel.trailingAnchor.constraint(equalTo: successView.trailingAnchor, constant: -32),
 
-            // Back to login button
             backToLoginButton.topAnchor.constraint(equalTo: successSubtitleLabel.bottomAnchor, constant: 40),
             backToLoginButton.leadingAnchor.constraint(equalTo: successView.leadingAnchor, constant: 24),
             backToLoginButton.trailingAnchor.constraint(equalTo: successView.trailingAnchor, constant: -24),
@@ -349,24 +318,39 @@ final class ForgotPasswordViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(backToSignInTapped))
         backToSignInLabel.addGestureRecognizer(tap)
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        dismissTap.cancelsTouchesInView = false
         view.addGestureRecognizer(dismissTap)
+    }
+
+    private func bindViewModel() {
+        viewModel.onLoadingChanged = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                isLoading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+                self?.sendButton.isEnabled = !isLoading
+                self?.sendButton.alpha = isLoading ? 0.6 : 1.0
+            }
+        }
+        viewModel.onResetSuccess = { [weak self] in
+            DispatchQueue.main.async { self?.showSuccessState() }
+        }
+        viewModel.onError = { [weak self] message in
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Xəta", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self?.present(alert, animated: true)
+            }
+        }
     }
 
     @objc private func sendTapped() {
         viewModel.resetPassword(email: emailTextField.text)
     }
 
-    @objc private func backToSignInTapped() {
-        onBackToSignIn?()
-    }
+    @objc private func backToSignInTapped() { onBackToSignIn?() }
 
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
+    @objc private func dismissKeyboard() { view.endEditing(true) }
 
     private func showSuccessState() {
-        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut) {
-            self.successView.alpha = 1
-        }
+        UIView.animate(withDuration: 0.4) { self.successView.alpha = 1 }
     }
 }
