@@ -10,7 +10,6 @@ import FirebaseAuth
 final class AppCoordinator: Coordinator {
 
     var navigationController: UINavigationController
-    private var authCoordinator: AuthCoordinator?
     private var authListenerHandle: AuthStateDidChangeListenerHandle?
     private var hasRouted = false
 
@@ -19,13 +18,14 @@ final class AppCoordinator: Coordinator {
     }
 
     func start() {
-        try? Auth.auth().signOut()
         authListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
             guard let self, !self.hasRouted else { return }
             self.hasRouted = true
             DispatchQueue.main.async {
                 if user != nil {
                     self.showMainApp()
+                } else if !UserDefaults.standard.bool(forKey: "hasSeenOnboarding") {
+                    self.showOnboarding()
                 } else {
                     self.showAuth()
                 }
@@ -33,9 +33,14 @@ final class AppCoordinator: Coordinator {
         }
     }
 
+    private func showOnboarding() {
+        let coordinator = OnboardingCoordinator(navigationController: navigationController)
+        coordinator.start()
+    }
+
     private func showAuth() {
-        authCoordinator = AuthCoordinator(navigationController: navigationController)
-        authCoordinator?.start()
+        let coordinator = AuthCoordinator(navigationController: navigationController)
+        coordinator.start()
     }
 
     private func showMainApp() {
@@ -43,7 +48,7 @@ final class AppCoordinator: Coordinator {
             Auth.auth().removeStateDidChangeListener(handle)
             authListenerHandle = nil
         }
-        let tabBarCoordinator = TabBarCoordinator(navigationController: navigationController)
-        tabBarCoordinator.start()
+        let coordinator = TabBarCoordinator(navigationController: navigationController)
+        coordinator.start()
     }
 }
