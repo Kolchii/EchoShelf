@@ -8,8 +8,8 @@ import UIKit
 
 enum HomeSection: Int, CaseIterable {
     case continueListening
-    case genres
     case trending
+    case genres
     case recommended
 }
 
@@ -52,7 +52,7 @@ final class HomeViewController: UIViewController {
     private var trendingItems: Int {
         switch selectedTab {
         case .audiobooks: return viewModel.trendingAudiobooks.count
-        case .books:      return viewModel.trendingEbooks.count
+        case .books, .genres: return viewModel.trendingEbooks.count
         case .kids:       return viewModel.trendingKidsEbooks.count
         }
     }
@@ -60,7 +60,7 @@ final class HomeViewController: UIViewController {
     private var recommendedItems: Int {
         switch selectedTab {
         case .audiobooks: return viewModel.recommendedAudiobooks.count
-        case .books:      return viewModel.recommendedEbooks.count
+        case .books, .genres: return viewModel.recommendedEbooks.count
         case .kids:       return viewModel.recommendedKidsEbooks.count
         }
     }
@@ -108,8 +108,10 @@ private extension HomeViewController {
 
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
+        case 0:  selectedTab = .audiobooks
         case 1:  selectedTab = .books
         case 2:  selectedTab = .kids
+        case 3:  selectedTab = .genres
         default: selectedTab = .audiobooks
         }
     }
@@ -119,6 +121,7 @@ private extension HomeViewController {
         case .audiobooks: segmentControl.selectedSegmentIndex = 0
         case .books:      segmentControl.selectedSegmentIndex = 1
         case .kids:       segmentControl.selectedSegmentIndex = 2
+        case .genres:     segmentControl.selectedSegmentIndex = 3
         }
     }
 
@@ -179,9 +182,9 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch HomeSection(rawValue: section)! {
         case .continueListening: return 1
-        case .genres:            return genres.count
         case .trending:          return trendingItems
         case .recommended:       return recommendedItems
+        case .genres:            return genres.count
         }
     }
 
@@ -204,7 +207,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingBookCell.identifier, for: indexPath) as! TrendingBookCell
                 cell.configure(with: viewModel.trendingAudiobooks[indexPath.item])
                 return cell
-            case .books:
+            case .books, .genres:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookTrendingCell.identifier, for: indexPath) as! EbookTrendingCell
                 cell.configure(with: viewModel.trendingEbooks[indexPath.item])
                 return cell
@@ -220,7 +223,7 @@ extension HomeViewController: UICollectionViewDataSource {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedBookCell.identifier, for: indexPath) as! RecommendedBookCell
                 cell.configure(with: viewModel.recommendedAudiobooks[indexPath.item])
                 return cell
-            case .books:
+            case .books, .genres:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookRecommendedCell.identifier, for: indexPath) as! EbookRecommendedCell
                 cell.configure(with: viewModel.recommendedEbooks[indexPath.item])
                 return cell
@@ -261,13 +264,13 @@ extension HomeViewController: UICollectionViewDelegate {
         case .trending:
             switch selectedTab {
             case .audiobooks: coordinator?.showBookDetail(book: viewModel.trendingAudiobooks[indexPath.item])
-            case .books:      coordinator?.showEbookDetail(ebook: viewModel.trendingEbooks[indexPath.item])
+            case .books, .genres: coordinator?.showEbookDetail(ebook: viewModel.trendingEbooks[indexPath.item])
             case .kids:       coordinator?.showEbookDetail(ebook: viewModel.trendingKidsEbooks[indexPath.item])
             }
         case .recommended:
             switch selectedTab {
             case .audiobooks: coordinator?.showBookDetail(book: viewModel.recommendedAudiobooks[indexPath.item])
-            case .books:      coordinator?.showEbookDetail(ebook: viewModel.recommendedEbooks[indexPath.item])
+            case .books, .genres: coordinator?.showEbookDetail(ebook: viewModel.recommendedEbooks[indexPath.item])
             case .kids:       coordinator?.showEbookDetail(ebook: viewModel.recommendedKidsEbooks[indexPath.item])
             }
         case .genres:

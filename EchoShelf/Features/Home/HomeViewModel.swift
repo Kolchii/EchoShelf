@@ -10,6 +10,7 @@ enum HomeTab {
     case audiobooks
     case books
     case kids
+    case genres
 }
 
 final class HomeViewModel {
@@ -96,5 +97,8 @@ final class HomeViewModel {
     var recommendedEbooks: [Ebook] { Array(ebooks.dropFirst(10).prefix(10)) }
 
     var trendingKidsEbooks: [Ebook] { Array(kidsEbooks.prefix(10)) }
-    var recommendedKidsEbooks: [Ebook] { Array(kidsEbooks.dropFirst(10).prefix(10)) }
+    var recommendedKidsEbooks: [Ebook] { Array(kidsEbooks.dropFirst(10).prefix(10))
+        
+        
+    }
 }
