@@ -47,7 +47,7 @@ final class ForgotPasswordViewController: UIViewController {
 
     private lazy var iconContainerView: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(named: "PrimaryGradientStart")?.withAlphaComponent(0.2)
+        v.backgroundColor = AppColor.accentPurple.withAlphaComponent(0.2)
         v.layer.cornerRadius = 36
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -75,7 +75,7 @@ final class ForgotPasswordViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "Enter your email and we'll send you a reset link."
         lbl.font = .systemFont(ofSize: 16)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.6)
+        lbl.textColor = AppColor.onDarkSecondary
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -85,7 +85,7 @@ final class ForgotPasswordViewController: UIViewController {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Email Address",
-            attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
+            attributes: [.foregroundColor: AppColor.tabTextInactive]
         )
         tf.textColor = .white
         tf.backgroundColor = UIColor(named: "TextFieldBackground")
@@ -96,7 +96,7 @@ final class ForgotPasswordViewController: UIViewController {
         tf.translatesAutoresizingMaskIntoConstraints = false
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 24))
         let icon = UIImageView(image: UIImage(systemName: "envelope"))
-        icon.tintColor = UIColor.white.withAlphaComponent(0.5)
+        icon.tintColor = AppColor.tabTextInactive
         icon.frame = CGRect(x: 16, y: 0, width: 22, height: 24)
         icon.contentMode = .scaleAspectFit
         container.addSubview(icon)
@@ -133,10 +133,10 @@ final class ForgotPasswordViewController: UIViewController {
             string: fullText,
             attributes: [
                 .font: UIFont.systemFont(ofSize: 14),
-                .foregroundColor: UIColor.white.withAlphaComponent(0.5)
+                .foregroundColor: AppColor.tabTextInactive
             ]
         )
-        let purple = UIColor(named: "PrimaryGradientStart") ?? .systemPurple
+        let purple = AppColor.accentPurple
         if let r = fullText.range(of: "Sign In") {
             attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(r, in: fullText))
         }
@@ -157,7 +157,7 @@ final class ForgotPasswordViewController: UIViewController {
 
     private lazy var successIconContainer: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(named: "PrimaryGradientStart")?.withAlphaComponent(0.2)
+        v.backgroundColor = AppColor.accentPurple.withAlphaComponent(0.2)
         v.layer.cornerRadius = 44
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -186,7 +186,7 @@ final class ForgotPasswordViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "We've sent a password reset link to your email address."
         lbl.font = .systemFont(ofSize: 16)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.6)
+        lbl.textColor = AppColor.onDarkSecondary
         lbl.textAlignment = .center
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false

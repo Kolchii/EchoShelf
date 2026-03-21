@@ -37,10 +37,10 @@ final class HomeViewController: UIViewController {
     private lazy var segmentControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Audiobooks", "Books", "Kids", "Genres"])
         sc.selectedSegmentIndex = 0
-        sc.selectedSegmentTintColor = .systemPurple
-        sc.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-        sc.setTitleTextAttributes([.foregroundColor: UIColor.white.withAlphaComponent(0.6)], for: .normal)
-        sc.backgroundColor = UIColor.white.withAlphaComponent(0.06)
+        sc.selectedSegmentTintColor = AppColor.accentPurple
+        sc.setTitleTextAttributes([.foregroundColor: AppColor.onDarkPrimary], for: .selected)
+        sc.setTitleTextAttributes([.foregroundColor: AppColor.onDarkSecondary], for: .normal)
+        sc.backgroundColor = AppColor.fillGlass
         sc.translatesAutoresizingMaskIntoConstraints = false
         return sc
     }()

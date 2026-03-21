@@ -34,10 +34,10 @@ final class ProfileViewController: UIViewController {
 
     private let avatarContainer: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(hex: "#1E3A5F")
+        v.backgroundColor = AppColor.profileAvatarBackground
         v.layer.cornerRadius = 40
         v.layer.borderWidth = 2
-        v.layer.borderColor = UIColor(hex: "#4A90E2").withAlphaComponent(0.5).cgColor
+        v.layer.borderColor = AppColor.accentBlue.withAlphaComponent(0.5).cgColor
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -45,7 +45,7 @@ final class ProfileViewController: UIViewController {
     private let initialsLabel: UILabel = {
         let l = UILabel()
         l.font = .systemFont(ofSize: 26, weight: .bold)
-        l.textColor = UIColor(hex: "#4A90E2")
+        l.textColor = AppColor.accentBlue
         l.textAlignment = .center
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -54,7 +54,7 @@ final class ProfileViewController: UIViewController {
     private let nameLabel: UILabel = {
         let l = UILabel()
         l.font = .systemFont(ofSize: 20, weight: .bold)
-        l.textColor = .white
+        l.textColor = AppColor.onDarkPrimary
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -62,7 +62,7 @@ final class ProfileViewController: UIViewController {
     private let emailLabel: UILabel = {
         let l = UILabel()
         l.font = .systemFont(ofSize: 13)
-        l.textColor = UIColor(white: 1, alpha: 0.5)
+        l.textColor = AppColor.tabTextInactive
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -71,7 +71,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "#0D1117")
+        view.backgroundColor = AppColor.screenBackground
         title = "Profil"
         navigationController?.navigationBar.prefersLargeTitles = false
         setupScrollView()
@@ -138,17 +138,17 @@ final class ProfileViewController: UIViewController {
     private func setupSections() {
         let sections: [(title: String, rows: [(icon: String, iconBg: String, title: String, detail: String?, action: () -> Void)])] = [
             ("ACCOUNT", [
-                ("person.fill", "#3A6BC4", "Şəxsi Məlumat", nil, { [weak self] in self?.showSettings() }),
-                ("lock.fill", "#5C4BC4", "Şifrə və Təhlükəsizlik", nil, { [weak self] in self?.showSettings() }),
-                ("creditcard.fill", "#2E7D52", "Abunəlik", "Aktiv", { [weak self] in self?.showSettings() })
+                ("person.fill", "IconBlue", "Şəxsi Məlumat", nil, { [weak self] in self?.showSettings() }),
+                ("lock.fill", "IconPurple", "Şifrə və Təhlükəsizlik", nil, { [weak self] in self?.showSettings() }),
+                ("creditcard.fill", "IconGreen", "Abunəlik", "Aktiv", { [weak self] in self?.showSettings() })
             ]),
             ("YADDAŞ", [
-                ("internaldrive.fill", "#C47B2E", "Yaddaş və Keş", nil, { [weak self] in self?.showStorageCache() })
+                ("internaldrive.fill", "IconOrange", "Yaddaş və Keş", nil, { [weak self] in self?.showStorageCache() })
             ]),
             ("HAQQINDA", [
-                ("info.circle.fill", "#555", "Versiya", Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0", {}),
-                ("doc.text.fill", "#555", "İstifadə Şərtləri", nil, {}),
-                ("hand.raised.fill", "#555", "Məxfilik Siyasəti", nil, {})
+                ("info.circle.fill", "IconGray", "Versiya", Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0", {}),
+                ("doc.text.fill", "IconGray", "İstifadə Şərtləri", nil, {}),
+                ("hand.raised.fill", "IconGray", "Məxfilik Siyasəti", nil, {})
             ])
         ]
 
@@ -213,17 +213,17 @@ final class ProfileViewController: UIViewController {
         let l = UILabel()
         l.text = text
         l.font = .systemFont(ofSize: 11, weight: .semibold)
-        l.textColor = UIColor(white: 1, alpha: 0.35)
+        l.textColor = AppColor.onDarkCaption
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }
 
     private func makeCard() -> UIView {
         let v = UIView()
-        v.backgroundColor = UIColor(hex: "#161B22")
+        v.backgroundColor = AppColor.elevatedSurface
         v.layer.cornerRadius = 14
         v.layer.borderWidth = 0.5
-        v.layer.borderColor = UIColor(white: 1, alpha: 0.07).cgColor
+        v.layer.borderColor = AppColor.borderHairline.cgColor
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }
@@ -237,12 +237,12 @@ final class ProfileViewController: UIViewController {
         container.addTarget(self, action: #selector(rowUnhighlight(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel])
 
         let iconBg2 = UIView()
-        iconBg2.backgroundColor = UIColor(hex: iconBg).withAlphaComponent(0.2)
+        iconBg2.backgroundColor = (UIColor(named: iconBg) ?? AppColor.accentBlue).withAlphaComponent(0.2)
         iconBg2.layer.cornerRadius = 8
         iconBg2.translatesAutoresizingMaskIntoConstraints = false
 
         let iconImg = UIImageView(image: UIImage(systemName: icon))
-        iconImg.tintColor = UIColor(hex: iconBg)
+        iconImg.tintColor = UIColor(named: iconBg) ?? AppColor.accentBlue
         iconImg.contentMode = .scaleAspectFit
         iconImg.translatesAutoresizingMaskIntoConstraints = false
 
@@ -253,7 +253,7 @@ final class ProfileViewController: UIViewController {
         titleLbl.translatesAutoresizingMaskIntoConstraints = false
 
         let chevron = UIImageView(image: UIImage(systemName: "chevron.right"))
-        chevron.tintColor = UIColor(white: 1, alpha: 0.3)
+        chevron.tintColor = AppColor.onDarkChevron
         chevron.contentMode = .scaleAspectFit
         chevron.translatesAutoresizingMaskIntoConstraints = false
 
@@ -286,7 +286,7 @@ final class ProfileViewController: UIViewController {
             let detailLbl = UILabel()
             detailLbl.text = detail
             detailLbl.font = .systemFont(ofSize: 13)
-            detailLbl.textColor = UIColor(white: 1, alpha: 0.4)
+            detailLbl.textColor = AppColor.onDarkDetail
             detailLbl.translatesAutoresizingMaskIntoConstraints = false
             container.addSubview(detailLbl)
             NSLayoutConstraint.activate([
@@ -297,7 +297,7 @@ final class ProfileViewController: UIViewController {
 
         if showDivider {
             let div = UIView()
-            div.backgroundColor = UIColor(white: 1, alpha: 0.06)
+            div.backgroundColor = AppColor.dividerRow
             div.translatesAutoresizingMaskIntoConstraints = false
             container.addSubview(div)
             NSLayoutConstraint.activate([
@@ -316,12 +316,12 @@ final class ProfileViewController: UIViewController {
         config.title = "Çıxış"
         config.image = UIImage(systemName: "rectangle.portrait.and.arrow.right")
         config.imagePadding = 8
-        config.baseBackgroundColor = UIColor.systemRed.withAlphaComponent(0.1)
-        config.baseForegroundColor = .systemRed
+        config.baseBackgroundColor = AppColor.iconRed.withAlphaComponent(0.1)
+        config.baseForegroundColor = AppColor.iconRed
         config.cornerStyle = .large
         let btn = UIButton(configuration: config)
         btn.layer.borderWidth = 0.5
-        btn.layer.borderColor = UIColor.systemRed.withAlphaComponent(0.3).cgColor
+        btn.layer.borderColor = AppColor.iconRed.withAlphaComponent(0.3).cgColor
         btn.layer.cornerRadius = 14
         btn.layer.masksToBounds = true
         btn.translatesAutoresizingMaskIntoConstraints = false

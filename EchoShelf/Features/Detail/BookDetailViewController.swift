@@ -45,7 +45,7 @@ final class BookDetailViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "NOW PLAYING"
         lbl.font = .systemFont(ofSize: 13, weight: .semibold)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.6)
+        lbl.textColor = AppColor.onDarkSecondary
         lbl.textAlignment = .center
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -65,7 +65,7 @@ final class BookDetailViewController: UIViewController {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 24
-        iv.backgroundColor = UIColor.white.withAlphaComponent(0.08)
+        iv.backgroundColor = AppColor.fillGlassMedium
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -73,7 +73,7 @@ final class BookDetailViewController: UIViewController {
     private let titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 26, weight: .bold)
-        lbl.textColor = .white
+        lbl.textColor = AppColor.onDarkPrimary
         lbl.textAlignment = .center
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +82,7 @@ final class BookDetailViewController: UIViewController {
     private let authorLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 16, weight: .semibold)
-        lbl.textColor = UIColor.systemPurple
+        lbl.textColor = AppColor.accentPurple
         lbl.textAlignment = .center
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -92,7 +92,7 @@ final class BookDetailViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "—"
         lbl.font = .systemFont(ofSize: 17, weight: .bold)
-        lbl.textColor = .white
+        lbl.textColor = AppColor.onDarkPrimary
         lbl.textAlignment = .center
         return lbl
     }()
@@ -106,8 +106,8 @@ final class BookDetailViewController: UIViewController {
     private let downloadButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "arrow.down.circle"), for: .normal)
-        btn.tintColor = .white
-        btn.backgroundColor = UIColor.white.withAlphaComponent(0.08)
+        btn.tintColor = AppColor.onDarkPrimary
+        btn.backgroundColor = AppColor.fillGlassMedium
         btn.layer.cornerRadius = 28
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -115,7 +115,7 @@ final class BookDetailViewController: UIViewController {
 
     private let inLibraryBadge: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(hex: "#2D5A27").withAlphaComponent(0.9)
+        v.backgroundColor = AppColor.inLibraryBadgeGreen.withAlphaComponent(0.9)
         v.layer.cornerRadius = 12
         v.isHidden = true
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -125,15 +125,15 @@ final class BookDetailViewController: UIViewController {
     private let inLibraryLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 11, weight: .semibold)
-        lbl.textColor = .white
+        lbl.textColor = AppColor.onDarkPrimary
         lbl.text = "✓  In Library"
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
     private let listenButton: UIButton = {
         var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = .systemPurple
-        config.baseForegroundColor = .white
+        config.baseBackgroundColor = AppColor.accentPurple
+        config.baseForegroundColor = AppColor.onDarkPrimary
         config.cornerStyle = .capsule
         config.image = UIImage(systemName: "play.fill")
         config.imagePlacement = .leading
@@ -149,8 +149,8 @@ final class BookDetailViewController: UIViewController {
     private let favoriteButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "heart"), for: .normal)
-        btn.tintColor = .white
-        btn.backgroundColor = UIColor.white.withAlphaComponent(0.08)
+        btn.tintColor = AppColor.onDarkPrimary
+        btn.backgroundColor = AppColor.fillGlassMedium
         btn.layer.cornerRadius = 28
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -158,7 +158,7 @@ final class BookDetailViewController: UIViewController {
 
     private let aiSummaryContainer: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        v.backgroundColor = AppColor.fillGlass
         v.layer.cornerRadius = 20
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -166,10 +166,10 @@ final class BookDetailViewController: UIViewController {
     private let aiHeaderLabel: UILabel = {
         let lbl = UILabel()
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "sparkles")?.withTintColor(.systemPurple)
+        attachment.image = UIImage(systemName: "sparkles")?.withTintColor(AppColor.accentPurple)
         let attrStr = NSMutableAttributedString(attachment: attachment)
         attrStr.append(NSAttributedString(string: "  AI Summary Highlights",
-            attributes: [.font: UIFont.systemFont(ofSize: 16, weight: .bold), .foregroundColor: UIColor.white]))
+            attributes: [.font: UIFont.systemFont(ofSize: 16, weight: .bold), .foregroundColor: AppColor.onDarkPrimary]))
         lbl.attributedText = attrStr
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -186,14 +186,14 @@ final class BookDetailViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "Description"
         lbl.font = .systemFont(ofSize: 18, weight: .bold)
-        lbl.textColor = .white
+        lbl.textColor = AppColor.onDarkPrimary
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
     private let descriptionLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 14)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.7)
+        lbl.textColor = AppColor.onDarkText70
         lbl.numberOfLines = 4
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -201,7 +201,7 @@ final class BookDetailViewController: UIViewController {
     private let readMoreButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setTitle("Read more", for: .normal)
-        btn.setTitleColor(UIColor.systemPurple, for: .normal)
+        btn.setTitleColor(AppColor.accentPurple, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -339,9 +339,9 @@ extension BookDetailViewController {
         let divider1 = makeDivider()
         let divider2 = makeDivider()
 
-        let ratingItem   = makeStatItem(value: "4.8",  label: "RATING",   icon: "star.fill", iconColor: .systemYellow)
+        let ratingItem   = makeStatItem(value: "4.8",  label: "RATING",   icon: "star.fill", iconColor: AppColor.ratingStarYellow)
         let durationItem = makeDurationStatItem()
-        let languageItem = makeStatItem(value: "EN",   label: "LANGUAGE", icon: "globe",     iconColor: .systemBlue)
+        let languageItem = makeStatItem(value: "EN",   label: "LANGUAGE", icon: "globe",     iconColor: AppColor.languageIconBlue)
 
         [ratingItem, divider1, durationItem, divider2, languageItem].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -493,14 +493,14 @@ extension BookDetailViewController {
         let numberLabel = UILabel()
         numberLabel.text = String(format: "%02d", number)
         numberLabel.font = .systemFont(ofSize: 13, weight: .bold)
-        numberLabel.textColor = UIColor.systemPurple
+        numberLabel.textColor = AppColor.accentPurple
         numberLabel.translatesAutoresizingMaskIntoConstraints = false
         numberLabel.setContentHuggingPriority(.required, for: .horizontal)
 
         let textLabel = UILabel()
         textLabel.text = text
         textLabel.font = .systemFont(ofSize: 14)
-        textLabel.textColor = UIColor.white.withAlphaComponent(0.8)
+        textLabel.textColor = AppColor.onDarkText80
         textLabel.numberOfLines = 0
         textLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -513,7 +513,7 @@ extension BookDetailViewController {
 
     func makeDurationStatItem() -> UIStackView {
         let iconImage = UIImageView(image: UIImage(systemName: "clock"))
-        iconImage.tintColor = .systemPurple
+        iconImage.tintColor = AppColor.accentPurple
         iconImage.contentMode = .scaleAspectFit
         iconImage.translatesAutoresizingMaskIntoConstraints = false
         iconImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
@@ -522,7 +522,7 @@ extension BookDetailViewController {
         let titleLbl = UILabel()
         titleLbl.text = "DURATION"
         titleLbl.font = .systemFont(ofSize: 10, weight: .medium)
-        titleLbl.textColor = UIColor.white.withAlphaComponent(0.4)
+        titleLbl.textColor = AppColor.onDarkDetail
         titleLbl.textAlignment = .center
 
         let stack = UIStackView(arrangedSubviews: [iconImage, durationValueLabel, titleLbl])
@@ -543,13 +543,13 @@ extension BookDetailViewController {
         let valueLabel = UILabel()
         valueLabel.text = value
         valueLabel.font = .systemFont(ofSize: 17, weight: .bold)
-        valueLabel.textColor = .white
+        valueLabel.textColor = AppColor.onDarkPrimary
         valueLabel.textAlignment = .center
 
         let titleLabel = UILabel()
         titleLabel.text = label
         titleLabel.font = .systemFont(ofSize: 10, weight: .medium)
-        titleLabel.textColor = UIColor.white.withAlphaComponent(0.4)
+        titleLabel.textColor = AppColor.onDarkDetail
         titleLabel.textAlignment = .center
 
         let stack = UIStackView(arrangedSubviews: [iconImage, valueLabel, titleLabel])
@@ -561,7 +561,7 @@ extension BookDetailViewController {
 
     func makeDivider() -> UIView {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        v.backgroundColor = AppColor.fillGlassStrong
         return v
     }
 }
@@ -631,12 +631,12 @@ extension BookDetailViewController {
         case .audiobook:
             let isSaved = LibraryManager.shared.isDownloaded(id: String(viewModel.book.id.value))
             downloadButton.setImage(UIImage(systemName: isSaved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
-            downloadButton.tintColor = isSaved ? UIColor(hex: "#4CAF50") : .white
+            downloadButton.tintColor = isSaved ? AppColor.successGreen : AppColor.onDarkPrimary
             downloadButton.isUserInteractionEnabled = !isSaved
         case .ebook(let ebook):
             let isSaved = LibraryManager.shared.isDownloaded(id: ebook.id)
             downloadButton.setImage(UIImage(systemName: isSaved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
-            downloadButton.tintColor = isSaved ? UIColor(hex: "#4CAF50") : .white
+            downloadButton.tintColor = isSaved ? AppColor.successGreen : AppColor.onDarkPrimary
             downloadButton.isUserInteractionEnabled = !isSaved
         }
     }
@@ -660,7 +660,7 @@ extension BookDetailViewController {
 
         let isSaved = LibraryManager.shared.isDownloaded(id: String(viewModel.book.id.value))
         downloadButton.setImage(UIImage(systemName: isSaved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
-        downloadButton.tintColor = isSaved ? UIColor(hex: "#4CAF50") : .white
+        downloadButton.tintColor = isSaved ? AppColor.successGreen : AppColor.onDarkPrimary
         downloadButton.isUserInteractionEnabled = !isSaved
 
         UIView.animate(withDuration: 0.2, animations: {
@@ -679,7 +679,7 @@ extension BookDetailViewController {
 
     func updateFavoriteButton() {
         let isFav = viewModel.isFavorited(bookType: bookType)
-        favoriteButton.tintColor = isFav ? .systemPink : .white
+        favoriteButton.tintColor = isFav ? AppColor.favoriteActivePink : AppColor.onDarkPrimary
         favoriteButton.setImage(UIImage(systemName: isFav ? "heart.fill" : "heart"), for: .normal)
     }
 

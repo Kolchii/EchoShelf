@@ -23,7 +23,7 @@ final class LibraryViewController: UIViewController {
 
     private let lampGlow: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(hex: "#F5A623").withAlphaComponent(0.07)
+        v.backgroundColor = AppColor.libraryAccentOrange.withAlphaComponent(0.07)
         v.layer.cornerRadius = 120
         v.translatesAutoresizingMaskIntoConstraints = false
         v.isUserInteractionEnabled = false
@@ -32,7 +32,7 @@ final class LibraryViewController: UIViewController {
 
     private let lampIcon: UIImageView = {
         let iv = UIImageView(image: UIImage(systemName: "lamp.desk.fill"))
-        iv.tintColor   = UIColor(hex: "#F5A623").withAlphaComponent(0.45)
+        iv.tintColor   = AppColor.libraryAccentOrange.withAlphaComponent(0.45)
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.isUserInteractionEnabled = false
@@ -74,9 +74,9 @@ private extension LibraryViewController {
         view.backgroundColor = UIColor(named: "AppBackground")
 
         wallGradient.colors = [
-            UIColor(hex: "#1A0E06").cgColor,
-            UIColor(hex: "#241508").cgColor,
-            UIColor(hex: "#1A0E06").cgColor,
+            AppColor.libraryShelfGradientStart.cgColor,
+            AppColor.libraryShelfGradientMid.cgColor,
+            AppColor.libraryShelfGradientStart.cgColor,
         ]
         wallGradient.locations = [0, 0.5, 1]
         wallGradient.startPoint = CGPoint(x: 0, y: 0)
@@ -145,7 +145,7 @@ private extension LibraryViewController {
         let titleLabel = UILabel()
         titleLabel.text      = "My Library"
         titleLabel.font      = .systemFont(ofSize: 28, weight: .bold)
-        titleLabel.textColor = UIColor(hex: "#E8D5B0")
+        titleLabel.textColor = AppColor.libraryTitleGold
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
 

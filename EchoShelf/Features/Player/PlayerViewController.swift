@@ -34,8 +34,8 @@ final class PlayerViewController: UIViewController {
 
     private func setupGradient() {
         gradientLayer.colors = [
-            UIColor(red: 20/255, green: 18/255, blue: 60/255, alpha: 1).cgColor,
-            UIColor(red: 10/255, green: 10/255, blue: 35/255, alpha: 1).cgColor
+            AppColor.playerGradientTop.cgColor,
+            AppColor.playerGradientBottom.cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
@@ -44,46 +44,46 @@ final class PlayerViewController: UIViewController {
 
     private func setupUI() {
 
-        coverView.backgroundColor = UIColor.white.withAlphaComponent(0.08)
+        coverView.backgroundColor = AppColor.fillGlassMedium
         coverView.layer.cornerRadius = 24
         coverView.translatesAutoresizingMaskIntoConstraints = false
 
         coverIcon.image = UIImage(systemName: "building.columns.fill")
-        coverIcon.tintColor = .white
+        coverIcon.tintColor = AppColor.onDarkPrimary
         coverIcon.translatesAutoresizingMaskIntoConstraints = false
         coverView.addSubview(coverIcon)
 
         titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
-        titleLabel.textColor = .white
+        titleLabel.textColor = AppColor.onDarkPrimary
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         authorLabel.font = .systemFont(ofSize: 16)
-        authorLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+        authorLabel.textColor = AppColor.onDarkText70
         authorLabel.textAlignment = .center
         authorLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        progressSlider.minimumTrackTintColor = .systemPurple
-        progressSlider.maximumTrackTintColor = UIColor.white.withAlphaComponent(0.2)
+        progressSlider.minimumTrackTintColor = AppColor.accentPurple
+        progressSlider.maximumTrackTintColor = AppColor.sliderTrackMaximum
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
 
-        currentTimeLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+        currentTimeLabel.textColor = AppColor.onDarkText70
         currentTimeLabel.font = .systemFont(ofSize: 13)
         currentTimeLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        durationLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+        durationLabel.textColor = AppColor.onDarkText70
         durationLabel.font = .systemFont(ofSize: 13)
         durationLabel.translatesAutoresizingMaskIntoConstraints = false
 
         playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-        playButton.tintColor = .white
-        playButton.backgroundColor = .systemPurple
+        playButton.tintColor = AppColor.onDarkPrimary
+        playButton.backgroundColor = AppColor.accentPurple
         playButton.layer.cornerRadius = 35
         playButton.translatesAutoresizingMaskIntoConstraints = false
 
         closeButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-        closeButton.tintColor = .white
+        closeButton.tintColor = AppColor.onDarkPrimary
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
 

@@ -74,7 +74,7 @@ final class SignInViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "Sign in to continue your listening journey."
         lbl.font = .systemFont(ofSize: 16)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.6)
+        lbl.textColor = AppColor.onDarkSecondary
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -84,7 +84,7 @@ final class SignInViewController: UIViewController {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Email Address",
-            attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
+            attributes: [.foregroundColor: AppColor.tabTextInactive]
         )
         tf.textColor = .white
         tf.backgroundColor = UIColor(named: "TextFieldBackground")
@@ -95,7 +95,7 @@ final class SignInViewController: UIViewController {
         tf.translatesAutoresizingMaskIntoConstraints = false
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 24))
         let icon = UIImageView(image: UIImage(systemName: "envelope"))
-        icon.tintColor = UIColor.white.withAlphaComponent(0.5)
+        icon.tintColor = AppColor.tabTextInactive
         icon.frame = CGRect(x: 16, y: 0, width: 22, height: 24)
         icon.contentMode = .scaleAspectFit
         container.addSubview(icon)
@@ -107,7 +107,7 @@ final class SignInViewController: UIViewController {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Password",
-            attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
+            attributes: [.foregroundColor: AppColor.tabTextInactive]
         )
         tf.textColor = .white
         tf.backgroundColor = UIColor(named: "TextFieldBackground")
@@ -118,14 +118,14 @@ final class SignInViewController: UIViewController {
         tf.translatesAutoresizingMaskIntoConstraints = false
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 24))
         let lockIcon = UIImageView(image: UIImage(systemName: "lock"))
-        lockIcon.tintColor = UIColor.white.withAlphaComponent(0.5)
+        lockIcon.tintColor = AppColor.tabTextInactive
         lockIcon.frame = CGRect(x: 16, y: 0, width: 22, height: 24)
         lockIcon.contentMode = .scaleAspectFit
         container.addSubview(lockIcon)
         tf.leftView = container
         let eyeButton = UIButton(type: .system)
         eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
-        eyeButton.tintColor = UIColor.white.withAlphaComponent(0.5)
+        eyeButton.tintColor = AppColor.tabTextInactive
         eyeButton.frame = CGRect(x: 0, y: 0, width: 48, height: 24)
         eyeButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         tf.rightView = eyeButton
@@ -135,7 +135,7 @@ final class SignInViewController: UIViewController {
     private lazy var forgotPasswordButton: UIButton = {
         var config = UIButton.Configuration.plain()
         config.title = "Forgot Password?"
-        config.baseForegroundColor = UIColor.white.withAlphaComponent(0.7)
+        config.baseForegroundColor = AppColor.onDarkText70
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
             var a = attrs; a.font = UIFont.systemFont(ofSize: 14); return a
         }
@@ -170,7 +170,7 @@ final class SignInViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "OR"
         lbl.font = .systemFont(ofSize: 13, weight: .medium)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.4)
+        lbl.textColor = AppColor.onDarkDetail
         lbl.textAlignment = .center
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -178,14 +178,14 @@ final class SignInViewController: UIViewController {
 
     private lazy var leftDivider: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.15)
+        v.backgroundColor = AppColor.glassPanel
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
 
     private lazy var rightDivider: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.15)
+        v.backgroundColor = AppColor.glassPanel
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -234,14 +234,14 @@ final class SignInViewController: UIViewController {
         var config = UIButton.Configuration.filled()
         config.title = "Create Account"
         config.baseForegroundColor = .white
-        config.baseBackgroundColor = UIColor.white.withAlphaComponent(0.05)
+        config.baseBackgroundColor = AppColor.fillGlass
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
             var a = attrs; a.font = UIFont.systemFont(ofSize: 17, weight: .semibold); return a
         }
         config.cornerStyle = .capsule
         let btn = UIButton(configuration: config)
         btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor.white.withAlphaComponent(0.25).cgColor
+        btn.layer.borderColor = AppColor.storageSecondaryBar.cgColor
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -257,10 +257,10 @@ final class SignInViewController: UIViewController {
             string: fullText,
             attributes: [
                 .font: UIFont.systemFont(ofSize: 13),
-                .foregroundColor: UIColor.white.withAlphaComponent(0.5)
+                .foregroundColor: AppColor.tabTextInactive
             ]
         )
-        let purple = UIColor(named: "PrimaryGradientStart") ?? .systemPurple
+        let purple = AppColor.accentPurple
         if let r = fullText.range(of: "Terms of Service") {
             attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(r, in: fullText))
         }

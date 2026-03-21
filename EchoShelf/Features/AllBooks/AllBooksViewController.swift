@@ -24,7 +24,7 @@ final class AllBooksViewController: UIViewController {
 
     private let activityIndicator: UIActivityIndicatorView = {
         let ai = UIActivityIndicatorView(style: .large)
-        ai.color = .systemPurple
+        ai.color = AppColor.accentPurple
         ai.translatesAutoresizingMaskIntoConstraints = false
         ai.hidesWhenStopped = true
         return ai
@@ -51,7 +51,7 @@ final class AllBooksViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        navigationController?.navigationBar.tintColor = .systemPurple
+        navigationController?.navigationBar.tintColor = AppColor.accentPurple
         navigationController?.navigationBar.titleTextAttributes = [
             .foregroundColor: UIColor.white
         ]
@@ -180,7 +180,7 @@ final class LoadingFooterView: UICollectionReusableView {
 
     private let spinner: UIActivityIndicatorView = {
         let ai = UIActivityIndicatorView(style: .medium)
-        ai.color = .systemPurple
+        ai.color = AppColor.accentPurple
         ai.translatesAutoresizingMaskIntoConstraints = false
         ai.hidesWhenStopped = true
         return ai

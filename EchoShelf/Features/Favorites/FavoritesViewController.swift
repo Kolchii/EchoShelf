@@ -15,7 +15,7 @@ final class FavoritesViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "Favorites"
         lbl.font = .systemFont(ofSize: 28, weight: .bold)
-        lbl.textColor = .white
+        lbl.textColor = AppColor.onDarkPrimary
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -23,10 +23,10 @@ final class FavoritesViewController: UIViewController {
     private lazy var segmentControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: FavoriteSection.allCases.map { $0.title })
         sc.selectedSegmentIndex = 0
-        sc.selectedSegmentTintColor = .systemPurple
-        sc.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-        sc.setTitleTextAttributes([.foregroundColor: UIColor.white.withAlphaComponent(0.5)], for: .normal)
-        sc.backgroundColor = UIColor.white.withAlphaComponent(0.06)
+        sc.selectedSegmentTintColor = AppColor.accentPurple
+        sc.setTitleTextAttributes([.foregroundColor: AppColor.onDarkPrimary], for: .selected)
+        sc.setTitleTextAttributes([.foregroundColor: AppColor.tabTextInactive], for: .normal)
+        sc.backgroundColor = AppColor.fillGlass
         sc.translatesAutoresizingMaskIntoConstraints = false
         return sc
     }()
@@ -254,20 +254,20 @@ final class FavoritesEmptyView: UIView {
 
     private func setupUI() {
         let iconView = UIImageView(image: UIImage(systemName: "heart.slash"))
-        iconView.tintColor = UIColor.white.withAlphaComponent(0.2)
+        iconView.tintColor = AppColor.sliderTrackMaximum
         iconView.contentMode = .scaleAspectFit
         iconView.translatesAutoresizingMaskIntoConstraints = false
 
         let label = UILabel()
         label.text = "No favorites yet"
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = UIColor.white.withAlphaComponent(0.4)
+        label.textColor = AppColor.onDarkDetail
         label.translatesAutoresizingMaskIntoConstraints = false
 
         let subLabel = UILabel()
         subLabel.text = "Items you favorite will appear here"
         subLabel.font = .systemFont(ofSize: 13)
-        subLabel.textColor = UIColor.white.withAlphaComponent(0.25)
+        subLabel.textColor = AppColor.onDarkText25
         subLabel.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(iconView)

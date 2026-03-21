@@ -73,7 +73,7 @@ final class CreateAccountViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "Start your listening journey today."
         lbl.font = .systemFont(ofSize: 16)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.6)
+        lbl.textColor = AppColor.onDarkSecondary
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -83,7 +83,7 @@ final class CreateAccountViewController: UIViewController {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Full Name",
-            attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
+            attributes: [.foregroundColor: AppColor.tabTextInactive]
         )
         tf.textColor = .white
         tf.backgroundColor = UIColor(named: "TextFieldBackground")
@@ -93,7 +93,7 @@ final class CreateAccountViewController: UIViewController {
         tf.translatesAutoresizingMaskIntoConstraints = false
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 24))
         let icon = UIImageView(image: UIImage(systemName: "person"))
-        icon.tintColor = UIColor.white.withAlphaComponent(0.5)
+        icon.tintColor = AppColor.tabTextInactive
         icon.frame = CGRect(x: 16, y: 0, width: 22, height: 24)
         icon.contentMode = .scaleAspectFit
         container.addSubview(icon)
@@ -105,7 +105,7 @@ final class CreateAccountViewController: UIViewController {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Email Address",
-            attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
+            attributes: [.foregroundColor: AppColor.tabTextInactive]
         )
         tf.textColor = .white
         tf.backgroundColor = UIColor(named: "TextFieldBackground")
@@ -116,7 +116,7 @@ final class CreateAccountViewController: UIViewController {
         tf.translatesAutoresizingMaskIntoConstraints = false
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 24))
         let icon = UIImageView(image: UIImage(systemName: "envelope"))
-        icon.tintColor = UIColor.white.withAlphaComponent(0.5)
+        icon.tintColor = AppColor.tabTextInactive
         icon.frame = CGRect(x: 16, y: 0, width: 22, height: 24)
         icon.contentMode = .scaleAspectFit
         container.addSubview(icon)
@@ -128,7 +128,7 @@ final class CreateAccountViewController: UIViewController {
         let tf = UITextField()
         tf.attributedPlaceholder = NSAttributedString(
             string: "Password",
-            attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
+            attributes: [.foregroundColor: AppColor.tabTextInactive]
         )
         tf.textColor = .white
         tf.backgroundColor = UIColor(named: "TextFieldBackground")
@@ -139,14 +139,14 @@ final class CreateAccountViewController: UIViewController {
         tf.translatesAutoresizingMaskIntoConstraints = false
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 24))
         let lockIcon = UIImageView(image: UIImage(systemName: "lock"))
-        lockIcon.tintColor = UIColor.white.withAlphaComponent(0.5)
+        lockIcon.tintColor = AppColor.tabTextInactive
         lockIcon.frame = CGRect(x: 16, y: 0, width: 22, height: 24)
         lockIcon.contentMode = .scaleAspectFit
         container.addSubview(lockIcon)
         tf.leftView = container
         let eyeButton = UIButton(type: .system)
         eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
-        eyeButton.tintColor = UIColor.white.withAlphaComponent(0.5)
+        eyeButton.tintColor = AppColor.tabTextInactive
         eyeButton.frame = CGRect(x: 0, y: 0, width: 48, height: 24)
         eyeButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         tf.rightView = eyeButton
@@ -179,7 +179,7 @@ final class CreateAccountViewController: UIViewController {
         let lbl = UILabel()
         lbl.text = "OR"
         lbl.font = .systemFont(ofSize: 13, weight: .medium)
-        lbl.textColor = UIColor.white.withAlphaComponent(0.4)
+        lbl.textColor = AppColor.onDarkDetail
         lbl.textAlignment = .center
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -187,14 +187,14 @@ final class CreateAccountViewController: UIViewController {
 
     private lazy var leftDivider: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.15)
+        v.backgroundColor = AppColor.glassPanel
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
 
     private lazy var rightDivider: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.15)
+        v.backgroundColor = AppColor.glassPanel
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -246,10 +246,10 @@ final class CreateAccountViewController: UIViewController {
             string: fullText,
             attributes: [
                 .font: UIFont.systemFont(ofSize: 14),
-                .foregroundColor: UIColor.white.withAlphaComponent(0.5)
+                .foregroundColor: AppColor.tabTextInactive
             ]
         )
-        let purple = UIColor(named: "PrimaryGradientStart") ?? .systemPurple
+        let purple = AppColor.accentPurple
         if let r = fullText.range(of: "Sign In") {
             attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(r, in: fullText))
         }
@@ -271,10 +271,10 @@ final class CreateAccountViewController: UIViewController {
             string: fullText,
             attributes: [
                 .font: UIFont.systemFont(ofSize: 13),
-                .foregroundColor: UIColor.white.withAlphaComponent(0.5)
+                .foregroundColor: AppColor.tabTextInactive
             ]
         )
-        let purple = UIColor(named: "PrimaryGradientStart") ?? .systemPurple
+        let purple = AppColor.accentPurple
         if let r = fullText.range(of: "Terms of Service") {
             attributed.addAttribute(.foregroundColor, value: purple, range: NSRange(r, in: fullText))
         }

@@ -17,9 +17,9 @@ final class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "#0D1117")
+        view.backgroundColor = AppColor.screenBackground
         title = "Tənzimləmələr"
-        navigationController?.navigationBar.tintColor = UIColor(hex: "#4A90E2")
+        navigationController?.navigationBar.tintColor = AppColor.accentBlue
         setupScrollView()
         setupSections()
         setupFooter()
@@ -48,32 +48,32 @@ final class SettingsViewController: UIViewController {
 
         // ACCOUNT
         lastBottom = addSection(title: "HESAB", rows: [
-            makeNavRow(icon: "person.fill", iconBg: "#3A6BC4", title: "Şəxsi Məlumat") {},
-            makeNavRow(icon: "lock.fill", iconBg: "#5C4BC4", title: "Şifrə və Təhlükəsizlik") {},
-            makeNavRow(icon: "creditcard.fill", iconBg: "#2E7D52", title: "Abunəlik", detail: "Aktiv") {}
+            makeNavRow(icon: "person.fill", iconBg: "IconBlue", title: "Şəxsi Məlumat") {},
+            makeNavRow(icon: "lock.fill", iconBg: "IconPurple", title: "Şifrə və Təhlükəsizlik") {},
+            makeNavRow(icon: "creditcard.fill", iconBg: "IconGreen", title: "Abunəlik", detail: "Aktiv") {}
         ], topAnchor: lastBottom, topSpacing: 20)
 
         // PLAYBACK
-        let autoPlayToggle = makeToggleRow(icon: "play.circle.fill", iconBg: "#C47B2E", title: "Avtomatik oynat", isOn: autoPlayEnabled) { [weak self] val in
+        let autoPlayToggle = makeToggleRow(icon: "play.circle.fill", iconBg: "IconOrange", title: "Avtomatik oynat", isOn: autoPlayEnabled) { [weak self] val in
             self?.autoPlayEnabled = val
         }
-        let audioQualityRow = makeNavRow(icon: "hifi.speaker.fill", iconBg: "#E2724A", title: "Audio Keyfiyyəti", detail: "Yüksək (Lossless)") { [weak self] in
+        let audioQualityRow = makeNavRow(icon: "hifi.speaker.fill", iconBg: "IconOrangeSoft", title: "Audio Keyfiyyəti", detail: "Yüksək (Lossless)") { [weak self] in
             self?.showAudioQualityPicker()
         }
         lastBottom = addSection(title: "OXUTMA", rows: [autoPlayToggle, audioQualityRow], topAnchor: lastBottom, topSpacing: 24)
 
         // STORAGE
-        let autoDownloadToggle = makeToggleRow(icon: "arrow.down.circle.fill", iconBg: "#2E7D52", title: "Avtomatik yüklə", isOn: autoDownloadEnabled) { [weak self] val in
+        let autoDownloadToggle = makeToggleRow(icon: "arrow.down.circle.fill", iconBg: "IconGreen", title: "Avtomatik yüklə", isOn: autoDownloadEnabled) { [weak self] val in
             self?.autoDownloadEnabled = val
         }
-        let clearCacheRow = makeNavRow(icon: "trash.fill", iconBg: "#8E3A3A", title: "Keşi təmizlə", detail: "1.2 GB") { [weak self] in
+        let clearCacheRow = makeNavRow(icon: "trash.fill", iconBg: "IconDarkRed", title: "Keşi təmizlə", detail: "1.2 GB") { [weak self] in
             self?.confirmClearCache()
         }
         lastBottom = addSection(title: "YADDAŞ", rows: [autoDownloadToggle, clearCacheRow], topAnchor: lastBottom, topSpacing: 24)
 
         // NOTIFICATIONS
         lastBottom = addSection(title: "BİLDİRİŞLƏR", rows: [
-            makeNavRow(icon: "bell.fill", iconBg: "#C43A3A", title: "Push Bildirişlər") {}
+            makeNavRow(icon: "bell.fill", iconBg: "IconRed", title: "Push Bildirişlər") {}
         ], topAnchor: lastBottom, topSpacing: 24)
 
         // ABOUT
@@ -81,8 +81,8 @@ final class SettingsViewController: UIViewController {
         let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
         lastBottom = addSection(title: "HAQQINDA", rows: [
             makeInfoRow(title: "Versiya", detail: "\(version) (\(build))"),
-            makeNavRow(icon: "doc.text.fill", iconBg: "#555", title: "İstifadə Şərtləri") {},
-            makeNavRow(icon: "hand.raised.fill", iconBg: "#555", title: "Məxfilik Siyasəti") {}
+            makeNavRow(icon: "doc.text.fill", iconBg: "IconGray", title: "İstifadə Şərtləri") {},
+            makeNavRow(icon: "hand.raised.fill", iconBg: "IconGray", title: "Məxfilik Siyasəti") {}
         ], topAnchor: lastBottom, topSpacing: 24)
 
         NSLayoutConstraint.activate([
@@ -137,7 +137,7 @@ final class SettingsViewController: UIViewController {
         let footerLbl = UILabel()
         footerLbl.text = "Daxil olunub: \(email)"
         footerLbl.font = .systemFont(ofSize: 12)
-        footerLbl.textColor = UIColor(white: 1, alpha: 0.3)
+        footerLbl.textColor = AppColor.onDarkFooter
         footerLbl.textAlignment = .center
         footerLbl.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(footerLbl)
@@ -156,10 +156,10 @@ final class SettingsViewController: UIViewController {
         container.addTarget(self, action: #selector(rowHighlight(_:)), for: .touchDown)
         container.addTarget(self, action: #selector(rowUnhighlight(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel])
 
-        let iconBgView = makeIconBg(icon: icon, color: iconBg)
+        let iconBgView = makeIconBg(icon: icon, iconTintAsset: iconBg)
         let titleLbl = makeRowTitle(title)
         let chevron = UIImageView(image: UIImage(systemName: "chevron.right"))
-        chevron.tintColor = UIColor(white: 1, alpha: 0.3)
+        chevron.tintColor = AppColor.onDarkChevron
         chevron.contentMode = .scaleAspectFit
         chevron.translatesAutoresizingMaskIntoConstraints = false
 
@@ -184,7 +184,7 @@ final class SettingsViewController: UIViewController {
             let detailLbl = UILabel()
             detailLbl.text = detail
             detailLbl.font = .systemFont(ofSize: 13)
-            detailLbl.textColor = UIColor(white: 1, alpha: 0.4)
+            detailLbl.textColor = AppColor.onDarkDetail
             detailLbl.translatesAutoresizingMaskIntoConstraints = false
             container.addSubview(detailLbl)
             NSLayoutConstraint.activate([
@@ -199,11 +199,11 @@ final class SettingsViewController: UIViewController {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
 
-        let iconBgView = makeIconBg(icon: icon, color: iconBg)
+        let iconBgView = makeIconBg(icon: icon, iconTintAsset: iconBg)
         let titleLbl = makeRowTitle(title)
         let toggle = UISwitch()
         toggle.isOn = isOn
-        toggle.onTintColor = UIColor(hex: "#4A90E2")
+        toggle.onTintColor = AppColor.accentBlue
         toggle.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         toggle.translatesAutoresizingMaskIntoConstraints = false
         toggle.addAction(UIAction { _ in onChange(toggle.isOn) }, for: .valueChanged)
@@ -229,11 +229,11 @@ final class SettingsViewController: UIViewController {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
         let titleLbl = makeRowTitle(title)
-        titleLbl.textColor = UIColor(white: 1, alpha: 0.6)
+        titleLbl.textColor = AppColor.onDarkSecondary
         let detailLbl = UILabel()
         detailLbl.text = detail
         detailLbl.font = .systemFont(ofSize: 14)
-        detailLbl.textColor = UIColor(white: 1, alpha: 0.4)
+        detailLbl.textColor = AppColor.onDarkDetail
         detailLbl.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(titleLbl)
         container.addSubview(detailLbl)
@@ -248,13 +248,14 @@ final class SettingsViewController: UIViewController {
 
     // MARK: - Shared Helpers
 
-    private func makeIconBg(icon: String, color: String) -> UIView {
+    private func makeIconBg(icon: String, iconTintAsset: String) -> UIView {
         let bg = UIView()
-        bg.backgroundColor = UIColor(hex: color).withAlphaComponent(0.2)
+        let base = UIColor(named: iconTintAsset) ?? AppColor.accentBlue
+        bg.backgroundColor = base.withAlphaComponent(0.2)
         bg.layer.cornerRadius = 8
         bg.translatesAutoresizingMaskIntoConstraints = false
         let img = UIImageView(image: UIImage(systemName: icon))
-        img.tintColor = UIColor(hex: color)
+        img.tintColor = base
         img.contentMode = .scaleAspectFit
         img.translatesAutoresizingMaskIntoConstraints = false
         bg.addSubview(img)
@@ -271,7 +272,7 @@ final class SettingsViewController: UIViewController {
         let l = UILabel()
         l.text = text
         l.font = .systemFont(ofSize: 15)
-        l.textColor = .white
+        l.textColor = AppColor.onDarkPrimary
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }
@@ -280,24 +281,24 @@ final class SettingsViewController: UIViewController {
         let l = UILabel()
         l.text = text
         l.font = .systemFont(ofSize: 11, weight: .semibold)
-        l.textColor = UIColor(white: 1, alpha: 0.35)
+        l.textColor = AppColor.onDarkCaption
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }
 
     private func makeCard() -> UIView {
         let v = UIView()
-        v.backgroundColor = UIColor(hex: "#161B22")
+        v.backgroundColor = AppColor.elevatedSurface
         v.layer.cornerRadius = 14
         v.layer.borderWidth = 0.5
-        v.layer.borderColor = UIColor(white: 1, alpha: 0.07).cgColor
+        v.layer.borderColor = AppColor.borderHairline.cgColor
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }
 
     private func makeDivider() -> UIView {
         let v = UIView()
-        v.backgroundColor = UIColor(white: 1, alpha: 0.06)
+        v.backgroundColor = AppColor.dividerRow
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }

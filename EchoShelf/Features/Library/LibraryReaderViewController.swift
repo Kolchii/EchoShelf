@@ -22,7 +22,7 @@ final class LibraryReaderViewController: UIViewController {
 
     private let errorIcon: UIImageView = {
         let iv = UIImageView(image: UIImage(systemName: "exclamationmark.circle"))
-        iv.tintColor    = UIColor.white.withAlphaComponent(0.3)
+        iv.tintColor    = AppColor.onDarkChevron
         iv.contentMode  = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
@@ -31,7 +31,7 @@ final class LibraryReaderViewController: UIViewController {
     private let errorLabel: UILabel = {
         let lbl = UILabel()
         lbl.font          = .systemFont(ofSize: 15)
-        lbl.textColor     = UIColor.white.withAlphaComponent(0.6)
+        lbl.textColor     = AppColor.onDarkSecondary
         lbl.textAlignment = .center
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +41,7 @@ final class LibraryReaderViewController: UIViewController {
     private let pageLabel: UILabel = {
         let lbl = UILabel()
         lbl.font          = .systemFont(ofSize: 12, weight: .medium)
-        lbl.textColor     = UIColor.white.withAlphaComponent(0.4)
+        lbl.textColor     = AppColor.onDarkDetail
         lbl.textAlignment = .center
         lbl.isHidden      = true
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ final class LibraryReaderViewController: UIViewController {
 
     private let loadingIndicator: UIActivityIndicatorView = {
         let ai = UIActivityIndicatorView(style: .medium)
-        ai.color = UIColor.white.withAlphaComponent(0.5)
+        ai.color = AppColor.tabTextInactive
         ai.translatesAutoresizingMaskIntoConstraints = false
         return ai
     }()

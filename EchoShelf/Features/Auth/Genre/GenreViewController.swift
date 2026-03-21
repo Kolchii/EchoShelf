@@ -30,7 +30,7 @@ final class GenreViewController: UIViewController {
     private let backButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        btn.tintColor = .white
+        btn.tintColor = AppColor.onDarkPrimary
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -38,14 +38,14 @@ final class GenreViewController: UIViewController {
     private let titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 22, weight: .bold)
-        lbl.textColor = .white
+        lbl.textColor = AppColor.onDarkPrimary
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
 
     private let tabContainer: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.06)
+        v.backgroundColor = AppColor.fillGlass
         v.layer.cornerRadius = 14
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -53,7 +53,7 @@ final class GenreViewController: UIViewController {
 
     private let tabIndicator: UIView = {
         let v = UIView()
-        v.backgroundColor = .systemPurple
+        v.backgroundColor = AppColor.accentPurple
         v.layer.cornerRadius = 11
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -63,7 +63,7 @@ final class GenreViewController: UIViewController {
         let btn = UIButton(type: .system)
         btn.setTitle("Audiobooks", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        btn.tintColor = .white
+        btn.tintColor = AppColor.onDarkPrimary
         btn.tag = 0
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -73,7 +73,7 @@ final class GenreViewController: UIViewController {
         let btn = UIButton(type: .system)
         btn.setTitle("Books", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        btn.tintColor = UIColor.white.withAlphaComponent(0.5)
+        btn.tintColor = AppColor.tabTextInactive
         btn.tag = 1
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -81,7 +81,7 @@ final class GenreViewController: UIViewController {
 
     private let loadingFooter: UIActivityIndicatorView = {
         let ai = UIActivityIndicatorView(style: .medium)
-        ai.color = .systemPurple
+        ai.color = AppColor.accentPurple
         return ai
     }()
 
@@ -221,8 +221,8 @@ private extension GenreViewController {
             self.indicatorLeading.constant = isAudio ? 3 : 120
             self.tabContainer.layoutIfNeeded()
         }
-        audiobooksTabBtn.tintColor = isAudio ? .white : UIColor.white.withAlphaComponent(0.5)
-        booksTabBtn.tintColor      = isAudio ? UIColor.white.withAlphaComponent(0.5) : .white
+        audiobooksTabBtn.tintColor = isAudio ? AppColor.onDarkPrimary : AppColor.tabTextInactive
+        booksTabBtn.tintColor      = isAudio ? AppColor.tabTextInactive : AppColor.onDarkPrimary
     }
 }
 

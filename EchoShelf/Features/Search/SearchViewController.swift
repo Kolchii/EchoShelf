@@ -43,7 +43,7 @@ final class SearchViewController: UIViewController {
 
     private let tabContainer: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.white.withAlphaComponent(0.06)
+        v.backgroundColor = AppColor.fillGlass
         v.layer.cornerRadius = 14
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -51,7 +51,7 @@ final class SearchViewController: UIViewController {
 
     private let tabIndicator: UIView = {
         let v = UIView()
-        v.backgroundColor = .systemPurple
+        v.backgroundColor = AppColor.accentPurple
         v.layer.cornerRadius = 11
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -61,7 +61,7 @@ final class SearchViewController: UIViewController {
         let btn = UIButton(type: .system)
         btn.setTitle("Audiobooks", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        btn.tintColor = .white
+        btn.tintColor = AppColor.onDarkPrimary
         btn.tag = 0
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -71,7 +71,7 @@ final class SearchViewController: UIViewController {
         let btn = UIButton(type: .system)
         btn.setTitle("Books", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        btn.tintColor = UIColor.white.withAlphaComponent(0.5)
+        btn.tintColor = AppColor.tabTextInactive
         btn.tag = 1
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -81,7 +81,7 @@ final class SearchViewController: UIViewController {
         let btn = UIButton(type: .system)
         btn.setTitle("Kids", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        btn.tintColor = UIColor.white.withAlphaComponent(0.5)
+        btn.tintColor = AppColor.tabTextInactive
         btn.tag = 2
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -92,7 +92,7 @@ final class SearchViewController: UIViewController {
     private let emptyLabel: UILabel = {
         let label = UILabel()
         label.text = "No results found"
-        label.textColor = UIColor.white.withAlphaComponent(0.6)
+        label.textColor = AppColor.onDarkSecondary
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.isHidden = true
@@ -261,9 +261,9 @@ private extension SearchViewController {
             self.indicatorLeading.constant = offset
             self.tabContainer.layoutIfNeeded()
         }
-        audiobooksTabBtn.tintColor = selectedTab == .audiobooks ? .white : UIColor.white.withAlphaComponent(0.5)
-        booksTabBtn.tintColor      = selectedTab == .books       ? .white : UIColor.white.withAlphaComponent(0.5)
-        kidsTabBtn.tintColor       = selectedTab == .kids        ? .white : UIColor.white.withAlphaComponent(0.5)
+        audiobooksTabBtn.tintColor = selectedTab == .audiobooks ? AppColor.onDarkPrimary : AppColor.tabTextInactive
+        booksTabBtn.tintColor      = selectedTab == .books       ? AppColor.onDarkPrimary : AppColor.tabTextInactive
+        kidsTabBtn.tintColor       = selectedTab == .kids        ? AppColor.onDarkPrimary : AppColor.tabTextInactive
     }
 
     func updateEmptyState() {
