@@ -1,4 +1,3 @@
-
 import UIKit
 import AuthenticationServices
 import FirebaseAuth
