@@ -6,7 +6,7 @@
 //
 
 import XCTest
-
+@testable import EchoShelf
 final class EchoShelfUITests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -29,6 +29,9 @@ final class EchoShelfUITests: XCTestCase {
         app.launch()
 
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    func testOnboardingPage() throws {
+        XCTAssertFalse(sut.pages.count,6)
     }
 
     @MainActor

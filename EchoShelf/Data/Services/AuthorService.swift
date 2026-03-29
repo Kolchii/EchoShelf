@@ -7,7 +7,7 @@
 import Foundation
 import Alamofire
 
-struct OpenLibraryAuthor: Decodable {
+struct OpenLibraryAuthor: nonisolated Decodable {
     let key: String
     let name: String
     let birthDate: String?
@@ -42,7 +42,7 @@ enum OpenLibraryBio: Decodable {
     }
 }
 
-struct OpenLibrarySearchResponse: Decodable {
+struct OpenLibrarySearchResponse: nonisolated Decodable {
     let docs: [OpenLibrarySearchDoc]
 }
 
@@ -65,7 +65,6 @@ struct AuthorDetail {
 }
 
 final class AuthorService {
-
     static let shared = AuthorService()
     private init() {}
 

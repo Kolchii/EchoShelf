@@ -6,6 +6,10 @@
 //
 import Foundation
 
-final class AuthorDetailViewModel: {
+final class AuthorDetailViewModel {
+    var author: Author
     
+    init(author: Author) {
+        self.author = author
+    }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct AudiobooksResponse: Decodable {
+struct AudiobooksResponse: nonisolated Decodable {
     let books: [Audiobook]
 }
 
