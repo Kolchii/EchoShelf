@@ -39,7 +39,18 @@
 		86C006452F4B2B2000123293 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 86C006442F4B2B2000123293 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		864136BD2F79406600EADB72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8660C1562F48F2DC003E8EFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8660C15D2F48F2DC003E8EFD;
+			remoteInfo = EchoShelf;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		864136B72F79406600EADB72 /* EchoShelfUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EchoShelfUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8660C15E2F48F2DC003E8EFD /* EchoShelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoShelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		866612DF2F633DBC00884E1E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		869177132F631A26006A159C /* EchoShelf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = EchoShelf.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -56,6 +67,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		864136B82F79406600EADB72 /* EchoShelfUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EchoShelfUITests;
+			sourceTree = "<group>";
+		};
 		8660C1602F48F2DC003E8EFD /* EchoShelf */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -67,6 +83,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		864136B42F79406600EADB72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8660C15B2F48F2DC003E8EFD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -111,6 +134,7 @@
 			children = (
 				869177132F631A26006A159C /* EchoShelf.xcodeproj */,
 				8660C1602F48F2DC003E8EFD /* EchoShelf */,
+				864136B82F79406600EADB72 /* EchoShelfUITests */,
 				8660C1BE2F493050003E8EFD /* Frameworks */,
 				8660C15F2F48F2DC003E8EFD /* Products */,
 				866612DF2F633DBC00884E1E /* GoogleService-Info.plist */,
@@ -121,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				8660C15E2F48F2DC003E8EFD /* EchoShelf.app */,
+				864136B72F79406600EADB72 /* EchoShelfUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,6 +165,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		864136B62F79406600EADB72 /* EchoShelfUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 864136C12F79406600EADB72 /* Build configuration list for PBXNativeTarget "EchoShelfUITests" */;
+			buildPhases = (
+				864136B32F79406600EADB72 /* Sources */,
+				864136B42F79406600EADB72 /* Frameworks */,
+				864136B52F79406600EADB72 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				864136BE2F79406600EADB72 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				864136B82F79406600EADB72 /* EchoShelfUITests */,
+			);
+			name = EchoShelfUITests;
+			packageProductDependencies = (
+			);
+			productName = EchoShelfUITests;
+			productReference = 864136B72F79406600EADB72 /* EchoShelfUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		8660C15D2F48F2DC003E8EFD /* EchoShelf */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8660C1712F48F2DD003E8EFD /* Build configuration list for PBXNativeTarget "EchoShelf" */;
@@ -198,9 +246,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2620;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					864136B62F79406600EADB72 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 8660C15D2F48F2DC003E8EFD;
+					};
 					8660C15D2F48F2DC003E8EFD = {
 						CreatedOnToolsVersion = 26.2;
 					};
@@ -234,11 +286,19 @@
 			projectRoot = "";
 			targets = (
 				8660C15D2F48F2DC003E8EFD /* EchoShelf */,
+				864136B62F79406600EADB72 /* EchoShelfUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		864136B52F79406600EADB72 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8660C15C2F48F2DC003E8EFD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +310,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		864136B32F79406600EADB72 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8660C15A2F48F2DC003E8EFD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -259,7 +326,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		864136BE2F79406600EADB72 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8660C15D2F48F2DC003E8EFD /* EchoShelf */;
+			targetProxy = 864136BD2F79406600EADB72 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		864136BF2F79406600EADB72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kolchi.EchoShelfUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EchoShelf;
+			};
+			name = Debug;
+		};
+		864136C02F79406600EADB72 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kolchi.EchoShelfUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EchoShelf;
+			};
+			name = Release;
+		};
 		8660C1722F48F2DD003E8EFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -454,6 +567,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		864136C12F79406600EADB72 /* Build configuration list for PBXNativeTarget "EchoShelfUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				864136BF2F79406600EADB72 /* Debug */,
+				864136C02F79406600EADB72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8660C1592F48F2DC003E8EFD /* Build configuration list for PBXProject "EchoShelf" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
