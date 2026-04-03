@@ -19,7 +19,8 @@ final class MainTabBarController: UITabBarController {
         v.layer.shadowColor = UIColor.black.cgColor
         v.layer.shadowOpacity = 0.25
         v.layer.shadowRadius = 10
-        v.layer.shadowOffset = CGSize(width: 0, height: -3)
+        v.layer.shadowOffset = CGSize(width: 0,
+                                      height: -3)
         v.translatesAutoresizingMaskIntoConstraints = false
         v.isHidden = true
         return v
