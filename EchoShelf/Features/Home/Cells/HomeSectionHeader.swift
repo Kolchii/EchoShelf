@@ -8,7 +8,8 @@ final class HomeSectionHeaderView: UICollectionReusableView {
 
     private let titleLabel: UILabel = {
         let l = UILabel()
-        l.font = .systemFont(ofSize: 22, weight: .bold)
+        l.font = .systemFont(ofSize: 22,
+                             weight: .bold)
         l.textColor = .white
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -17,8 +18,10 @@ final class HomeSectionHeaderView: UICollectionReusableView {
     private let actionButton: UIButton = {
         let b = UIButton(type: .system)
         b.setTitle("View all", for: .normal)
-        b.setTitleColor(UIColor(named: "PrimaryGradientStart")!, for: .normal)
-        b.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        b.setTitleColor(UIColor(named: "PrimaryGradientStart")!,
+                        for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 14,
+                                         weight: .semibold)
         b.translatesAutoresizingMaskIntoConstraints = false
         return b
     }()
@@ -37,12 +40,15 @@ final class HomeSectionHeaderView: UICollectionReusableView {
             actionButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
         ])
 
-        actionButton.addTarget(self, action: #selector(viewAllTapped), for: .touchUpInside)
+        actionButton.addTarget(self,
+                               action: #selector(viewAllTapped),
+                               for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) { fatalError() }
 
-    func configure(_ title: String, showViewAll: Bool = true) {
+    func configure(_ title: String,
+                   showViewAll: Bool = true) {
         titleLabel.text = title
         actionButton.isHidden = !showViewAll
     }

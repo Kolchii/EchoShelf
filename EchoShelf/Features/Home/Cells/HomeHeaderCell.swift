@@ -65,11 +65,13 @@ final class HomeHeaderCell: UICollectionViewCell {
             avatarIcon.centerXAnchor.constraint(equalTo: avatarView.centerXAnchor),
             avatarIcon.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor),
 
-            greetingLabel.leadingAnchor.constraint(equalTo: avatarView.trailingAnchor, constant: 14),
+            greetingLabel.leadingAnchor.constraint(equalTo: avatarView.trailingAnchor,
+                                                   constant: 14),
             greetingLabel.topAnchor.constraint(equalTo: avatarView.topAnchor),
 
             nameLabel.leadingAnchor.constraint(equalTo: greetingLabel.leadingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor, constant: 2)
+            nameLabel.topAnchor.constraint(equalTo: greetingLabel.bottomAnchor,
+                                           constant: 2)
         ])
     }
 
@@ -83,12 +85,17 @@ final class HomeHeaderCell: UICollectionViewCell {
     
 
     static func timeBasedGreeting() -> String {
-        let hour = Calendar.current.component(.hour, from: Date())
+        let hour = Calendar.current.component(.hour,
+                                              from: Date())
         switch hour {
-        case 5..<12:  return "Good Morning,"
-        case 12..<17: return "Good Afternoon,"
-        case 17..<21: return "Good Evening,"
-        default:      return "Good Night,"
+        case 5..<12:  
+            return "Good Morning,"
+        case 12..<17:
+            return "Good Afternoon,"
+        case 17..<21:
+            return "Good Evening,"
+        default:    
+            return "Good Night,"
         }
     }
 

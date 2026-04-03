@@ -11,7 +11,8 @@ final class HomeHeaderView: UIView {
     private let greetingLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Good Morning,"
-        lbl.font = .systemFont(ofSize: 13, weight: .medium)
+        lbl.font = .systemFont(ofSize: 13,
+                               weight: .medium)
         lbl.textColor = UIColor.white.withAlphaComponent(0.6)
         return lbl
     }()
@@ -19,14 +20,16 @@ final class HomeHeaderView: UIView {
     private let nameLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Alex."
-        lbl.font = .systemFont(ofSize: 28, weight: .bold)
+        lbl.font = .systemFont(ofSize: 28,
+                               weight: .bold)
         lbl.textColor = .white
         return lbl
     }()
 
     private let searchButton: UIButton = {
         let b = UIButton(type: .system)
-        b.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        b.setImage(UIImage(systemName: "magnifyingglass"),
+                   for: .normal)
         b.tintColor = .black
         b.backgroundColor = .white
         b.layer.cornerRadius = 20
@@ -55,9 +58,12 @@ final class HomeHeaderView: UIView {
         searchButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            hStack.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            hStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            hStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            hStack.topAnchor.constraint(equalTo: topAnchor,
+                                        constant: 10),
+            hStack.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                            constant: 20),
+            hStack.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                             constant: -20),
             hStack.bottomAnchor.constraint(equalTo: bottomAnchor),
 
             searchButton.widthAnchor.constraint(equalToConstant: 40),

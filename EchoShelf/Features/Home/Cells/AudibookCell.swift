@@ -23,7 +23,8 @@ final class AudiobookCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 16, weight: .bold)
+        lbl.font = .systemFont(ofSize: 16,
+                               weight: .bold)
         lbl.textColor = .white
         lbl.numberOfLines = 2
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +34,8 @@ final class AudiobookCell: UITableViewCell {
     private let authorLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 14)
-        lbl.textColor = UIColor(white: 1, alpha: 0.7)
+        lbl.textColor = UIColor(white: 1,
+                                alpha: 0.7)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -46,8 +48,10 @@ final class AudiobookCell: UITableViewCell {
         return s
     }()
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(style: UITableViewCell.CellStyle,
+                  reuseIdentifier: String?) {
+        super.init(style: style,
+                   reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         selectionStyle = .none
         setupUI()
@@ -63,13 +67,18 @@ final class AudiobookCell: UITableViewCell {
         textStack.addArrangedSubview(authorLabel)
 
         NSLayoutConstraint.activate([
-            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            coverImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            coverImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                    constant: 16),
+            coverImageView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                constant: 12),
+            coverImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                   constant: -12),
             coverImageView.widthAnchor.constraint(equalToConstant: 70),
 
-            textStack.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
-            textStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            textStack.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor,
+                                               constant: 16),
+            textStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                constant: -16),
             textStack.centerYAnchor.constraint(equalTo: coverImageView.centerYAnchor)
         ])
     }

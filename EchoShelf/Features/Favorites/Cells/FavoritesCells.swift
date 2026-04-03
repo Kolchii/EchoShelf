@@ -177,7 +177,8 @@ final class FavoriteAuthorCell: UICollectionViewCell {
 
             subLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             subLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor,
-                                          
+                                          constant: 4)
+        ])
     }
 
     func configure(with author: Author) {
@@ -200,19 +201,26 @@ final class FavoriteGenreCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 15, weight: .bold)
+        lbl.font = .systemFont(ofSize: 15,
+                               weight: .bold)
         lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-
+//Assetsden cagirmaliyam
     private let genreColors: [[UIColor]] = [
-        [UIColor(hex: "#6C5CE7"), UIColor(hex: "#4834D4")],
-        [UIColor(hex: "#E55039"), UIColor(hex: "#E74C3C")],
-        [UIColor(hex: "#00B894"), UIColor(hex: "#00897B")],
-        [UIColor(hex: "#F39C12"), UIColor(hex: "#E67E22")],
-        [UIColor(hex: "#A855F7"), UIColor(hex: "#7C3AED")],
-        [UIColor(hex: "#3B82F6"), UIColor(hex: "#2563EB")]
+        [UIColor(hex: "#6C5CE7"),
+         UIColor(hex: "#4834D4")],
+        [UIColor(hex: "#E55039"),
+         UIColor(hex: "#E74C3C")],
+        [UIColor(hex: "#00B894"),
+         UIColor(hex: "#00897B")],
+        [UIColor(hex: "#F39C12"),
+         UIColor(hex: "#E67E22")],
+        [UIColor(hex: "#A855F7"),
+         UIColor(hex: "#7C3AED")],
+        [UIColor(hex: "#3B82F6"),
+         UIColor(hex: "#2563EB")]
     ]
 
     override init(frame: CGRect) {
@@ -230,13 +238,17 @@ final class FavoriteGenreCell: UICollectionViewCell {
     private func setupUI() {
         contentView.layer.cornerRadius = 16
         contentView.clipsToBounds = true
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        contentView.layer.insertSublayer(gradientLayer, at: 0)
+        gradientLayer.startPoint = CGPoint(x: 0,
+                                           y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1,
+                                         y: 1)
+        contentView.layer.insertSublayer(gradientLayer,
+                                         at: 0)
         contentView.addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                constant: 16),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }

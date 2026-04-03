@@ -30,8 +30,10 @@ final class ContinueListeningCard: UIView {
         addSubview(cardView)
 
         NSLayoutConstraint.activate([
-            cardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            cardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            cardView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                              constant: 20),
+            cardView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                               constant: -20),
             cardView.topAnchor.constraint(equalTo: topAnchor),
             cardView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
@@ -42,7 +44,8 @@ final class ContinueListeningCard: UIView {
 
         titleLabel.text = "The Midnight Library"
         titleLabel.textColor = .white
-        titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 18,
+                                      weight: .bold)
 
         authorLabel.text = "Matt Haig"
         authorLabel.textColor = UIColor.white.withAlphaComponent(0.7)
@@ -59,15 +62,19 @@ final class ContinueListeningCard: UIView {
         cardView.addSubview(textStack)
 
         NSLayoutConstraint.activate([
-            coverImage.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 20),
+            coverImage.leadingAnchor.constraint(equalTo: cardView.leadingAnchor,
+                                                constant: 20),
             coverImage.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
             coverImage.widthAnchor.constraint(equalToConstant: 60),
             coverImage.heightAnchor.constraint(equalToConstant: 80),
 
-            textStack.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 16),
-            textStack.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -20),
+            textStack.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor,
+                                               constant: 16),
+            textStack.trailingAnchor.constraint(equalTo: cardView.trailingAnchor,
+                                                constant: -20),
             textStack.centerYAnchor.constraint(equalTo: coverImage.centerYAnchor),
-            textStack.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -20)
+            textStack.bottomAnchor.constraint(equalTo: cardView.bottomAnchor,
+                                              constant: -20)
         ])
     }
 }

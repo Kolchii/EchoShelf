@@ -32,7 +32,8 @@ final class ContinueListeningCell: UICollectionViewCell {
         coverImage.contentMode = .scaleAspectFill
         coverImage.translatesAutoresizingMaskIntoConstraints = false
 
-        titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 16,
+                                      weight: .bold)
         titleLabel.textColor = .white
         titleLabel.numberOfLines = 2
 
@@ -51,13 +52,16 @@ final class ContinueListeningCell: UICollectionViewCell {
         contentView.addSubview(stack)
 
         NSLayoutConstraint.activate([
-            coverImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            coverImage.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                constant: 16),
             coverImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             coverImage.widthAnchor.constraint(equalToConstant: 60),
             coverImage.heightAnchor.constraint(equalToConstant: 80),
 
-            stack.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor, constant: 14),
-            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            stack.leadingAnchor.constraint(equalTo: coverImage.trailingAnchor,
+                                           constant: 14),
+            stack.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                            constant: -16),
             stack.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
@@ -105,7 +109,8 @@ final class ContinueListeningCell: UICollectionViewCell {
         guard duration > 0 else { return }
 
         let progress = Float(current / duration)
-        progressView.setProgress(progress, animated: true)
+        progressView.setProgress(progress,
+                                 animated: true)
     }
 }
 

@@ -14,7 +14,8 @@ final class FavoritesViewController: UIViewController {
     private lazy var headerLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Favorites"
-        lbl.font = .systemFont(ofSize: 28, weight: .bold)
+        lbl.font = .systemFont(ofSize: 28,
+                               weight: .bold)
         lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -24,8 +25,10 @@ final class FavoritesViewController: UIViewController {
         let sc = UISegmentedControl(items: FavoriteSection.allCases.map { $0.title })
         sc.selectedSegmentIndex = 0
         sc.selectedSegmentTintColor = UIColor(named: "PrimaryGradientStart")!
-        sc.setTitleTextAttributes([.foregroundColor: UIColor(named: "OnDarkTextPrimary")!], for: .selected)
-        sc.setTitleTextAttributes([.foregroundColor: UIColor(named: "TabTextInactive")!], for: .normal)
+        sc.setTitleTextAttributes([.foregroundColor: UIColor(named: "OnDarkTextPrimary")!],
+                                  for: .selected)
+        sc.setTitleTextAttributes([.foregroundColor: UIColor(named: "TabTextInactive")!],
+                                  for: .normal)
         sc.backgroundColor = UIColor(named: "FillGlass")!
         sc.translatesAutoresizingMaskIntoConstraints = false
         return sc
@@ -35,7 +38,8 @@ final class FavoritesViewController: UIViewController {
 
     private var selectedSection: FavoriteSection = .books {
         didSet {
-            collectionView.setCollectionViewLayout(createLayout(), animated: false)
+            collectionView.setCollectionViewLayout(createLayout(),
+                                                   animated: false)
             collectionView.reloadData()
             updateEmptyState()
         }
@@ -86,34 +90,46 @@ private extension FavoritesViewController {
     func setupHeader() {
         view.addSubview(headerLabel)
         NSLayoutConstraint.activate([
-            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            headerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                             constant: 16),
+            headerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                 constant: 20)
         ])
     }
 
     func setupSegment() {
         view.addSubview(segmentControl)
         NSLayoutConstraint.activate([
-            segmentControl.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 16),
-            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            segmentControl.topAnchor.constraint(equalTo: headerLabel.bottomAnchor,
+                                                constant: 16),
+            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                    constant: 20),
+            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                     constant: -20),
             segmentControl.heightAnchor.constraint(equalToConstant: 36)
         ])
-        segmentControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        segmentControl.addTarget(self,
+                                 action: #selector(segmentChanged),
+                                 for: .valueChanged)
     }
 
     func setupCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        collectionView = UICollectionView(frame: .zero,
+                                          collectionViewLayout: createLayout())
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(FavoriteBookCell.self,   forCellWithReuseIdentifier: FavoriteBookCell.identifier)
-        collectionView.register(FavoriteAuthorCell.self, forCellWithReuseIdentifier: FavoriteAuthorCell.identifier)
-        collectionView.register(FavoriteGenreCell.self,  forCellWithReuseIdentifier: FavoriteGenreCell.identifier)
+        collectionView.register(FavoriteBookCell.self,
+                                forCellWithReuseIdentifier: FavoriteBookCell.identifier)
+        collectionView.register(FavoriteAuthorCell.self,
+                                forCellWithReuseIdentifier: FavoriteAuthorCell.identifier)
+        collectionView.register(FavoriteGenreCell.self,
+                                forCellWithReuseIdentifier: FavoriteGenreCell.identifier)
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 16),
+            collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor,
+                                                constant: 16),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -125,7 +141,8 @@ private extension FavoritesViewController {
         view.addSubview(emptyView)
         NSLayoutConstraint.activate([
             emptyView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 40)
+            emptyView.centerYAnchor.constraint(equalTo: view.centerYAnchor,
+                                               constant: 40)
         ])
     }
 
@@ -146,62 +163,90 @@ private extension FavoritesViewController {
         UICollectionViewCompositionalLayout { [weak self] _, _ in
             guard let self else { return nil }
             switch self.selectedSection {
-            case .books, .audiobooks, .kids: return self.bookGridSection()
-            case .authors:                   return self.authorListSection()
-            case .genres:                    return self.genreGridSection()
+            case .books,
+                    .audiobooks,
+                    .kids:
+                return self.bookGridSection()
+            case .authors:
+                return self.authorListSection()
+            case .genres:
+                return self.genreGridSection()
             }
         }
     }
 
     func bookGridSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(0.5), heightDimension: .absolute(220))
+            layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                              heightDimension: .absolute(220))
         )
-        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+        item.contentInsets = .init(top: 0,
+                                   leading: 0,
+                                   bottom: 0,
+                                   trailing: 10)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(220)),
+            layoutSize: .init(widthDimension: .fractionalWidth(1),
+                              heightDimension: .absolute(220)),
             subitems: [item, item]
         )
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 16
-        section.contentInsets = .init(top: 10, leading: 20, bottom: 40, trailing: 10)
+        section.contentInsets = .init(top: 10,
+                                      leading: 20,
+                                      bottom: 40,
+                                      trailing: 10)
         return section
     }
 
     func authorListSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(70))
+            layoutSize: .init(widthDimension: .fractionalWidth(1),
+                              heightDimension: .absolute(70))
         )
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: item.layoutSize, subitems: [item])
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: item.layoutSize,
+                                                     subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 12
-        section.contentInsets = .init(top: 10, leading: 20, bottom: 40, trailing: 20)
+        section.contentInsets = .init(top: 10,
+                                      leading: 20,
+                                      bottom: 40,
+                                      trailing: 20)
         return section
     }
 
     func genreGridSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(0.5), heightDimension: .absolute(90))
+            layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                              heightDimension: .absolute(90))
         )
-        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
+        item.contentInsets = .init(top: 0,
+                                   leading: 0,
+                                   bottom: 0,
+                                   trailing: 10)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(90)),
+            layoutSize: .init(widthDimension: .fractionalWidth(1),
+                              heightDimension: .absolute(90)),
             subitems: [item, item]
         )
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 12
-        section.contentInsets = .init(top: 10, leading: 20, bottom: 40, trailing: 10)
+        section.contentInsets = .init(top: 10,
+                                      leading: 20,
+                                      bottom: 40,
+                                      trailing: 10)
         return section
     }
 }
 
 extension FavoritesViewController: UICollectionViewDataSource {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         viewModel.items(for: selectedSection)
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch selectedSection {
         case .books:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as! FavoriteBookCell
@@ -229,14 +274,18 @@ extension FavoritesViewController: UICollectionViewDataSource {
 
 extension FavoritesViewController: UICollectionViewDelegate {
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         switch selectedSection {
         case .books:
-            navigationController?.pushViewController(BookDetailViewController(ebook: viewModel.favoriteEbooks[indexPath.item]), animated: true)
+            navigationController?.pushViewController(BookDetailViewController(ebook: viewModel.favoriteEbooks[indexPath.item]),
+                                                     animated: true)
         case .audiobooks:
-            navigationController?.pushViewController(BookDetailViewController(book: viewModel.favoriteBooks[indexPath.item]), animated: true)
+            navigationController?.pushViewController(BookDetailViewController(book: viewModel.favoriteBooks[indexPath.item]),
+                                                     animated: true)
         case .kids:
-            navigationController?.pushViewController(BookDetailViewController(ebook: viewModel.favoriteKidsBooks[indexPath.item]), animated: true)
+            navigationController?.pushViewController(BookDetailViewController(ebook: viewModel.favoriteKidsBooks[indexPath.item]),
+                                                     animated: true)
         default:
             break
         }
@@ -260,7 +309,8 @@ final class FavoritesEmptyView: UIView {
 
         let label = UILabel()
         label.text = "No favorites yet"
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: 16,
+                                 weight: .medium)
         label.textColor = UIColor(named: "OnDarkTextDetail")!
         label.translatesAutoresizingMaskIntoConstraints = false
 
@@ -280,10 +330,12 @@ final class FavoritesEmptyView: UIView {
             iconView.widthAnchor.constraint(equalToConstant: 60),
             iconView.heightAnchor.constraint(equalToConstant: 60),
 
-            label.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 16),
+            label.topAnchor.constraint(equalTo: iconView.bottomAnchor,
+                                       constant: 16),
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
 
-            subLabel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 6),
+            subLabel.topAnchor.constraint(equalTo: label.bottomAnchor,
+                                          constant: 6),
             subLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             subLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])

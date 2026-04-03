@@ -23,7 +23,8 @@ final class EbookTrendingCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 13, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 13,
+                               weight: .semibold)
         lbl.textColor = .white
         lbl.numberOfLines = 2
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +50,8 @@ final class EbookTrendingCell: UICollectionViewCell {
     private let bookBadgeLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "BOOK"
-        lbl.font = .systemFont(ofSize: 9, weight: .bold)
+        lbl.font = .systemFont(ofSize: 9,
+                               weight: .bold)
         lbl.textColor = .white
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -80,19 +82,25 @@ final class EbookTrendingCell: UICollectionViewCell {
             coverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 190),
 
-            bookBadge.topAnchor.constraint(equalTo: coverImageView.topAnchor, constant: 8),
-            bookBadge.leadingAnchor.constraint(equalTo: coverImageView.leadingAnchor, constant: 8),
+            bookBadge.topAnchor.constraint(equalTo: coverImageView.topAnchor,
+                                           constant: 8),
+            bookBadge.leadingAnchor.constraint(equalTo: coverImageView.leadingAnchor,
+                                               constant: 8),
             bookBadge.heightAnchor.constraint(equalToConstant: 18),
 
-            bookBadgeLabel.leadingAnchor.constraint(equalTo: bookBadge.leadingAnchor, constant: 6),
-            bookBadgeLabel.trailingAnchor.constraint(equalTo: bookBadge.trailingAnchor, constant: -6),
+            bookBadgeLabel.leadingAnchor.constraint(equalTo: bookBadge.leadingAnchor,
+                                                    constant: 6),
+            bookBadgeLabel.trailingAnchor.constraint(equalTo: bookBadge.trailingAnchor,
+                                                     constant: -6),
             bookBadgeLabel.centerYAnchor.constraint(equalTo: bookBadge.centerYAnchor),
 
-            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor,
+                                            constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 
-            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
+            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                             constant: 3),
             authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             authorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
@@ -123,7 +131,8 @@ final class EbookRecommendedCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 15, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 15,
+                               weight: .semibold)
         lbl.textColor = .white
         lbl.numberOfLines = 2
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -141,7 +150,8 @@ final class EbookRecommendedCell: UICollectionViewCell {
     private let bookBadge: UILabel = {
         let lbl = UILabel()
         lbl.text = "📖 Book"
-        lbl.font = .systemFont(ofSize: 11, weight: .medium)
+        lbl.font = .systemFont(ofSize: 11,
+                               weight: .medium)
         lbl.textColor = UIColor(named: "PrimaryAccent")!
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
@@ -150,7 +160,8 @@ final class EbookRecommendedCell: UICollectionViewCell {
     private let readButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setTitle("Read", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 12, weight: .semibold)
+        btn.titleLabel?.font = .systemFont(ofSize: 12,
+                                           weight: .semibold)
         btn.tintColor = .white
         btn.backgroundColor = UIColor(named: "PrimaryAccent")!
         btn.layer.cornerRadius = 14
@@ -182,23 +193,30 @@ final class EbookRecommendedCell: UICollectionViewCell {
         contentView.addSubview(readButton)
 
         NSLayoutConstraint.activate([
-            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                    constant: 12),
             coverImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             coverImageView.widthAnchor.constraint(equalToConstant: 72),
             coverImageView.heightAnchor.constraint(equalToConstant: 92),
 
-            titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 14),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: readButton.leadingAnchor, constant: -8),
+            titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor,
+                                                constant: 14),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                            constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: readButton.leadingAnchor,
+                                                 constant: -8),
 
             authorLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                             constant: 4),
             authorLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
 
             bookBadge.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            bookBadge.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 6),
+            bookBadge.topAnchor.constraint(equalTo: authorLabel.bottomAnchor,
+                                           constant: 6),
 
-            readButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -14),
+            readButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                 constant: -14),
             readButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             readButton.widthAnchor.constraint(equalToConstant: 60),
             readButton.heightAnchor.constraint(equalToConstant: 32)

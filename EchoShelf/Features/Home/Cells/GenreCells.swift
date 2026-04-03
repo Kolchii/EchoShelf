@@ -25,7 +25,8 @@ final class GenreBookCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 13, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 13,
+                               weight: .semibold)
         lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
         lbl.numberOfLines = 2
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -72,16 +73,20 @@ final class GenreBookCell: UICollectionViewCell {
             coverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 170),
 
-            headphoneIcon.topAnchor.constraint(equalTo: coverImageView.topAnchor, constant: 8),
-            headphoneIcon.trailingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: -8),
+            headphoneIcon.topAnchor.constraint(equalTo: coverImageView.topAnchor,
+                                               constant: 8),
+            headphoneIcon.trailingAnchor.constraint(equalTo: coverImageView.trailingAnchor,
+                                                    constant: -8),
             headphoneIcon.widthAnchor.constraint(equalToConstant: 18),
             headphoneIcon.heightAnchor.constraint(equalToConstant: 18),
 
-            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor,
+                                            constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 
-            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
+            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                             constant: 3),
             authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             authorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
@@ -114,7 +119,8 @@ final class GenreEbookCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 13, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 13,
+                               weight: .semibold)
         lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
         lbl.numberOfLines = 2
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -162,15 +168,18 @@ final class GenreEbookCell: UICollectionViewCell {
             coverImageView.heightAnchor.constraint(equalToConstant: 170),
 
             bookIcon.topAnchor.constraint(equalTo: coverImageView.topAnchor, constant: 8),
-            bookIcon.trailingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: -8),
+            bookIcon.trailingAnchor.constraint(equalTo: coverImageView.trailingAnchor,
+                                               constant: -8),
             bookIcon.widthAnchor.constraint(equalToConstant: 18),
             bookIcon.heightAnchor.constraint(equalToConstant: 18),
 
-            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor,
+                                            constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 
-            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
+            authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                             constant: 3),
             authorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             authorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
