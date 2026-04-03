@@ -53,7 +53,6 @@
 		864136B72F79406600EADB72 /* EchoShelfUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EchoShelfUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8660C15E2F48F2DC003E8EFD /* EchoShelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoShelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		866612DF2F633DBC00884E1E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		869177132F631A26006A159C /* EchoShelf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = EchoShelf.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -132,7 +131,6 @@
 		8660C1552F48F2DC003E8EFD = {
 			isa = PBXGroup;
 			children = (
-				869177132F631A26006A159C /* EchoShelf.xcodeproj */,
 				8660C1602F48F2DC003E8EFD /* EchoShelf */,
 				864136B82F79406600EADB72 /* EchoShelfUITests */,
 				8660C1BE2F493050003E8EFD /* Frameworks */,
@@ -155,11 +153,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		866612D52F631A8F00884E1E /* Products */ = {
-			isa = PBXGroup;
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,12 +270,6 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8660C15F2F48F2DC003E8EFD /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 866612D52F631A8F00884E1E /* Products */;
-					ProjectRef = 869177132F631A26006A159C /* EchoShelf.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8660C15D2F48F2DC003E8EFD /* EchoShelf */,
