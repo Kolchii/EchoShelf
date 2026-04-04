@@ -161,7 +161,7 @@ private extension HomeViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsVerticalScrollIndicator = false
-
+        collectionView.alwaysBounceVertical = true
         collectionView.register(ContinueListeningCell.self,
                                 forCellWithReuseIdentifier: ContinueListeningCell.identifier)
         collectionView.register(TrendingBookCell.self,
