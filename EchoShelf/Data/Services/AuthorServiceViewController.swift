@@ -8,6 +8,10 @@ final class AuthorsViewController: UIViewController {
 
     private let service = AuthorService.shared
     private var authors: [Author] = []
+    private var currentPage = 0
+    private var isLoading = false
+    private var hasMore = true
+    private var isSearching = false
     private var collectionView: UICollectionView!
 
     private lazy var headerLabel: UILabel = {
@@ -61,7 +65,7 @@ final class AuthorsViewController: UIViewController {
         setupCollectionView()
         setupEmptyView()
         setupActivityIndicator()
-        fetchAuthors()
+        fetchNextPage()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -121,30 +125,53 @@ final class AuthorsViewController: UIViewController {
         ])
     }
 
-    private func fetchAuthors() {
-        activityIndicator.startAnimating()
-        service.fetchPopularAuthors { [weak self] authors in
+    private func fetchNextPage() {
+        guard !isLoading, hasMore, !isSearching else { return }
+        isLoading = true
+        if currentPage == 0 { activityIndicator.startAnimating() }
+
+        service.fetchPopularAuthors(page: currentPage) { [weak self] newAuthors in
+            guard let self else { return }
             DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
-                self?.authors = authors
-                self?.collectionView.reloadData()
-                self?.emptyLabel.isHidden = !authors.isEmpty
+                self.isLoading = false
+                self.activityIndicator.stopAnimating()
+                if newAuthors.isEmpty {
+                    self.hasMore = false
+                } else {
+                    self.authors.append(contentsOf: newAuthors)
+                    self.currentPage += 1
+                    if newAuthors.count < 30 { self.hasMore = false }
+                }
+                self.emptyLabel.isHidden = !self.authors.isEmpty
+                self.collectionView.reloadData()
             }
         }
     }
 
+    private func resetAndFetch() {
+        authors = []
+        currentPage = 0
+        isLoading = false
+        hasMore = true
+        isSearching = false
+        collectionView.reloadData()
+        fetchNextPage()
+    }
+
     private func searchAuthors(query: String) {
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            fetchAuthors()
+            resetAndFetch()
             return
         }
+        isSearching = true
         activityIndicator.startAnimating()
-        service.searchAuthors(query: query) { [weak self] authors in
+        service.searchAuthors(query: query) { [weak self] newAuthors in
+            guard let self else { return }
             DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
-                self?.authors = authors
-                self?.collectionView.reloadData()
-                self?.emptyLabel.isHidden = !authors.isEmpty
+                self.activityIndicator.stopAnimating()
+                self.authors = newAuthors
+                self.collectionView.reloadData()
+                self.emptyLabel.isHidden = !newAuthors.isEmpty
             }
         }
     }
@@ -178,6 +205,12 @@ extension AuthorsViewController: UICollectionViewDataSource {
 }
 
 extension AuthorsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == authors.count - 6 {
+            fetchNextPage()
+        }
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let author = authors[indexPath.item]
         navigationController?.pushViewController(AuthorDetailViewController(author: author), animated: true)
@@ -191,6 +224,6 @@ extension AuthorsViewController: UISearchBarDelegate {
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty { fetchAuthors() }
+        if searchText.isEmpty { resetAndFetch() }
     }
 }

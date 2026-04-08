@@ -1,3 +1,7 @@
+//
+//  BookDetailViewController.swift
+//  EchoShelf
+//
 import UIKit
 import Kingfisher
 
@@ -15,8 +19,7 @@ final class BookDetailViewController: UIViewController {
     init(book: Audiobook) {
         self.bookType = .audiobook(book)
         self.viewModel = BookDetailViewModel(book: book)
-        super.init(nibName: nil,
-                   bundle: nil)
+        super.init(nibName: nil, bundle: nil)
     }
 
     init(ebook: Ebook) {
@@ -29,169 +32,181 @@ final class BookDetailViewController: UIViewController {
             urlRss: nil,
             urlZipFile: nil,
             numSections: nil,
-            authors: [Author(firstName: ebook.authorName,
-                             lastName: nil)],
+            authors: [Author(firstName: ebook.authorName, lastName: nil)],
             coverURL: ebook.coverURL
         ))
-        super.init(nibName: nil,
-                   bundle: nil)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) { fatalError() }
 
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
+    private lazy var scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.contentInsetAdjustmentBehavior = .never
+        sv.showsVerticalScrollIndicator = false
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
 
-    private let backButton = DetailButton(systemName: "chevron.left")
-    private let moreButton = DetailButton(systemName: "ellipsis")
-    private let headerLabel: UILabel = {
+    private lazy var contentView: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+
+    private lazy var backButton: UIButton = {
+        let btn = DetailButton(systemName: "chevron.left")
+        return btn
+    }()
+
+    private lazy var moreButton: UIButton = {
+        let btn = DetailButton(systemName: "ellipsis")
+        return btn
+    }()
+
+    private lazy var headerLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "NOW PLAYING"
-        lbl.font = .systemFont(ofSize: 13,
-                               weight: .semibold)
-        lbl.textColor = UIColor(named: "OnDarkTextSecondary")!
+        lbl.font = .systemFont(ofSize: 13, weight: .semibold)
+        lbl.textColor = UIColor(named: "OnDarkTextSecondary")
         lbl.textAlignment = .center
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
 
-    private let coverContainerView: UIView = {
+    private lazy var coverContainerView: UIView = {
         let v = UIView()
-        v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.shadowColor = UIColor.black.cgColor
         v.layer.shadowOpacity = 0.5
         v.layer.shadowRadius = 24
-        v.layer.shadowOffset = CGSize(width: 0,
-                                      height: 12)
+        v.layer.shadowOffset = CGSize(width: 0, height: 12)
+        v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-    private let coverImageView: UIImageView = {
+
+    private lazy var coverImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 24
-        iv.backgroundColor = UIColor(named: "FillGlassMedium")!
+        iv.backgroundColor = UIColor(named: "FillGlassMedium")
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
 
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 26,
-                               weight: .bold)
-        lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
+        lbl.font = .systemFont(ofSize: 26, weight: .bold)
+        lbl.textColor = UIColor(named: "OnDarkTextPrimary")
         lbl.textAlignment = .center
         lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    private let authorLabel: UILabel = {
+
+    private lazy var authorLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 16,
-                               weight: .semibold)
-        lbl.textColor = UIColor(named: "PrimaryGradientStart")!
+        lbl.font = .systemFont(ofSize: 16, weight: .semibold)
+        lbl.textColor = UIColor(named: "PrimaryGradientStart")
         lbl.textAlignment = .center
+        lbl.isUserInteractionEnabled = true
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
 
-    private let durationValueLabel: UILabel = {
+    private lazy var durationValueLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "—"
-        lbl.font = .systemFont(ofSize: 17,
-                               weight: .bold)
-        lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
+        lbl.font = .systemFont(ofSize: 17, weight: .bold)
+        lbl.textColor = UIColor(named: "OnDarkTextPrimary")
         lbl.textAlignment = .center
         return lbl
     }()
 
-    private let statsView: UIView = {
+    private lazy var statsView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
 
-    private let downloadButton: UIButton = {
+    private lazy var listenButton: UIButton = {
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = UIColor(named: "PrimaryGradientStart")
+        config.baseForegroundColor = UIColor(named: "OnDarkTextPrimary")
+        config.cornerStyle = .capsule
+        config.image = UIImage(systemName: "play.fill")
+        config.imagePlacement = .leading
+        config.imagePadding = 8
+        config.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 28, bottom: 16, trailing: 28)
+        var title = AttributedString("Listen Now")
+        title.font = .systemFont(ofSize: 16, weight: .bold)
+        config.attributedTitle = title
+        let btn = UIButton(configuration: config)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+
+    private lazy var favoriteButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setImage(UIImage(systemName: "arrow.down.circle"),
-                     for: .normal)
-        btn.tintColor = UIColor(named: "OnDarkTextPrimary")!
-        btn.backgroundColor = UIColor(named: "FillGlassMedium")!
+        btn.setImage(UIImage(systemName: "heart"), for: .normal)
+        btn.tintColor = UIColor(named: "OnDarkTextPrimary")
+        btn.backgroundColor = UIColor(named: "FillGlassMedium")
         btn.layer.cornerRadius = 28
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
 
-    private let inLibraryBadge: UIView = {
+    private lazy var downloadButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(systemName: "arrow.down.circle"), for: .normal)
+        btn.tintColor = UIColor(named: "OnDarkTextPrimary")
+        btn.backgroundColor = UIColor(named: "FillGlassMedium")
+        btn.layer.cornerRadius = 28
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+
+    private lazy var inLibraryBadge: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(named: "InLibraryBadgeGreen")!.withAlphaComponent(0.9)
+        v.backgroundColor = UIColor(named: "InLibraryBadgeGreen")?.withAlphaComponent(0.9)
         v.layer.cornerRadius = 12
         v.isHidden = true
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
 
-    private let inLibraryLabel: UILabel = {
+    private lazy var inLibraryLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 11,
-                               weight: .semibold)
-        lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
+        lbl.font = .systemFont(ofSize: 11, weight: .semibold)
+        lbl.textColor = UIColor(named: "OnDarkTextPrimary")
         lbl.text = "✓ In Library"
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    private let listenButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = UIColor(named: "PrimaryGradientStart")!
-        config.baseForegroundColor = UIColor(named: "OnDarkTextPrimary")!
-        config.cornerStyle = .capsule
-        config.image = UIImage(systemName: "play.fill")
-        config.imagePlacement = .leading
-        config.imagePadding = 8
-        config.contentInsets = NSDirectionalEdgeInsets(top: 16,
-                                                       leading: 28,
-                                                       bottom: 16,
-                                                       trailing: 28)
-        var title = AttributedString("Listen Now")
-        title.font = .systemFont(ofSize: 16,
-                                 weight: .bold)
-        config.attributedTitle = title
-        let btn = UIButton(configuration: config)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    private let favoriteButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setImage(UIImage(systemName: "heart"),
-                     for: .normal)
-        btn.tintColor = UIColor(named: "OnDarkTextPrimary")!
-        btn.backgroundColor = UIColor(named: "FillGlassMedium")!
-        btn.layer.cornerRadius = 28
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
 
-    private let aiSummaryContainer: UIView = {
+    private lazy var aiSummaryContainer: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor(named: "FillGlass")!
+        v.backgroundColor = UIColor(named: "FillGlass")
         v.layer.cornerRadius = 20
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-    private let aiHeaderLabel: UILabel = {
+
+    private lazy var aiHeaderLabel: UILabel = {
         let lbl = UILabel()
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "sparkles")?.withTintColor(UIColor(named: "PrimaryGradientStart")!)
+        attachment.image = UIImage(systemName: "sparkles")?.withTintColor(UIColor(named: "PrimaryGradientStart") ?? .systemPurple)
         let attrStr = NSMutableAttributedString(attachment: attachment)
-        attrStr.append(NSAttributedString(string: "  AI Summary Highlights",
-            attributes: [.font: UIFont.systemFont(ofSize: 16,
-                                                  weight: .bold),
-                .foregroundColor: UIColor(named: "OnDarkTextPrimary")!]))
+        attrStr.append(NSAttributedString(string: "  AI Summary Highlights", attributes: [
+            .font: UIFont.systemFont(ofSize: 16, weight: .bold),
+            .foregroundColor: UIColor(named: "OnDarkTextPrimary") ?? UIColor.white
+        ]))
         lbl.attributedText = attrStr
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    private let aiStackView: UIStackView = {
+
+    private lazy var aiStackView: UIStackView = {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.spacing = 14
@@ -199,31 +214,29 @@ final class BookDetailViewController: UIViewController {
         return sv
     }()
 
-    private let descriptionTitleLabel: UILabel = {
+    private lazy var descriptionTitleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Description"
-        lbl.font = .systemFont(ofSize: 18,
-                               weight: .bold)
-        lbl.textColor = UIColor(named: "OnDarkTextPrimary")!
+        lbl.font = .systemFont(ofSize: 18, weight: .bold)
+        lbl.textColor = UIColor(named: "OnDarkTextPrimary")
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    private let descriptionLabel: UILabel = {
+
+    private lazy var descriptionLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = .systemFont(ofSize: 14)
-        lbl.textColor = UIColor(named: "OnDarkText70")!
+        lbl.textColor = UIColor(named: "OnDarkText70")
         lbl.numberOfLines = 4
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    private let readMoreButton: UIButton = {
+
+    private lazy var readMoreButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("Read more",
-                     for: .normal)
-        btn.setTitleColor(UIColor(named: "PrimaryGradientStart")!,
-                          for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14,
-                                           weight: .medium)
+        btn.setTitle("Read more", for: .normal)
+        btn.setTitleColor(UIColor(named: "PrimaryGradientStart"), for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -232,71 +245,44 @@ final class BookDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "AppBackground")!
+        view.backgroundColor = UIColor(named: "AppBackground")
         setupLayout()
         bindViewModel()
-        configureData()
-        updateFavoriteButton()
         configureByBookType()
+        updateFavoriteButton()
         updateDownloadButton()
         updateLibraryBadge()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true,
-                                                     animated: false)
+        navigationController?.setNavigationBarHidden(true, animated: false)
         updateDownloadButton()
         updateLibraryBadge()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false,
-                                                     animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }
 
-extension BookDetailViewController {
-
-    func bindViewModel() {
-        viewModel.onStateChanged = { [weak self] state in
-            guard let self else { return }
-            switch state {
-            case .success:
-                self.configureData()
-            case .failure(let error):
-                print("Detail error:", error)
-            default:
-                break
-            }
-        }
-    }
-}
-
-extension BookDetailViewController {
+private extension BookDetailViewController {
 
     func setupLayout() {
         view.addSubview(scrollView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        scrollView.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
-
         setupHeader()
         setupCover()
         setupInfo()
@@ -310,37 +296,25 @@ extension BookDetailViewController {
         view.addSubview(backButton)
         view.addSubview(moreButton)
         view.addSubview(headerLabel)
-
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                            constant: 10),
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                                constant: 16),
-
-            moreButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                            constant: 10),
-            moreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                 constant: -16),
-
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            moreButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            moreButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             headerLabel.centerYAnchor.constraint(equalTo: backButton.centerYAnchor)
         ])
-
-        backButton.addTarget(self, action: #selector(backTapped),
-                             for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
     }
 
     func setupCover() {
         contentView.addSubview(coverContainerView)
         coverContainerView.addSubview(coverImageView)
-
         NSLayoutConstraint.activate([
-            coverContainerView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                                    constant: 100),
+            coverContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 100),
             coverContainerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             coverContainerView.widthAnchor.constraint(equalToConstant: 240),
             coverContainerView.heightAnchor.constraint(equalToConstant: 300),
-
             coverImageView.topAnchor.constraint(equalTo: coverContainerView.topAnchor),
             coverImageView.bottomAnchor.constraint(equalTo: coverContainerView.bottomAnchor),
             coverImageView.leadingAnchor.constraint(equalTo: coverContainerView.leadingAnchor),
@@ -351,83 +325,45 @@ extension BookDetailViewController {
     func setupInfo() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(authorLabel)
-
+        let authorTap = UITapGestureRecognizer(target: self, action: #selector(authorTapped))
+        authorLabel.addGestureRecognizer(authorTap)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: coverContainerView.bottomAnchor, constant: 28),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-
             authorLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             authorLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
-
-        authorLabel.isUserInteractionEnabled = true
-        let authorTap = UITapGestureRecognizer(target: self, action: #selector(authorTapped))
-        authorLabel.addGestureRecognizer(authorTap)
-    }
-
-    @objc func authorTapped() {
-        let author: Author?
-        switch bookType {
-        case .audiobook:
-            author = viewModel.book.authors?.first
-        case .ebook(let ebook):
-            author = Author(firstName: ebook.authorName, lastName: nil)
-        }
-        guard let author else { return }
-        navigationController?.pushViewController(
-            AuthorDetailViewController(author: author), animated: true
-        )
     }
 
     func setupStats() {
         contentView.addSubview(statsView)
-
         let divider1 = makeDivider()
         let divider2 = makeDivider()
-
-        let ratingItem   = makeStatItem(value: "4.8",
-                                        label: "RATING",
-                                        icon: "star.fill",
-                                        iconColor: UIColor(named: "RatingStarYellow")!)
+        let ratingItem = makeStatItem(value: "4.8", label: "RATING", icon: "star.fill", iconColor: UIColor(named: "RatingStarYellow") ?? .yellow)
         let durationItem = makeDurationStatItem()
-        let languageItem = makeStatItem(value: "EN",
-                                        label: "LANGUAGE",
-                                        icon: "globe",
-                                        iconColor: UIColor(named: "LanguageIconBlue")!)
-
+        let languageItem = makeStatItem(value: "EN", label: "LANGUAGE", icon: "globe", iconColor: UIColor(named: "LanguageIconBlue") ?? .blue)
         [ratingItem, divider1, durationItem, divider2, languageItem].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             statsView.addSubview($0)
         }
-
         NSLayoutConstraint.activate([
-            statsView.topAnchor.constraint(equalTo: authorLabel.bottomAnchor,
-                                           constant: 28),
-            statsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                               constant: 24),
-            statsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                constant: -24),
+            statsView.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 28),
+            statsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            statsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             statsView.heightAnchor.constraint(equalToConstant: 70),
-
             ratingItem.leadingAnchor.constraint(equalTo: statsView.leadingAnchor),
             ratingItem.centerYAnchor.constraint(equalTo: statsView.centerYAnchor),
-
-            divider1.centerXAnchor.constraint(equalTo: statsView.centerXAnchor,
-                                              constant: -60),
+            divider1.centerXAnchor.constraint(equalTo: statsView.centerXAnchor, constant: -60),
             divider1.centerYAnchor.constraint(equalTo: statsView.centerYAnchor),
             divider1.widthAnchor.constraint(equalToConstant: 1),
             divider1.heightAnchor.constraint(equalToConstant: 36),
-
             durationItem.centerXAnchor.constraint(equalTo: statsView.centerXAnchor),
             durationItem.centerYAnchor.constraint(equalTo: statsView.centerYAnchor),
-
-            divider2.centerXAnchor.constraint(equalTo: statsView.centerXAnchor,
-                                              constant: 60),
+            divider2.centerXAnchor.constraint(equalTo: statsView.centerXAnchor, constant: 60),
             divider2.centerYAnchor.constraint(equalTo: statsView.centerYAnchor),
             divider2.widthAnchor.constraint(equalToConstant: 1),
             divider2.heightAnchor.constraint(equalToConstant: 36),
-
             languageItem.trailingAnchor.constraint(equalTo: statsView.trailingAnchor),
             languageItem.centerYAnchor.constraint(equalTo: statsView.centerYAnchor)
         ])
@@ -437,78 +373,45 @@ extension BookDetailViewController {
         contentView.addSubview(downloadButton)
         contentView.addSubview(listenButton)
         contentView.addSubview(favoriteButton)
-
-        NSLayoutConstraint.activate([
-            listenButton.topAnchor.constraint(equalTo: statsView.bottomAnchor,
-                                              constant: 28),
-            listenButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-
-            downloadButton.centerYAnchor.constraint(equalTo: listenButton.centerYAnchor),
-            downloadButton.trailingAnchor.constraint(equalTo: listenButton.leadingAnchor,
-                                                     constant: -16),
-            downloadButton.widthAnchor.constraint(equalToConstant: 56),
-            downloadButton.heightAnchor.constraint(equalToConstant: 56),
-
-            favoriteButton.centerYAnchor.constraint(equalTo: listenButton.centerYAnchor),
-            favoriteButton.leadingAnchor.constraint(equalTo: listenButton.trailingAnchor,
-                                                    constant: 16),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 56),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 56)
-        ])
-
         inLibraryBadge.addSubview(inLibraryLabel)
         contentView.addSubview(inLibraryBadge)
         NSLayoutConstraint.activate([
-            inLibraryLabel.topAnchor.constraint(equalTo: inLibraryBadge.topAnchor,
-                                                constant: 6),
-            inLibraryLabel.bottomAnchor.constraint(equalTo: inLibraryBadge.bottomAnchor,
-                                                   constant: -6),
-            inLibraryLabel.leadingAnchor.constraint(equalTo: inLibraryBadge.leadingAnchor,
-                                                    constant: 10),
-            inLibraryLabel.trailingAnchor.constraint(equalTo: inLibraryBadge.trailingAnchor,
-                                                     constant: -10),
-            inLibraryBadge.topAnchor.constraint(equalTo: listenButton.bottomAnchor,
-                                                constant: 12),
+            listenButton.topAnchor.constraint(equalTo: statsView.bottomAnchor, constant: 28),
+            listenButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            downloadButton.centerYAnchor.constraint(equalTo: listenButton.centerYAnchor),
+            downloadButton.trailingAnchor.constraint(equalTo: listenButton.leadingAnchor, constant: -16),
+            downloadButton.widthAnchor.constraint(equalToConstant: 56),
+            downloadButton.heightAnchor.constraint(equalToConstant: 56),
+            favoriteButton.centerYAnchor.constraint(equalTo: listenButton.centerYAnchor),
+            favoriteButton.leadingAnchor.constraint(equalTo: listenButton.trailingAnchor, constant: 16),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 56),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 56),
+            inLibraryLabel.topAnchor.constraint(equalTo: inLibraryBadge.topAnchor, constant: 6),
+            inLibraryLabel.bottomAnchor.constraint(equalTo: inLibraryBadge.bottomAnchor, constant: -6),
+            inLibraryLabel.leadingAnchor.constraint(equalTo: inLibraryBadge.leadingAnchor, constant: 10),
+            inLibraryLabel.trailingAnchor.constraint(equalTo: inLibraryBadge.trailingAnchor, constant: -10),
+            inLibraryBadge.topAnchor.constraint(equalTo: listenButton.bottomAnchor, constant: 12),
             inLibraryBadge.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
-
-        listenButton.addTarget(self,
-                               action: #selector(listenTapped),
-                               for: .touchUpInside)
-        favoriteButton.addTarget(self,
-                                 action: #selector(favTapped),
-                                 for: .touchUpInside)
-        downloadButton.addTarget(self,
-                                 action: #selector(downloadTapped),
-                                 for: .touchUpInside)
+        listenButton.addTarget(self, action: #selector(listenTapped), for: .touchUpInside)
+        favoriteButton.addTarget(self, action: #selector(favTapped), for: .touchUpInside)
+        downloadButton.addTarget(self, action: #selector(downloadTapped), for: .touchUpInside)
     }
 
     func setupAISummary() {
         contentView.addSubview(aiSummaryContainer)
         aiSummaryContainer.addSubview(aiHeaderLabel)
         aiSummaryContainer.addSubview(aiStackView)
-
         NSLayoutConstraint.activate([
-            aiSummaryContainer.topAnchor.constraint(equalTo: listenButton.bottomAnchor,
-                                                    constant: 36),
-            aiSummaryContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                        constant: 20),
-            aiSummaryContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                         constant: -20),
-
-            aiHeaderLabel.topAnchor.constraint(equalTo: aiSummaryContainer.topAnchor,
-                                               constant: 18),
-            aiHeaderLabel.leadingAnchor.constraint(equalTo: aiSummaryContainer.leadingAnchor,
-                                                   constant: 18),
-
-            aiStackView.topAnchor.constraint(equalTo: aiHeaderLabel.bottomAnchor,
-                                             constant: 16),
-            aiStackView.leadingAnchor.constraint(equalTo: aiSummaryContainer.leadingAnchor,
-                                                 constant: 18),
-            aiStackView.trailingAnchor.constraint(equalTo: aiSummaryContainer.trailingAnchor,
-                                                  constant: -18),
-            aiStackView.bottomAnchor.constraint(equalTo: aiSummaryContainer.bottomAnchor,
-                                                constant: -18)
+            aiSummaryContainer.topAnchor.constraint(equalTo: inLibraryBadge.bottomAnchor, constant: 24),
+            aiSummaryContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            aiSummaryContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            aiHeaderLabel.topAnchor.constraint(equalTo: aiSummaryContainer.topAnchor, constant: 18),
+            aiHeaderLabel.leadingAnchor.constraint(equalTo: aiSummaryContainer.leadingAnchor, constant: 18),
+            aiStackView.topAnchor.constraint(equalTo: aiHeaderLabel.bottomAnchor, constant: 16),
+            aiStackView.leadingAnchor.constraint(equalTo: aiSummaryContainer.leadingAnchor, constant: 18),
+            aiStackView.trailingAnchor.constraint(equalTo: aiSummaryContainer.trailingAnchor, constant: -18),
+            aiStackView.bottomAnchor.constraint(equalTo: aiSummaryContainer.bottomAnchor, constant: -18)
         ])
     }
 
@@ -516,88 +419,97 @@ extension BookDetailViewController {
         contentView.addSubview(descriptionTitleLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(readMoreButton)
-
         NSLayoutConstraint.activate([
-            descriptionTitleLabel.topAnchor.constraint(equalTo: aiSummaryContainer.bottomAnchor,
-                                                       constant: 32),
-            descriptionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                           constant: 24),
-
-            descriptionLabel.topAnchor.constraint(equalTo: descriptionTitleLabel.bottomAnchor,
-                                                  constant: 12),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                      constant: 24),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                       constant: -24),
-
-            readMoreButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,
-                                                constant: 6),
-            readMoreButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                    constant: 20),
-            readMoreButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                   constant: -60)
+            descriptionTitleLabel.topAnchor.constraint(equalTo: aiSummaryContainer.bottomAnchor, constant: 32),
+            descriptionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            descriptionLabel.topAnchor.constraint(equalTo: descriptionTitleLabel.bottomAnchor, constant: 12),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            readMoreButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 6),
+            readMoreButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            readMoreButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -60)
         ])
-
-        readMoreButton.addTarget(self,
-                                 action: #selector(readMoreTapped),
-                                 for: .touchUpInside)
+        readMoreButton.addTarget(self, action: #selector(readMoreTapped), for: .touchUpInside)
     }
 }
 
-extension BookDetailViewController {
+private extension BookDetailViewController {
 
-    func configureData() {
+    func bindViewModel() {
+        viewModel.onStateChanged = { [weak self] state in
+            guard let self else { return }
+            if case .success = state { self.populateData() }
+        }
+    }
+
+    func configureByBookType() {
+        switch bookType {
+        case .audiobook:
+            headerLabel.text = "NOW PLAYING"
+            updateListenButton(title: "Listen Now", icon: "play.fill")
+            viewModel.fetchDetail()
+
+        case .ebook(let ebook):
+            headerLabel.text = "EBOOK"
+            updateListenButton(title: "Read Now", icon: "book.fill")
+            titleLabel.text = ebook.title
+            authorLabel.text = ebook.authorName
+            coverImageView.kf.setImage(with: ebook.coverURL)
+            if ebook.downloadCount > 0 { durationValueLabel.text = "\(ebook.downloadCount)↓" }
+            let vm = EbookDetailViewModel(ebook: ebook)
+            ebookDetailVM = vm
+            descriptionLabel.text = vm.description
+            buildAISummary(vm.aiSummary)
+        }
+    }
+
+    func updateListenButton(title: String, icon: String) {
+        var config = listenButton.configuration
+        config?.image = UIImage(systemName: icon)
+        var attrTitle = AttributedString(title)
+        attrTitle.font = .systemFont(ofSize: 16, weight: .bold)
+        config?.attributedTitle = attrTitle
+        listenButton.configuration = config
+    }
+
+    func populateData() {
         let book = viewModel.book
-
         titleLabel.text = book.title
         authorLabel.text = book.authorName
         descriptionLabel.text = book.description?.htmlStripped ?? "No description available."
-
-        if let url = book.coverURL {
-            coverImageView.kf.setImage(with: url)
-        }
-
+        let url = book.coverURL ?? book.archiveCoverURL
+        coverImageView.kf.setImage(with: url)
         if let sections = book.numSections?.value, sections > 0 {
-            let totalMinutes = sections * 30
-            let hours = totalMinutes / 60
-            let minutes = totalMinutes % 60
-            if hours > 0 {
-                durationValueLabel.text = minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
-            } else {
-                durationValueLabel.text = "\(minutes)m"
-            }
+            let hours = (sections * 30) / 60
+            let mins  = (sections * 30) % 60
+            durationValueLabel.text = hours > 0 ? (mins > 0 ? "\(hours)h \(mins)m" : "\(hours)h") : "\(mins)m"
         } else {
             durationValueLabel.text = "—"
         }
-
         buildAISummary(viewModel.aiSummary)
     }
 
     func buildAISummary(_ points: [String]) {
         aiStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        for (index, point) in points.enumerated() {
-            aiStackView.addArrangedSubview(makeAISummaryRow(number: index + 1,
-                                                            text: point))
+        for (i, point) in points.enumerated() {
+            aiStackView.addArrangedSubview(makeAISummaryRow(number: i + 1, text: point))
         }
     }
 
     func makeAISummaryRow(number: Int, text: String) -> UIView {
-        let numberLabel = UILabel()
-        numberLabel.text = String(format: "%02d", number)
-        numberLabel.font = .systemFont(ofSize: 13,
-                                       weight: .bold)
-        numberLabel.textColor = UIColor(named: "PrimaryGradientStart")!
-        numberLabel.translatesAutoresizingMaskIntoConstraints = false
-        numberLabel.setContentHuggingPriority(.required,
-                                              for: .horizontal)
-        let textLabel = UILabel()
-        textLabel.text = text
-        textLabel.font = .systemFont(ofSize: 14)
-        textLabel.textColor = UIColor(named: "OnDarkText80")!
-        textLabel.numberOfLines = 0
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        let stack = UIStackView(arrangedSubviews: [numberLabel, textLabel])
+        let numLbl = UILabel()
+        numLbl.text = String(format: "%02d", number)
+        numLbl.font = .systemFont(ofSize: 13, weight: .bold)
+        numLbl.textColor = UIColor(named: "PrimaryGradientStart")
+        numLbl.translatesAutoresizingMaskIntoConstraints = false
+        numLbl.setContentHuggingPriority(.required, for: .horizontal)
+        let txtLbl = UILabel()
+        txtLbl.text = text
+        txtLbl.font = .systemFont(ofSize: 14)
+        txtLbl.textColor = UIColor(named: "OnDarkText80")
+        txtLbl.numberOfLines = 0
+        txtLbl.translatesAutoresizingMaskIntoConstraints = false
+        let stack = UIStackView(arrangedSubviews: [numLbl, txtLbl])
         stack.axis = .horizontal
         stack.spacing = 12
         stack.alignment = .top
@@ -605,53 +517,42 @@ extension BookDetailViewController {
     }
 
     func makeDurationStatItem() -> UIStackView {
-        let iconImage = UIImageView(image: UIImage(systemName: "clock"))
-        iconImage.tintColor = UIColor(named: "PrimaryGradientStart")!
-        iconImage.contentMode = .scaleAspectFit
-        iconImage.translatesAutoresizingMaskIntoConstraints = false
-        iconImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        iconImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-
-        let titleLbl = UILabel()
-        titleLbl.text = "DURATION"
-        titleLbl.font = .systemFont(ofSize: 10,
-                                    weight: .medium)
-        titleLbl.textColor = UIColor(named: "OnDarkTextDetail")!
-        titleLbl.textAlignment = .center
-
-        let stack = UIStackView(arrangedSubviews: [iconImage, durationValueLabel, titleLbl])
+        let icon = UIImageView(image: UIImage(systemName: "clock"))
+        icon.tintColor = UIColor(named: "PrimaryGradientStart")
+        icon.contentMode = .scaleAspectFit
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        let lbl = UILabel()
+        lbl.text = "DURATION"
+        lbl.font = .systemFont(ofSize: 10, weight: .medium)
+        lbl.textColor = UIColor(named: "OnDarkTextDetail")
+        lbl.textAlignment = .center
+        let stack = UIStackView(arrangedSubviews: [icon, durationValueLabel, lbl])
         stack.axis = .vertical
         stack.alignment = .center
         stack.spacing = 4
         return stack
     }
 
-    func makeStatItem(value: String,
-                      label: String,
-                      icon: String,
-                      iconColor: UIColor) -> UIStackView {
-        let iconImage = UIImageView(image: UIImage(systemName: icon))
-        iconImage.tintColor = iconColor
-        iconImage.contentMode = .scaleAspectFit
-        iconImage.translatesAutoresizingMaskIntoConstraints = false
-        iconImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        iconImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-
-        let valueLabel = UILabel()
-        valueLabel.text = value
-        valueLabel.font = .systemFont(ofSize: 17,
-                                      weight: .bold)
-        valueLabel.textColor = UIColor(named: "OnDarkTextPrimary")!
-        valueLabel.textAlignment = .center
-
-        let titleLabel = UILabel()
-        titleLabel.text = label
-        titleLabel.font = .systemFont(ofSize: 10,
-                                      weight: .medium)
-        titleLabel.textColor = UIColor(named: "OnDarkTextDetail")!
-        titleLabel.textAlignment = .center
-
-        let stack = UIStackView(arrangedSubviews: [iconImage, valueLabel, titleLabel])
+    func makeStatItem(value: String, label: String, icon: String, iconColor: UIColor) -> UIStackView {
+        let iconView = UIImageView(image: UIImage(systemName: icon))
+        iconView.tintColor = iconColor
+        iconView.contentMode = .scaleAspectFit
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        iconView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        let valLbl = UILabel()
+        valLbl.text = value
+        valLbl.font = .systemFont(ofSize: 17, weight: .bold)
+        valLbl.textColor = UIColor(named: "OnDarkTextPrimary")
+        valLbl.textAlignment = .center
+        let titleLbl = UILabel()
+        titleLbl.text = label
+        titleLbl.font = .systemFont(ofSize: 10, weight: .medium)
+        titleLbl.textColor = UIColor(named: "OnDarkTextDetail")
+        titleLbl.textAlignment = .center
+        let stack = UIStackView(arrangedSubviews: [iconView, valLbl, titleLbl])
         stack.axis = .vertical
         stack.alignment = .center
         stack.spacing = 4
@@ -660,50 +561,52 @@ extension BookDetailViewController {
 
     func makeDivider() -> UIView {
         let v = UIView()
-        v.backgroundColor = UIColor(named: "FillGlassStrong")!
+        v.backgroundColor = UIColor(named: "FillGlassStrong")
         return v
     }
-}
 
-extension BookDetailViewController {
+    func updateFavoriteButton() {
+        let isFav = viewModel.isFavorited(bookType: bookType)
+        favoriteButton.tintColor = isFav ? UIColor(named: "FavoriteActivePink") : UIColor(named: "OnDarkTextPrimary")
+        favoriteButton.setImage(UIImage(systemName: isFav ? "heart.fill" : "heart"), for: .normal)
+    }
 
-    func configureByBookType() {
+    func updateDownloadButton() {
         switch bookType {
         case .audiobook:
-            headerLabel.text = "NOW PLAYING"
-            var config = listenButton.configuration
-            config?.image = UIImage(systemName: "play.fill")
-            var title = AttributedString("Listen Now")
-            title.font = .systemFont(ofSize: 16,
-                                     weight: .bold)
-            config?.attributedTitle = title
-            listenButton.configuration = config
-            viewModel.fetchDetail()
-
+            let saved = LibraryManager.shared.isDownloaded(id: String(viewModel.book.id.value))
+            downloadButton.setImage(UIImage(systemName: saved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
+            downloadButton.tintColor = saved ? UIColor(named: "SuccessGreen") : UIColor(named: "OnDarkTextPrimary")
+            downloadButton.isUserInteractionEnabled = !saved
         case .ebook(let ebook):
-            headerLabel.text = "EBOOK"
-            var config = listenButton.configuration
-            config?.image = UIImage(systemName: "book.fill")
-            var title = AttributedString("Read Now")
-            title.font = .systemFont(ofSize: 16,
-                                     weight: .bold)
-            config?.attributedTitle = title
-            listenButton.configuration = config
-
-            titleLabel.text = ebook.title
-            authorLabel.text = ebook.authorName
-            if let url = ebook.coverURL {
-                coverImageView.kf.setImage(with: url)
-            }
-            if ebook.downloadCount > 0 {
-                durationValueLabel.text = "\(ebook.downloadCount)↓"
-            }
-
-            let vm = EbookDetailViewModel(ebook: ebook)
-            ebookDetailVM = vm
-            descriptionLabel.text = vm.description
-            buildAISummary(vm.aiSummary)
+            let saved = LibraryManager.shared.isDownloaded(id: ebook.id)
+            downloadButton.setImage(UIImage(systemName: saved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
+            downloadButton.tintColor = saved ? UIColor(named: "SuccessGreen") : UIColor(named: "OnDarkTextPrimary")
+            downloadButton.isUserInteractionEnabled = !saved
         }
+    }
+
+    func updateLibraryBadge() {
+        guard case .ebook(let ebook) = bookType else { inLibraryBadge.isHidden = true; return }
+        inLibraryBadge.isHidden = !LibraryManager.shared.isDownloaded(id: ebook.id)
+    }
+
+    func fetchFirstAudioURL(from rssURL: URL, completion: @escaping (URL?) -> Void) {
+        URLSession.shared.dataTask(with: rssURL) { data, _, _ in
+            guard let data, let xml = String(data: data, encoding: .utf8) else {
+                completion(nil); return
+            }
+            let pattern = #"<enclosure[^>]+url="([^"]+\.mp3)"#
+            if let range = xml.range(of: pattern, options: .regularExpression),
+               let urlRange = xml[range].range(of: #"url="([^"]+)"#, options: .regularExpression) {
+                let urlString = String(xml[range][urlRange])
+                    .replacingOccurrences(of: "url=\"", with: "")
+                    .replacingOccurrences(of: "\"", with: "")
+                completion(URL(string: urlString))
+            } else {
+                completion(nil)
+            }
+        }.resume()
     }
 }
 
@@ -712,14 +615,24 @@ extension BookDetailViewController {
     @objc func listenTapped() {
         switch bookType {
         case .audiobook:
-            PlayerManager.shared.play(book: viewModel.book)
-            let playerVC = PlayerViewController()
-            playerVC.modalPresentationStyle = .fullScreen
-            present(playerVC, animated: true)
-
+            let book = viewModel.book
+            if let rssString = book.urlRss, let rssURL = URL(string: rssString) {
+                fetchFirstAudioURL(from: rssURL) { [weak self] audioURL in
+                    DispatchQueue.main.async {
+                        PlayerManager.shared.play(book: book, previewURL: audioURL)
+                        let playerVC = PlayerViewController()
+                        playerVC.modalPresentationStyle = .fullScreen
+                        self?.present(playerVC, animated: true)
+                    }
+                }
+            } else {
+                PlayerManager.shared.play(book: book)
+                let playerVC = PlayerViewController()
+                playerVC.modalPresentationStyle = .fullScreen
+                present(playerVC, animated: true)
+            }
         case .ebook(let ebook):
-            navigationController?.pushViewController(EbookReaderViewController(ebook: ebook),
-                                                     animated: true)
+            navigationController?.pushViewController(EbookReaderViewController(ebook: ebook), animated: true)
         }
     }
 
@@ -727,53 +640,14 @@ extension BookDetailViewController {
         navigationController?.popViewController(animated: true)
     }
 
-    func updateDownloadButton() {
-        downloadButton.isHidden = false
+    @objc func authorTapped() {
+        let author: Author?
         switch bookType {
-        case .audiobook:
-            let isSaved = LibraryManager.shared.isDownloaded(id: String(viewModel.book.id.value))
-            downloadButton.setImage(UIImage(systemName: isSaved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
-            downloadButton.tintColor = isSaved ? UIColor(named: "SuccessGreen")! : UIColor(named: "OnDarkTextPrimary")!
-            downloadButton.isUserInteractionEnabled = !isSaved
-        case .ebook(let ebook):
-            let isSaved = LibraryManager.shared.isDownloaded(id: ebook.id)
-            downloadButton.setImage(UIImage(systemName: isSaved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
-            downloadButton.tintColor = isSaved ? UIColor(named: "SuccessGreen")! : UIColor(named: "OnDarkTextPrimary")!
-            downloadButton.isUserInteractionEnabled = !isSaved
+        case .audiobook: author = viewModel.book.authors?.first
+        case .ebook(let ebook): author = Author(firstName: ebook.authorName, lastName: nil)
         }
-    }
-
-    func updateLibraryBadge() {
-        guard case .ebook(let ebook) = bookType else {
-            inLibraryBadge.isHidden = true
-            return
-        }
-        inLibraryBadge.isHidden = !LibraryManager.shared.isDownloaded(id: ebook.id)
-    }
-
-    @objc func downloadTapped() {
-        switch bookType {
-        case .audiobook:
-            LibraryManager.shared.saveAudiobook(viewModel.book)
-        case .ebook(let ebook):
-            navigationController?.pushViewController(EbookReaderViewController(ebook: ebook),
-                                                     animated: true)
-            return
-        }
-
-        let isSaved = LibraryManager.shared.isDownloaded(id: String(viewModel.book.id.value))
-        downloadButton.setImage(UIImage(systemName: isSaved ? "checkmark.circle.fill" : "arrow.down.circle"), for: .normal)
-        downloadButton.tintColor = isSaved ? UIColor(named: "SuccessGreen")! : UIColor(named: "OnDarkTextPrimary")!
-        downloadButton.isUserInteractionEnabled = !isSaved
-
-        UIView.animate(withDuration: 0.2, animations: {
-            self.downloadButton.transform = CGAffineTransform(scaleX: 1.2,
-                                                              y: 1.2)
-        }) { _ in
-            UIView.animate(withDuration: 0.15) {
-                self.downloadButton.transform = .identity
-            }
-        }
+        guard let author else { return }
+        navigationController?.pushViewController(AuthorDetailViewController(author: author), animated: true)
     }
 
     @objc func favTapped() {
@@ -781,33 +655,33 @@ extension BookDetailViewController {
         updateFavoriteButton()
     }
 
-    func updateFavoriteButton() {
-        let isFav = viewModel.isFavorited(bookType: bookType)
-        favoriteButton.tintColor = isFav ? UIColor(named: "FavoriteActivePink")! : UIColor(named: "OnDarkTextPrimary")!
-        favoriteButton.setImage(UIImage(systemName: isFav ? "heart.fill" : "heart"),
-                                for: .normal)
+    @objc func downloadTapped() {
+        switch bookType {
+        case .audiobook:
+            LibraryManager.shared.saveAudiobook(viewModel.book)
+            updateDownloadButton()
+        case .ebook(let ebook):
+            navigationController?.pushViewController(EbookReaderViewController(ebook: ebook), animated: true)
+        }
     }
 
     @objc func readMoreTapped() {
         isDescriptionExpanded.toggle()
         descriptionLabel.numberOfLines = isDescriptionExpanded ? 0 : 4
-        readMoreButton.setTitle(isDescriptionExpanded ? "Show less" : "Read more",
-                                for: .normal)
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
+        readMoreButton.setTitle(isDescriptionExpanded ? "Show less" : "Read more", for: .normal)
+        UIView.animate(withDuration: 0.3) { self.view.layoutIfNeeded() }
     }
 }
 
 private extension String {
     var htmlStripped: String {
         guard let data = data(using: .utf8),
-              let attributed = try? NSAttributedString(
+              let attr = try? NSAttributedString(
                 data: data,
                 options: [.documentType: NSAttributedString.DocumentType.html,
                           .characterEncoding: String.Encoding.utf8.rawValue],
                 documentAttributes: nil)
         else { return self }
-        return attributed.string
+        return attr.string
     }
 }

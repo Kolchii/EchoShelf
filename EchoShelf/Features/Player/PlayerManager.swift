@@ -24,62 +24,40 @@ final class PlayerManager {
     }
 
     func play(book: Audiobook, previewURL: URL? = nil) {
-
         currentBook = book
-
         removeTimeObserver()
 
         guard let url = previewURL else {
-            NotificationCenter.default.post(name: .playerStarted,
-                                            object: nil)
+            NotificationCenter.default.post(name: .playerStarted, object: nil)
             return
         }
 
         let item = AVPlayerItem(url: url)
         player = AVPlayer(playerItem: item)
         player?.play()
-
         addTimeObserver()
-
-        NotificationCenter.default.post(name: .playerStarted,
-                                        object: nil)
+        NotificationCenter.default.post(name: .playerStarted, object: nil)
     }
 
-    func pause() {
-        player?.pause()
-    }
+    func pause() { player?.pause() }
+    func resume() { player?.play() }
+    func togglePlayPause() { isPlaying ? pause() : resume() }
 
-    func resume() {
-        player?.play()
-    }
-
-    func togglePlayPause() {
-        isPlaying ? pause() : resume()
+    func seek(to time: Double) {
+        let cmTime = CMTime(seconds: time, preferredTimescale: 600)
+        player?.seek(to: cmTime)
     }
 
     private func addTimeObserver() {
-
         guard let player else { return }
-
-        let interval = CMTime(seconds: 1,
-                              preferredTimescale: 1)
-
-        timeObserver = player.addPeriodicTimeObserver(
-            forInterval: interval,
-            queue: .main
-        ) { [weak self] time in
-
+        let interval = CMTime(seconds: 1, preferredTimescale: 1)
+        timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self else { return }
-
             self.currentTime = time.seconds
-
-            if let duration = player.currentItem?.duration.seconds,
-               duration.isFinite {
-                self.duration = duration
+            if let d = player.currentItem?.duration.seconds, d.isFinite {
+                self.duration = d
             }
-
-            NotificationCenter.default.post(name: .playerProgressUpdated,
-                                            object: nil)
+            NotificationCenter.default.post(name: .playerProgressUpdated, object: nil)
         }
     }
 

@@ -13,16 +13,17 @@ extension Notification.Name {
 final class BookDetailViewModel {
 
     private let service: AudiobookServiceProtocol
-    private(set) var book: Audiobook
+    private let ai = GeminiService()
     private let favoritesViewModel = FavoritesViewModel()
 
+    private(set) var book: Audiobook
+    private(set) var aiSummary: [String] = []
     private(set) var state: ViewState<Void> = .idle {
         didSet { onStateChanged?(state) }
     }
 
-    private(set) var aiSummary: [String] = []
-
     var onStateChanged: ((ViewState<Void>) -> Void)?
+    var onAIUpdated: (() -> Void)?
 
     init(book: Audiobook, service: AudiobookServiceProtocol = AudiobookService()) {
         self.book = book
@@ -37,10 +38,12 @@ final class BookDetailViewModel {
                 switch result {
                 case .success(let updatedBook):
                     self.book = updatedBook
-                    self.generatePlaceholderSummary()
                     self.state = .success(())
+                    self.fetchAISummary()
                 case .failure(let error):
                     self.state = .failure(error)
+                    self.aiSummary = self.fallbackSummary()
+                    self.onAIUpdated?()
                 }
             }
         }
@@ -57,8 +60,7 @@ final class BookDetailViewModel {
                 favoritesViewModel.toggleEbook(ebook)
             }
         }
-        NotificationCenter.default.post(name: .favoritesDidChange,
-                                        object: nil)
+        NotificationCenter.default.post(name: .favoritesDidChange, object: nil)
     }
 
     func isFavorited(bookType: BookDetailType) -> Bool {
@@ -71,21 +73,41 @@ final class BookDetailViewModel {
                 : favoritesViewModel.isEbookFavorited(ebook)
         }
     }
-
-    var durationText: String {
-        guard let sections = book.numSections?.value else { return "—" }
-        return "\(sections) ch."
-    }
-
-    var languageText: String { "English" }
-    var ratingText: String { "4.8" }
 }
 
 private extension BookDetailViewModel {
-    func generatePlaceholderSummary() {
+
+    func fetchAISummary() {
         let title = book.title
         let author = book.authorName
-        aiSummary = [
+        let prompt = """
+        Give me exactly 3 short interesting facts about the audiobook "\(title)" by \(author).
+        Each fact must be a single sentence.
+        Return only the 3 facts as a numbered list like:
+        1. Fact one.
+        2. Fact two.
+        3. Fact three.
+        """
+        Task {
+            let response = await ai.ask(prompt: prompt)
+            let lines = response?
+                .components(separatedBy: "\n")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+                .filter { !$0.isEmpty }
+                .map { $0.replacingOccurrences(of: #"^\d+[\.\)]\s*"#, with: "", options: .regularExpression) }
+                .filter { !$0.isEmpty } ?? []
+
+            await MainActor.run {
+                self.aiSummary = lines.isEmpty ? self.fallbackSummary() : Array(lines.prefix(3))
+                self.onAIUpdated?()
+            }
+        }
+    }
+
+    func fallbackSummary() -> [String] {
+        let title = book.title
+        let author = book.authorName
+        return [
             "A compelling story by \(author) that draws readers into a unique world.",
             "\"\(title)\" explores themes of identity, purpose, and the human condition.",
             "Narrated with emotional depth, capturing every moment of the journey."
@@ -108,7 +130,7 @@ final class EbookDetailViewModel {
 
     private func buildContent() {
         description = buildDescription()
-        aiSummary   = buildAISummary()
+        aiSummary = buildAISummary()
         onDataUpdated?()
     }
 
@@ -119,14 +141,13 @@ final class EbookDetailViewModel {
         }
         parts.append("\"\(ebook.title)\" is a classic work by \(ebook.authorName), available as a free ebook from Project Gutenberg.")
         if ebook.downloadCount > 0 {
-            let formatted = formatDownloadCount(ebook.downloadCount)
-            parts.append("This book has been downloaded \(formatted) times, making it one of the most popular titles in the public domain.")
+            parts.append("This book has been downloaded \(formatDownloadCount(ebook.downloadCount)) times, making it one of the most popular titles in the public domain.")
         }
         return parts.joined(separator: "\n\n")
     }
 
     private func buildAISummary() -> [String] {
-        let title  = ebook.title
+        let title = ebook.title
         let author = ebook.authorName
         var points = [
             "Written by \(author), \"\(title)\" is a timeless classic that has captivated readers for generations.",
@@ -142,14 +163,9 @@ final class EbookDetailViewModel {
 
     private func formatDownloadCount(_ count: Int) -> String {
         switch count {
-        case 0..<1_000:  
-            return "\(count)"
-        case 0..<10_000:
-            return String(format: "%.1fK",
-                                       Double(count) / 1_000)
-        default:
-            return String(format: "%.0fK",
-                                       Double(count) / 1_000)
+        case 0..<1_000:  return "\(count)"
+        case 0..<10_000: return String(format: "%.1fK", Double(count) / 1_000)
+        default:         return String(format: "%.0fK", Double(count) / 1_000)
         }
     }
 }

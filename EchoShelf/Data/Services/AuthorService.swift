@@ -92,8 +92,8 @@ final class AuthorService: @unchecked Sendable {
     private let openLibraryBase = "https://openlibrary.org"
     private let librivoxBase = "https://librivox.org/api/feed"
 
-    func fetchPopularAuthors(completion: @escaping @Sendable ([Author]) -> Void) {
-        let params: [String: Any] = ["format": "json", "limit": 30]
+    func fetchPopularAuthors(page: Int = 0, completion: @escaping @Sendable ([Author]) -> Void) {
+        let params: [String: Any] = ["format": "json", "limit": 30, "offset": page * 30]
         AF.request("\(librivoxBase)/authors", parameters: params)
             .validate()
             .responseData { response in
