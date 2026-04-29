@@ -8,9 +8,18 @@ import Foundation
 
 final class GeminiService {
 
-    private let apiKey = "AIzaSyCUUBY9D_RjmpGc4klRtthD2ywG3Jm1K28"
+    // Store your Gemini API key in Secrets.plist (gitignored) under the key "GeminiAPIKey"
+    private let apiKey: String = {
+        guard let url = Bundle.main.url(forResource: "Secrets", withExtension: "plist"),
+              let dict = NSDictionary(contentsOf: url) as? [String: Any],
+              let key = dict["GeminiAPIKey"] as? String, !key.isEmpty else {
+            return ""
+        }
+        return key
+    }()
 
     func ask(prompt: String, completion: @escaping (String?) -> Void) {
+        guard !apiKey.isEmpty else { completion(nil); return }
         let urlString = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\(apiKey)"
         guard let url = URL(string: urlString) else { completion(nil); return }
 
