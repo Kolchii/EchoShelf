@@ -226,7 +226,7 @@ private extension GenreViewController {
 
     func bindViewModel() {
         viewModel.onDataUpdated = { [weak self] in self?.collectionView.reloadData() }
-        viewModel.onError = { msg in print("Genre error:", msg) }
+        viewModel.onError = { [weak self] msg in self?.showErrorAlert(msg) }
         viewModel.onLoadingChanged = { [weak self] in self?.collectionView.reloadData() }
     }
 

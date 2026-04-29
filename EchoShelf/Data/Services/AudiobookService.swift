@@ -112,8 +112,7 @@ private extension AudiobookService {
             switch response.result {
             case .success(let data):
                 completion(.success(data))
-            case .failure(let error):
-                print("Network error:", error)
+            case .failure:
                 completion(.failure(.requestFailed))
             }
         }
