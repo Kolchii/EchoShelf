@@ -12,9 +12,9 @@ final class ForgotPasswordViewModel {
     var onResetSuccess: (() -> Void)?
     var onError: ((String) -> Void)?
 
-    private let authManager: AuthManager
+    private let authManager: AuthManagerProtocol
 
-    init(authManager: AuthManager = .shared) {
+    init(authManager: AuthManagerProtocol = AuthManager.shared) {
         self.authManager = authManager
     }
 

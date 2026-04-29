@@ -2,7 +2,7 @@ import UIKit
 import AuthenticationServices
 import FirebaseAuth
 
-final class AuthManager {
+final class AuthManager: AuthManagerProtocol {
 
     static let shared = AuthManager()
     private let service = AuthService.shared
