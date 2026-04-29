@@ -102,7 +102,7 @@ final class HomeHeaderCell: UICollectionViewCell {
     }
 
     static func userName() -> String {
-        let name = UserDefaults.standard.string(forKey: "user_name") ?? "Alex"
+        let name = UserDefaults.standard.string(forKey: UserDefaultsKey.userName) ?? "Alex"
         // "Ibrahim Kolchi" → "Ibrahim" — yalnız first name göstər
         let firstName = name.components(separatedBy: " ").first ?? name
         return "\(firstName)."

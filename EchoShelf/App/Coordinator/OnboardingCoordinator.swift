@@ -19,12 +19,12 @@ final class OnboardingCoordinator: Coordinator {
         let vc = OnboardingViewController()
         vc.onFinish = { [weak self] in
             UserDefaults.standard.set(true,
-                                      forKey: "hasSeenOnboarding")
+                                      forKey: UserDefaultsKey.hasSeenOnboarding)
             self?.onCompleted?()
         }
         vc.onSignIn = { [weak self] in
             UserDefaults.standard.set(true,
-                                      forKey: "hasSeenOnboarding")
+                                      forKey: UserDefaultsKey.hasSeenOnboarding)
             self?.onCompleted?()
         }
         navigationController.setViewControllers([vc],

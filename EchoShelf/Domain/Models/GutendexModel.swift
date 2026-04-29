@@ -6,7 +6,6 @@
 //
 import Foundation
 
-// MARK: - Gutendex API (Decodable conformance in extensions with `nonisolated` for Swift 6 + Alamofire callbacks)
 
 struct GutendexAuthor {
     let name: String

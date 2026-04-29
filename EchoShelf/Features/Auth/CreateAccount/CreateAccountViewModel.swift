@@ -43,7 +43,7 @@ final class CreateAccountViewModel {
             switch result {
             case .success:
                 UserDefaults.standard.set(name,
-                                          forKey: "user_name")
+                                          forKey: UserDefaultsKey.userName)
                 self?.onCreateSuccess?()
             case .failure(let error):
                 self?.onError?(error.localizedDescription)

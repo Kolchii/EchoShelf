@@ -96,18 +96,18 @@ final class SettingsViewModel {
     // MARK: - Preferences (UserDefaults)
 
     var isAutoPlayEnabled: Bool {
-        get { UserDefaults.standard.bool(forKey: "pref_autoplay") }
-        set { UserDefaults.standard.set(newValue, forKey: "pref_autoplay") }
+        get { UserDefaults.standard.bool(forKey: UserDefaultsKey.prefAutoplay) }
+        set { UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.prefAutoplay) }
     }
 
     var isAutoDownloadEnabled: Bool {
-        get { UserDefaults.standard.bool(forKey: "pref_autodownload") }
-        set { UserDefaults.standard.set(newValue, forKey: "pref_autodownload") }
+        get { UserDefaults.standard.bool(forKey: UserDefaultsKey.prefAutoDownload) }
+        set { UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.prefAutoDownload) }
     }
 
     var audioQuality: String {
-        get { UserDefaults.standard.string(forKey: "pref_audio_quality") ?? "Yüksək (Lossless)" }
-        set { UserDefaults.standard.set(newValue, forKey: "pref_audio_quality") }
+        get { UserDefaults.standard.string(forKey: UserDefaultsKey.prefAudioQuality) ?? "Yüksək (Lossless)" }
+        set { UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.prefAudioQuality) }
     }
 }
 

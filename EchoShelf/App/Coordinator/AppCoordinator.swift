@@ -20,7 +20,7 @@ final class AppCoordinator: Coordinator {
     }
 
     func start() {
-        UserDefaults.standard.removeObject(forKey: "hasSeenOnboarding")
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.hasSeenOnboarding)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleLogout),
                                                name: .userDidLogout,
@@ -31,7 +31,7 @@ final class AppCoordinator: Coordinator {
             DispatchQueue.main.async {
                 if user != nil {
                     self.showMainApp()
-                } else if !UserDefaults.standard.bool(forKey: "hasSeenOnboarding") {
+                } else if !UserDefaults.standard.bool(forKey: UserDefaultsKey.hasSeenOnboarding) {
                     self.showOnboarding()
                 } else {
                     self.showAuth()
