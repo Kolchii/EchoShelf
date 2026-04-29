@@ -5,6 +5,7 @@
 //  Created by Ibrahim Kolchi on 21.02.26.
 //
 import UIKit
+import FirebaseAuth
 
 final class HomeHeaderCell: UICollectionViewCell {
 
@@ -102,9 +103,10 @@ final class HomeHeaderCell: UICollectionViewCell {
     }
 
     static func userName() -> String {
-        let name = UserDefaults.standard.string(forKey: UserDefaultsKey.userName) ?? "Alex"
-        // "Ibrahim Kolchi" → "Ibrahim" — yalnız first name göstər
-        let firstName = name.components(separatedBy: " ").first ?? name
-        return "\(firstName)."
+        let raw = Auth.auth().currentUser?.displayName
+            ?? UserDefaults.standard.string(forKey: UserDefaultsKey.userName)
+            ?? ""
+        let firstName = raw.components(separatedBy: " ").first ?? raw
+        return firstName.isEmpty ? "" : "\(firstName)."
     }
 }
