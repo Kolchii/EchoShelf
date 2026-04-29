@@ -101,5 +101,6 @@ final class AuthManager {
 
     func logout() {
         try? service.signOut()
+        NotificationCenter.default.post(name: .userDidLogout, object: nil)
     }
 }

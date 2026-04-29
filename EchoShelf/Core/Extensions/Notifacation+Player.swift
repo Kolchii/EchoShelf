@@ -10,4 +10,5 @@ extension Notification.Name {
     static let playerStarted = Notification.Name("playerStarted")
     static let playerProgressUpdated = Notification.Name("playerProgressUpdated")
     static let openFullPlayer = Notification.Name("openFullPlayer")
+    static let userDidLogout = Notification.Name("userDidLogout")
 }

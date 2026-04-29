@@ -21,6 +21,10 @@ final class AppCoordinator: Coordinator {
 
     func start() {
         UserDefaults.standard.removeObject(forKey: "hasSeenOnboarding")
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleLogout),
+                                               name: .userDidLogout,
+                                               object: nil)
         authListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
             guard let self, !self.hasRouted else { return }
             self.hasRouted = true
@@ -34,6 +38,13 @@ final class AppCoordinator: Coordinator {
                 }
             }
         }
+    }
+
+    @objc private func handleLogout() {
+        hasRouted = false
+        onboardingCoordinator = nil
+        authCoordinator = nil
+        DispatchQueue.main.async { self.showAuth() }
     }
 
     private func showOnboarding() {
