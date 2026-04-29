@@ -6,14 +6,6 @@
 //
 import Foundation
 
-struct Genre: Codable, Identifiable {
-    let id: String
-    let name: String
-    let description: String
-    let icon: String
-    let colorName: String
-}
-
 extension Genre {
     static let all: [Genre] = [
         Genre(id: "fantasy",     name: "Fantasy",     description: "Epic worlds, magic, and mythical creatures beyond imagination.",      icon: "🧙",  colorName: "TrendingAIPicks"),
