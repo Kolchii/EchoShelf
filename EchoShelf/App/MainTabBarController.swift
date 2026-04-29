@@ -68,8 +68,14 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func observePlayerEvents() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showMiniPlayer), name: .playerStarted, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(openFullPlayer), name: .openFullPlayer, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showMiniPlayer),
+                                               name: .playerStarted,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(openFullPlayer),
+                                               name: .openFullPlayer,
+                                               object: nil)
     }
 
     @objc private func showMiniPlayer() {
