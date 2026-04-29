@@ -580,8 +580,9 @@ final class CreateAccountViewController: UIViewController {
 extension CreateAccountViewController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         if let window = view.window { return window }
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            return scene.windows.first { $0.isKeyWindow } ?? scene.windows.first!
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = scene.windows.first(where: { $0.isKeyWindow }) ?? scene.windows.first {
+            return window
         }
         fatalError("No UIWindowScene for Apple Sign In presentation")
     }
