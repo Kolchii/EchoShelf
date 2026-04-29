@@ -72,4 +72,8 @@ final class AppCoordinator: Coordinator {
         let coordinator = TabBarCoordinator(navigationController: navigationController)
         coordinator.start()
     }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
