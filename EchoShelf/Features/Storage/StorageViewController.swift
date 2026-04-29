@@ -420,21 +420,20 @@ final class StorageCacheViewController: UIViewController {
         let alert = UIAlertController(title: "Delete Book",
                                       message: "\"\(books[idx].title)\" Are You Sure?",
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancellation",
+        alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel))
         alert.addAction(UIAlertAction(title: "Delete",
                                       style: .destructive) { [weak self] _ in
             self?.books.remove(at: idx)
-            // TODO: LibraryManager.shared.delete(id:)
         })
         present(alert, animated: true)
     }
 
     @objc private func clearCacheTapped() {
-        let alert = UIAlertController(title: "Clean Cach",
+        let alert = UIAlertController(title: "Clear Cache",
                                       message: "2.4 GB of temporary files will be deleted.",
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancellation",
+        alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel))
         alert.addAction(UIAlertAction(title: "Clean",
                                       style: .destructive))
