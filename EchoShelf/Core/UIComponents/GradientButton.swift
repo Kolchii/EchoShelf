@@ -15,14 +15,14 @@ final class GradientButton: UIButton {
 
         layer.cornerRadius = 28
         clipsToBounds = true
-        setTitleColor(UIColor(named: "OnDarkTextPrimary")!,
+        setTitleColor(UIColor.onDarkTextPrimary,
                       for: .normal)
         titleLabel?.font = .systemFont(ofSize: 18,
                                        weight: .bold)
 
         gradient.colors = [
-            UIColor(named: "PrimaryGradientStart")!.cgColor,
-            UIColor(named: "FavoriteActivePink")!.cgColor
+            UIColor.primaryGradientStart.cgColor,
+            UIColor.favoriteActivePink.cgColor
         ]
 
         layer.insertSublayer(gradient,
