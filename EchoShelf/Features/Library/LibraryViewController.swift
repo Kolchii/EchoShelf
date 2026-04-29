@@ -332,18 +332,18 @@ extension LibraryViewController: UICollectionViewDataSource {
         }
 
         if section == .audiobooks {
-            let cell = collectionView.dequeueReusableCell(
+            guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: AudioDiskCell.identifier,
                 for: indexPath
-            ) as! AudioDiskCell
+            ) as? AudioDiskCell else { return UICollectionViewCell() }
             cell.configure(with: items[indexPath.item])
             return cell
         }
 
-        let cell = collectionView.dequeueReusableCell(
+        guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: BookSpineCell.identifier,
             for: indexPath
-        ) as! BookSpineCell
+        ) as? BookSpineCell else { return UICollectionViewCell() }
 
         cell.configure(with: items[indexPath.item], index: indexPath.item)
         return cell
@@ -354,11 +354,11 @@ extension LibraryViewController: UICollectionViewDataSource {
                         at indexPath: IndexPath) -> UICollectionReusableView {
 
         if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(
+            guard let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier: LibraryShelfHeader.identifier,
                 for: indexPath
-            ) as! LibraryShelfHeader
+            ) as? LibraryShelfHeader else { return UICollectionReusableView() }
 
             guard let section = LibrarySection(rawValue: indexPath.section) else {
                 return header

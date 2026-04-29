@@ -302,22 +302,22 @@ extension AuthorDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch Section(rawValue: indexPath.section)! {
         case .audiobooks:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingBookCell.identifier, for: indexPath) as! TrendingBookCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingBookCell.identifier, for: indexPath) as? TrendingBookCell else { return UICollectionViewCell() }
             cell.configure(with: viewModel.audiobooks[indexPath.item])
             return cell
         case .ebooks:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookTrendingCell.identifier, for: indexPath) as! EbookTrendingCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookTrendingCell.identifier, for: indexPath) as? EbookTrendingCell else { return UICollectionViewCell() }
             cell.configure(with: viewModel.ebooks[indexPath.item])
             return cell
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(
+        guard let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: AuthorSectionHeaderView.identifier,
             for: indexPath
-        ) as! AuthorSectionHeaderView
+        ) as? AuthorSectionHeaderView else { return UICollectionReusableView() }
         header.configure(Section(rawValue: indexPath.section)!.title)
         return header
     }

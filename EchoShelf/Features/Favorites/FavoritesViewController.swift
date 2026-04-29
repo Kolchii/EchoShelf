@@ -212,23 +212,23 @@ extension FavoritesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch selectedSection {
         case .books:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as! FavoriteBookCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as? FavoriteBookCell else { return UICollectionViewCell() }
             cell.configureEbook(with: viewModel.favoriteEbooks[indexPath.item])
             return cell
         case .audiobooks:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as! FavoriteBookCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as? FavoriteBookCell else { return UICollectionViewCell() }
             cell.configure(with: viewModel.favoriteBooks[indexPath.item])
             return cell
         case .kids:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as! FavoriteBookCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteBookCell.identifier, for: indexPath) as? FavoriteBookCell else { return UICollectionViewCell() }
             cell.configureKids(with: viewModel.favoriteKidsBooks[indexPath.item])
             return cell
         case .authors:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteAuthorCell.identifier, for: indexPath) as! FavoriteAuthorCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteAuthorCell.identifier, for: indexPath) as? FavoriteAuthorCell else { return UICollectionViewCell() }
             cell.configure(with: viewModel.favoriteAuthors[indexPath.item])
             return cell
         case .genres:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteGenreCell.identifier, for: indexPath) as! FavoriteGenreCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteGenreCell.identifier, for: indexPath) as? FavoriteGenreCell else { return UICollectionViewCell() }
             cell.configure(with: viewModel.favoriteGenres[indexPath.item])
             return cell
         }

@@ -193,15 +193,16 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch HomeSection(rawValue: indexPath.section)! {
+        guard let section = HomeSection(rawValue: indexPath.section) else { return UICollectionViewCell() }
+        switch section {
 
         case .continueListening:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContinueListeningCell.identifier, for: indexPath) as! ContinueListeningCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContinueListeningCell.identifier, for: indexPath) as? ContinueListeningCell else { return UICollectionViewCell() }
             cell.configure()
             return cell
 
         case .genres:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreCell.identifier, for: indexPath) as! GenreCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreCell.identifier, for: indexPath) as? GenreCell else { return UICollectionViewCell() }
             let genre = genres[indexPath.item]
             let isFav = favoritesViewModel.isGenreFavorited(genre.name)
             cell.configure(with: genre, isFavorited: isFav)
@@ -216,15 +217,15 @@ extension HomeViewController: UICollectionViewDataSource {
         case .trending:
             switch selectedTab {
             case .audiobooks:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingBookCell.identifier, for: indexPath) as! TrendingBookCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingBookCell.identifier, for: indexPath) as? TrendingBookCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.trendingAudiobooks[indexPath.item])
                 return cell
             case .books, .genres:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookTrendingCell.identifier, for: indexPath) as! EbookTrendingCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookTrendingCell.identifier, for: indexPath) as? EbookTrendingCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.trendingEbooks[indexPath.item])
                 return cell
             case .kids:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KidsTrendingCell.identifier, for: indexPath) as! KidsTrendingCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KidsTrendingCell.identifier, for: indexPath) as? KidsTrendingCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.trendingKidsEbooks[indexPath.item])
                 return cell
             }
@@ -232,15 +233,15 @@ extension HomeViewController: UICollectionViewDataSource {
         case .recommended:
             switch selectedTab {
             case .audiobooks:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedBookCell.identifier, for: indexPath) as! RecommendedBookCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendedBookCell.identifier, for: indexPath) as? RecommendedBookCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.recommendedAudiobooks[indexPath.item])
                 return cell
             case .books, .genres:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookRecommendedCell.identifier, for: indexPath) as! EbookRecommendedCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookRecommendedCell.identifier, for: indexPath) as? EbookRecommendedCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.recommendedEbooks[indexPath.item])
                 return cell
             case .kids:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KidsRecommendedCell.identifier, for: indexPath) as! KidsRecommendedCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KidsRecommendedCell.identifier, for: indexPath) as? KidsRecommendedCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.recommendedKidsEbooks[indexPath.item])
                 return cell
             }
@@ -249,12 +250,12 @@ extension HomeViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
-        let section = HomeSection(rawValue: indexPath.section)!
-        let header = collectionView.dequeueReusableSupplementaryView(
-            ofKind: kind,
-            withReuseIdentifier: HomeSectionHeaderView.identifier,
-            for: indexPath
-        ) as! HomeSectionHeaderView
+        guard let section = HomeSection(rawValue: indexPath.section),
+              let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: HomeSectionHeaderView.identifier,
+                for: indexPath
+              ) as? HomeSectionHeaderView else { return UICollectionReusableView() }
         let showViewAll = section == .trending || section == .recommended
         header.configure(titleForSection(section), showViewAll: showViewAll)
         header.onViewAll = { [weak self] in

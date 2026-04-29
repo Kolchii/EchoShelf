@@ -149,10 +149,10 @@ extension AllBooksViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
+        guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: TrendingBookCell.identifier,
             for: indexPath
-        ) as! TrendingBookCell
+        ) as? TrendingBookCell else { return UICollectionViewCell() }
         cell.configure(with:
                         viewModel.books[indexPath.item])
         return cell
@@ -164,12 +164,12 @@ extension AllBooksViewController: UICollectionViewDataSource {
         guard kind == UICollectionView.elementKindSectionFooter else {
             return UICollectionReusableView()
         }
-        let footer = collectionView.dequeueReusableSupplementaryView(
+        guard let footer = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier:
                 LoadingFooterView.identifier,
             for: indexPath
-        ) as! LoadingFooterView
+        ) as? LoadingFooterView else { return UICollectionReusableView() }
 
         viewModel.hasMore ? footer.startAnimating(): footer.stopAnimating()
         return footer

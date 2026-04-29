@@ -276,16 +276,16 @@ extension GenreViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let count = viewModel.items(for: selectedTab)
         if indexPath.item == count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreLoadingCell.identifier, for: indexPath) as! GenreLoadingCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreLoadingCell.identifier, for: indexPath) as? GenreLoadingCell else { return UICollectionViewCell() }
             cell.startAnimating()
             return cell
         }
         if selectedTab == .audiobooks {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreBookCell.identifier, for: indexPath) as! GenreBookCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreBookCell.identifier, for: indexPath) as? GenreBookCell else { return UICollectionViewCell() }
             cell.configure(with: viewModel.audiobooks[indexPath.item])
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreEbookCell.identifier, for: indexPath) as! GenreEbookCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreEbookCell.identifier, for: indexPath) as? GenreEbookCell else { return UICollectionViewCell() }
             cell.configure(with: viewModel.ebooks[indexPath.item])
             return cell
         }

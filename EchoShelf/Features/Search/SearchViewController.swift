@@ -503,28 +503,28 @@ extension SearchViewController: UICollectionViewDataSource {
     private func homeCellForItem(at indexPath: IndexPath) -> UICollectionViewCell {
         switch HomeSection(rawValue: indexPath.section) {
         case .recents:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as! RecentSearchCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCell.identifier, for: indexPath) as? RecentSearchCell else { return UICollectionViewCell() }
             cell.configure(with: recentSearches[indexPath.item])
             cell.onDelete = { [weak self] in self?.viewModel.deleteRecent(at: indexPath.item) }
             return cell
 
         case .trending:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingCategoryCell.identifier, for: indexPath) as! TrendingCategoryCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingCategoryCell.identifier, for: indexPath) as? TrendingCategoryCell else { return UICollectionViewCell() }
             cell.configure(with: trendingCategories[indexPath.item])
             return cell
 
         case .youMightLike:
             switch selectedTab {
             case .audiobooks:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingBookCell.identifier, for: indexPath) as! TrendingBookCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrendingBookCell.identifier, for: indexPath) as? TrendingBookCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.youMightLike[indexPath.item])
                 return cell
             case .books:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookYouMightLikeCell.identifier, for: indexPath) as! EbookYouMightLikeCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookYouMightLikeCell.identifier, for: indexPath) as? EbookYouMightLikeCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.youMightLikeEbooks[indexPath.item])
                 return cell
             case .kids:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KidsTrendingCell.identifier, for: indexPath) as! KidsTrendingCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KidsTrendingCell.identifier, for: indexPath) as? KidsTrendingCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.youMightLikeKids[indexPath.item])
                 return cell
             }
@@ -538,32 +538,32 @@ extension SearchViewController: UICollectionViewDataSource {
         if selectedTab == .audiobooks {
             switch indexPath.section {
             case 0:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopResultCell.identifier, for: indexPath) as! TopResultCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopResultCell.identifier, for: indexPath) as? TopResultCell else { return UICollectionViewCell() }
                 if let book = viewModel.topResult {
                     cell.configure(with: book)
                     cell.onListen = { [weak self] in self?.openAudiobookDetail(book) }
                 }
                 return cell
             case 1:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherVersionCell.identifier, for: indexPath) as! OtherVersionCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherVersionCell.identifier, for: indexPath) as? OtherVersionCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.otherVersions[indexPath.item])
                 return cell
             default:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RelatedAuthorCell.identifier, for: indexPath) as! RelatedAuthorCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RelatedAuthorCell.identifier, for: indexPath) as? RelatedAuthorCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.relatedAuthors[indexPath.item])
                 return cell
             }
         } else {
             switch indexPath.section {
             case 0:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookTopResultCell.identifier, for: indexPath) as! EbookTopResultCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookTopResultCell.identifier, for: indexPath) as? EbookTopResultCell else { return UICollectionViewCell() }
                 if let ebook = viewModel.topEbookResult {
                     cell.configure(with: ebook)
                     cell.onRead = { [weak self] in self?.openEbookDetail(ebook) }
                 }
                 return cell
             default:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookOtherResultCell.identifier, for: indexPath) as! EbookOtherResultCell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EbookOtherResultCell.identifier, for: indexPath) as? EbookOtherResultCell else { return UICollectionViewCell() }
                 cell.configure(with: viewModel.otherEbooks[indexPath.item])
                 return cell
             }
@@ -573,11 +573,11 @@ extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(
+        guard let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: SearchSectionHeaderView.identifier,
             for: indexPath
-        ) as! SearchSectionHeaderView
+        ) as? SearchSectionHeaderView else { return UICollectionReusableView() }
 
         if !isSearching {
             switch HomeSection(rawValue:
